@@ -1,0 +1,109 @@
+.busquedaArticulo{
+	width: 45%;
+	height: auto;
+	margin: 15px auto;
+	overflow: hidden;
+}
+
+.formularios{
+	width: 85%;
+	margin: 10px auto;
+}
+
+#modifica{
+	width: 25px;
+	height: 25px;
+	background: url(../imgs/editar.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	display: inline-block;
+}
+
+#elimina{
+	width: 25px;
+	height: 25px;
+	background: url(../imgs/eliminar.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	display: inline-block;
+}
+
+.titulos{
+	font-size: 16px;
+	text-align: center;
+	display: block;
+	overflow: hidden;
+}
+
+.frm{
+	border: 1px solid #ebe9e4;
+	margin: 0 auto;
+	height: 80%;
+	width: 90%;
+	display: block;
+	overflow: hidden;
+	background: #f8f8f8;
+	-webkit-box-shadow: 14px 17px 19px -2px rgba(51,48,51,0.37);
+	-moz-box-shadow: 14px 17px 19px -2px rgba(51,48,51,0.37);
+	box-shadow: 14px 17px 19px -2px rgba(51,48,51,0.37);
+}
+
+.panelM{
+	display: inline-block;
+	width: 100%;
+	margin-top: 20px;
+}
+
+#idPanel{
+	width: 30%;
+	float: left;
+	margin-right: 40px;
+
+}
+
+#btns{
+	width:15%;
+	background: url(../imgs/editar.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	height: 30px;
+	background-position: center;
+}
+
+#frm_control{
+	width:75%;
+	margin-right:5%;
+	display:inline-block;
+}
+
+.control2{
+	width: 40%;
+	margin-right: 10%;
+	display: inline-block;
+	float: left;
+}
+
+.panelA{
+	width: 78%;
+	display: inline-block;
+}
+
+.panelB{
+	margin-top: 10px;
+	width: 20%;
+	height: 200px;
+	float: right;
+}
+
+.panelB img{
+	max-width:100%;
+ 	max-height:100%;
+ 	margin: 0 auto;
+ 	display: block;
+}
+
+.frm-botones{
+	margin: 0 auto;
+	display: block;
+	width: 450px;
+}
