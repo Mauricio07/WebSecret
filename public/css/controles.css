@@ -30,6 +30,20 @@
   color:#fff;
 }
 
-.navLetra a{
-  color:#fff;
+.modifi{
+  background: URL('../imgs/editar.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: block;
+  height: 25px;
+}
+
+.delete{
+  background: URL('../imgs/eliminar.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: block;
+  height: 25px;
 }

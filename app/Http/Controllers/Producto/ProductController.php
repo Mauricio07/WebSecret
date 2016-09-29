@@ -3,9 +3,11 @@
 namespace inbloom\Http\Controllers\Producto;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use inbloom\Http\Requests;
 use inbloom\Http\Controllers\Controller;
+use inbloom\Model\Product\Specie;
 
 class ProductController extends Controller
 {
@@ -21,6 +23,7 @@ class ProductController extends Controller
 
     //
     public function getToolsProducts(){
-      return view('products.tools');
+      $vSpecies=\inbloom\Model\Product\Specie::all();
+      return view('products.tools',['vSpecies'=>$vSpecies]);
     }
 }
