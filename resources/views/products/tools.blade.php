@@ -17,6 +17,18 @@
     <div class="container">
       <div class="col-xs- col-sm- col-md- col-lg-12">
         <h3>Tools Manager</h3>
+          <div class="">
+            @if (Session::get('message'))
+              <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <p>
+                  {{Session::get('message')}}
+                </p>
+              </div>
+            @endif
+           </div>
       </div>
     </div>
 
@@ -165,7 +177,11 @@
                       </a>
                     </td>
 
-                    <td><span class="delete"></span></td>
+                    <td>
+                      <a href="{{url('getDeleteSpecie/')}}/{{$vSpecie->ID_SPECIE}}">
+                        <span class="delete"></span>
+                      </a>
+                    </td>
                   </tr>
                 @endforeach
               </tbody>
@@ -173,7 +189,8 @@
           </div>
 
           <div role="tabpanel" class="tab-pane" id="insert">
-            <form class="" action="" method="post">
+            <form action="setInsertSpecies" method="post">
+              {{csrf_field()}}
               <div class="form-group">
                 <label>Name</label>
                 <input type="text" class="form-control" name="nameSpecie" placeholder="Enter name">
@@ -188,17 +205,18 @@
           </div>
 
           <div role="tabpanel" class="tab-pane" id="modify">
-            <form class="" action="" method="post">
+            <form action="setModification" method="post">
+              {{csrf_field()}}
               <div class="form-group">
                 <label>Name</label>
-                <input type="text" id="codModifica" name="idProdMod" hidden="true"/>
-                <input type="text" class="form-control" id="txtModifica" name="nameSpecie" placeholder="Enter name">
+                <input type="text" id="codModifica" name="idcodMod" hidden="true"/>
+                <input type="text" class="form-control" id="txtModifica" name="nameSpecie" placeholder="Enter name"/>
               </div>
 
               <div class="container"> <hr/> </div>
 
               <div class="container">
-                <button class="btn btn-inbloom" type="submit">Change</button>
+                <button class="btn btn-inbloom" type="submit" >Change</button>
               </div>
             </form>
           </div>
@@ -221,7 +239,7 @@
   function modificarProducto(idProd,txtProd){
     document.getElementById('codModifica').setAttribute('value',idProd);
     document.getElementById('txtModifica').value=txtProd;
-    
+
   }
 </script>
 </html>

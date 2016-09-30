@@ -28,3 +28,9 @@ Route::get('getListProduct','Producto\ProductController@getListProducts'); //lla
 Route::get('setInsertProduct','Producto\ProductController@setInsertProducts'); //llamada al ingreso
 
 Route::get('getToolsProduct','Producto\ProductController@getToolsProducts'); //llamada a herramientas
+
+Route::post('setInsertSpecies','Producto\ProductController@setInsertSpecie');
+
+Route::post('setModification','Producto\ProductController@setModificationSpecies'); //Ejecuta modificacion specie
+
+Route::get('getDeleteSpecie/{ID_SPECIE}','Producto\ProductController@getDeleteSpecies'); //Ejecuta modificacion specie
