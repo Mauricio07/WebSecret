@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Process extends Model
 {
     //
-    protected $primaryKey='id_process';
+    protected $table='PROCESSES';
+    protected $primaryKey='ID_PROCESS';
+    protected $fillable=['TYPE_PROCESS','DATE_PROCESS'];
     public $timestamps=false;
 }

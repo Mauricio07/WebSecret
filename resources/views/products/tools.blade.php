@@ -24,7 +24,7 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
                 <p>
-                  {{Session::get('message')}}
+                  <strong>Success </strong> {{Session::get('message')}}
                 </p>
               </div>
             @endif
@@ -50,7 +50,7 @@
               <img class="img-responsive" src="http://xoart.link/400/200/city" id="imgModulo">
               <div class="overlay">
                  <h2>Item Types</h2>
-                 <a class="info" href="#">link here</a>
+                 <a class="info" href="#" data-toggle="modal" data-target="#myItemsType">link here</a>
               </div>
           </div>
         </div>
@@ -59,8 +59,8 @@
           <div class="hovereffect">
               <img class="img-responsive" src="http://xoart.link/400/200/city" id="imgModulo">
               <div class="overlay">
-                 <h2>Product type</h2>
-                 <a class="info" href="#">link here</a>
+                 <h2>Presentation</h2>
+                 <a class="info" href="#" data-toggle="modal" data-target="#myPresentation">link here</a>
               </div>
           </div>
         </div>
@@ -77,7 +77,7 @@
               <img class="img-responsive" src="http://xoart.link/400/200/city" id="imgModulo">
               <div class="overlay">
                  <h2>Process</h2>
-                 <a class="info" href="#">link here</a>
+                 <a class="info" href="#" data-toggle="modal" data-target="#myProcess">link here</a>
               </div>
           </div>
         </div>
@@ -87,7 +87,7 @@
               <img class="img-responsive" src="http://xoart.link/400/200/city" id="imgModulo">
               <div class="overlay">
                  <h2>Varietys</h2>
-                 <a class="info" href="#">link here</a>
+                 <a class="info" href="#" data-toggle="modal" data-target="#myVariety">link here</a>
               </div>
           </div>
         </div>
@@ -97,7 +97,7 @@
               <img class="img-responsive" src="http://xoart.link/400/200/city" id="imgModulo">
               <div class="overlay">
                  <h2>Colors</h2>
-                 <a class="info" href="#">link here</a>
+                 <a class="info" href="#" data-toggle="modal" data-target="#myColor">link here</a>
               </div>
           </div>
         </div>
@@ -114,7 +114,7 @@
               <img class="img-responsive" src="http://xoart.link/400/200/city" id="imgModulo">
               <div class="overlay">
                  <h2>Grades</h2>
-                 <a class="info" href="#">link here</a>
+                 <a class="info" href="#" data-toggle="modal" data-target="#myGrade">link here</a>
               </div>
           </div>
         </div>
@@ -124,7 +124,7 @@
               <img class="img-responsive" src="http://xoart.link/400/200/city" id="imgModulo">
               <div class="overlay">
                  <h2>Cuts</h2>
-                 <a class="info" href="#">link here</a>
+                 <a class="info" href="#" data-toggle="modal" data-target="#myCut">link here</a>
               </div>
           </div>
         </div>
@@ -138,108 +138,76 @@
     <section>
   </body>
 
-<!-- frm de species-->
-<div class="modal fade" tabindex="-1" role="dialog" id="mySpecies">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Manager Species</h4>
-      </div>
-      <div class="modal-body">
+@include('products.species')
+@include('products.itemTypes')
+@include('products.presentation')
+@include('products.process')
+@include('products.varieties')
+@include('products.color')
+@include('products.grade')
+@include('products.cut')
 
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Report</a></li>
-          <li role="presentation"><a href="#insert" aria-controls="insert" role="tab" data-toggle="tab">Insert</a></li>
-          <li role="presentation"><a href="#modify" aria-controls="modify" role="tab" data-toggle="tab">Modify</a></li>
-        </ul>
-
-        <!-- Tab panes -->
-        <div class="tab-content">
-          <div role="tabpanel" class="tab-pane active" id="home">
-
-            <table id="tableRep" class="table table-striped">
-              <thead>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Date</th>
-                <th></th>
-                <th></th>
-              </thead>
-              <tbody>
-                @foreach ($vSpecies as $vSpecie)
-                  <tr>
-                    <td>{{$vSpecie->ID_SPECIE}}</td> <td>{{$vSpecie->NAME_SPECIE}}</td> <td>{{$vSpecie->DATE_SPECIE}}</td>
-                    <td>
-                      <a href="#modify" onclick="modificarProducto({{$vSpecie->ID_SPECIE}},'{{$vSpecie->NAME_SPECIE}}')" aria-controls="modify" role="tab" data-toggle="tab">
-                        <span class="modifi"></span>
-                      </a>
-                    </td>
-
-                    <td>
-                      <a href="{{url('getDeleteSpecie/')}}/{{$vSpecie->ID_SPECIE}}">
-                        <span class="delete"></span>
-                      </a>
-                    </td>
-                  </tr>
-                @endforeach
-              </tbody>
-            </table>
-          </div>
-
-          <div role="tabpanel" class="tab-pane" id="insert">
-            <form action="setInsertSpecies" method="post">
-              {{csrf_field()}}
-              <div class="form-group">
-                <label>Name</label>
-                <input type="text" class="form-control" name="nameSpecie" placeholder="Enter name">
-              </div>
-              <div class="">
-                <hr/>
-              </div>
-              <div class="container">
-                <button class="btn btn-inbloom" type="submit">Save</button>
-              </div>
-            </form>
-          </div>
-
-          <div role="tabpanel" class="tab-pane" id="modify">
-            <form action="setModification" method="post">
-              {{csrf_field()}}
-              <div class="form-group">
-                <label>Name</label>
-                <input type="text" id="codModifica" name="idcodMod" hidden="true"/>
-                <input type="text" class="form-control" id="txtModifica" name="nameSpecie" placeholder="Enter name"/>
-              </div>
-
-              <div class="container"> <hr/> </div>
-
-              <div class="container">
-                <button class="btn btn-inbloom" type="submit" >Change</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 
 
 <script src="{{URL::asset('js/jquery-3.1.0.min.js')}}" charset="utf-8"></script>
 <script src="{{URL::asset('js/bootstrap.min.js')}}" charset="utf-8"></script>
 <script src="{{URL::asset('js/tablePag.js')}}" charset="utf-8"></script>
 <script type="text/javascript">
-  $('#tableRep').DataTable();
+  $('#tblSpecies').DataTable(); //consulta tblSpecie
+  $('#tblItemsTypes').DataTable(); //consulta tblSpecie
+  $('#tblPresentation').DataTable(); //consulta tblPresentation
+  $('#tblProcess').DataTable(); //consulta tblProcess
+  $('#tblVariety').DataTable(); //consulta tblVariety
+  $('#tblColor').DataTable(); //consulta tblColor
+  $('#tblGrade').DataTable(); //consulta tblGrade
+  $('#tblCut').DataTable(); //consulta tblCut
 
-//Paso de parametros
-  function modificarProducto(idProd,txtProd){
-    document.getElementById('codModifica').setAttribute('value',idProd);
+  //Paso de parametros modificar species
+  function modificarProductoSpecie(idProd,txtProd){
+    document.getElementById('idcodMod').setAttribute('value',idProd);
     document.getElementById('txtModifica').value=txtProd;
+  }
 
+  //Paso de parametros modificar itemsType
+  function modificarProductoItemType(idProd,txtProd){
+    document.getElementById('idcodModItem').setAttribute('value',idProd);
+    document.getElementById('txtModificaItemTypes').value=txtProd;
+  }
+
+  //Paso de parametros modificar ProductType
+  function modificarPresentation(idProd,txtProd){
+    document.getElementById('idcodPresentation').setAttribute('value',idProd);
+    document.getElementById('txtModificaPresentation').value=txtProd;
+  }
+
+  //Paso de parametros modificar Process
+  function modificarProcess(idProd,txtProd){
+    document.getElementById('idcodProcess').setAttribute('value',idProd);
+    document.getElementById('txtModificaProcess').value=txtProd;
+  }
+
+  //Paso de parametros modificar Variety
+  function modificarVariety(idProd,txtProd){
+    document.getElementById('idcodVariety').setAttribute('value',idProd);
+    document.getElementById('txtModificaVariety').value=txtProd;
+  }
+
+  //Paso de parametros modificar Color
+  function modificarColor(idProd,txtProd){
+    document.getElementById('idcodColor').setAttribute('value',idProd);
+    document.getElementById('txtModificaColor').value=txtProd;
+  }
+
+  //Paso de parametros modificar Grade
+  function modificarGrade(idProd,txtProd){
+    document.getElementById('idcodGrade').setAttribute('value',idProd);
+    document.getElementById('txtModificaGrade').value=txtProd;
+  }
+
+  //Paso de parametros modificar Cut
+  function modificarCut(idProd,txtProd){
+    document.getElementById('idcodCut').setAttribute('value',idProd);
+    document.getElementById('txtModificaCut').value=txtProd;
   }
 </script>
 </html>

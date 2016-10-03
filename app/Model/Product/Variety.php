@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Variety extends Model
 {
     //
-    protected $primaryKey='id_variety';
+    protected $table='VARIETIES';
+    protected $primaryKey='ID_VARIETY';
+    protected $fillable=['NAME_VARIETY','DATE_VARIETY'];
     public $timestamps=false;
 }
