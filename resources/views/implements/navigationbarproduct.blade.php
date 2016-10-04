@@ -1,7 +1,7 @@
 
 <header>
   <!-- Barra de navegacion -->
-  <nav class="navbar navbar-default">
+  <nav class="navbar navbar-default navbar-static-top">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -20,7 +20,34 @@
           <li><a style="color:#fff;" href="home">Home</a></li>
           <li><a style="color:#fff;" href="getListProduct">Products <span class="sr-only">(current)</span></a></li>
           <li><a style="color:#fff;" href="setInsertProduct">New</a></li>
-          <li><a style="color:#fff;" href="getToolsProduct">Tools</a></li>
+          <li class="dropdown">
+            <a style="color:#fff;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tools <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="vw_Color">Colors</a></li>
+              <li><a href="vw_Cut">Cuts</a></li>
+              <li><a href="vw_Grade">Grades</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="vw_ItemTypes">Item types</a></li>
+              <li><a href="vw_Presentation">Presentation</a></li>
+              <li><a href="vw_Process">Process</a></li>
+              <li><a href="vw_Specie">Species</a></li>
+              <li><a href="vw_Variety">Varieties</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="vw_Taxes">Taxes</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a style="color:#fff;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Recipies <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Recipies</a></li>
+              <li><a href="#">Items</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Materials</a></li>
+              <li><a href="#">Boxes</a></li>
+            </ul>
+          </li>
+
         </ul>
 
       </div><!-- /.navbar-collapse -->

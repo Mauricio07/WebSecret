@@ -10,6 +10,15 @@
 | to using a Closure or controller method. Build something great!
 |
 */
+use inbloom\Model\Product\Taxe;
+use inbloom\Model\Product\Variety;
+use inbloom\Model\Product\Specie;
+use inbloom\Model\Product\Process;
+use inbloom\Model\Product\Presentation;
+use inbloom\Model\Product\Items_type;
+use inbloom\Model\Product\Grade;
+use inbloom\Model\Product\Cut;
+use inbloom\Model\Product\Color;
 
 Route::get('/',function(){
   return view('Logins\login');
@@ -25,6 +34,61 @@ Route::get('getListProduct','Producto\ProductController@getListProducts'); //lla
 Route::get('setInsertProduct','Producto\ProductController@setInsertProducts'); //llamada al ingreso
 Route::get('getToolsProduct','Producto\ProductController@getToolsProducts'); //llamada a herramientas
 
+// Acceso al menu productos taxes
+Route::get('vw_Taxes',function(){
+  $datos=Taxe::get();
+  return view('products.taxe',['tblDatos'=>$datos]);
+});
+
+// Acceso al menu productos varieties
+Route::get('vw_Variety',function(){
+  $datos=Variety::get();
+  return view('products.varieties',['tblDatos'=>$datos]);
+});
+
+// Acceso al menu productos species
+Route::get('vw_Specie',function(){
+  $datos=Specie::get();
+  return view('products.species',['tblDatos'=>$datos]);
+});
+
+// Acceso al menu productos species
+Route::get('vw_Process',function(){
+  $datos=Process::get();
+  return view('products.process',['tblDatos'=>$datos]);
+});
+
+// Acceso al menu productos presentation
+Route::get('vw_Presentation',function(){
+  $datos=Presentation::get();
+  return view('products.presentation',['tblDatos'=>$datos]);
+});
+
+// Acceso al menu productos presentation
+Route::get('vw_ItemTypes',function(){
+  $datos=Items_type::get();
+  return view('products.itemTypes',['tblDatos'=>$datos]);
+});
+
+// Acceso al menu productos presentation
+Route::get('vw_Grade',function(){
+  $datos=Grade::get();
+  return view('products.grade',['tblDatos'=>$datos]);
+});
+
+// Acceso al menu productos presentation
+Route::get('vw_Cut',function(){
+  $datos=Cut::get();
+  return view('products.cut',['tblDatos'=>$datos]);
+});
+
+// Acceso al menu productos presentation
+Route::get('vw_Color',function(){
+  $datos=Color::get();
+  return view('products.color',['tblDatos'=>$datos]);
+});
+
+/*
 //Modulo de Species
 Route::post('setInsertSpecies','Producto\ProductController@setInsertSpecie');
 Route::post('setModification','Producto\ProductController@setModificationSpecies'); //Ejecuta modificacion specie
@@ -64,3 +128,4 @@ Route::get('getDeleteGrade/{ID_GRADE}','Producto\ProductController@getDeleteGrad
 Route::post('setInsertCut','Producto\ProductController@setInsertCut'); // Ejecuta insertar Product types
 Route::post('setModificationCut','Producto\ProductController@setModificationCut'); //Ejecuta modificacion Product types
 Route::get('getDeleteCut/{ID_CUT}','Producto\ProductController@getDeleteCut'); //Ejecuta modificacion Product types
+*/

@@ -40,7 +40,8 @@ class ProductController extends Controller
           'tblGrade'=>Grade::get(),
           'tblCut'=>Cut::get(),
         ];
-      return view('products.tools',['vDatosTbl'=>$vDatos]);
+      //return view('products.tools',['vDatosTbl'=>$vDatos]);
+      return view('products.taxe');
     }
 
     private function getTools($mensaje){
