@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{URL::asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/default.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/inicio.css')}}">
-    <link rel="stylesheet" href="{{URL::asset('css/efectos.css')}}">    
+    <link rel="stylesheet" href="{{URL::asset('css/efectos.css')}}">
   </head>
   <body>
     <!--<span id="imagenEmp"></span>-->
@@ -55,7 +55,7 @@
                   <img class="img-responsive" src="../imgs/rainbow.png" id="imgModulo">
                   <div class="overlay">
                      <h2>Products</h2>
-                     <a class="info" href="getListProduct">link here</a>
+                     <a class="info" href="getProducts">link here</a>
                   </div>
               </div>
           </div>

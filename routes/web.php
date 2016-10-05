@@ -29,10 +29,14 @@ Route::get('home','Login\LoginController@getHome');
 Route::post('loginSucess_','Login\LoginController@getLoginSucess');
 Route::get('products','Login\LoginController@getProducts');
 
+//Ingreso de modulos
+Route::get('getProducts',function(){
+  return view('products.main');
+});
+
 //Modulo de productos
-Route::get('getListProduct','Product\ProductController@getListProducts'); //llamada a la lista
-Route::get('setInsertProduct','Product\ProductController@setInsertProducts'); //llamada al ingreso
-Route::get('getToolsProduct','Product\ProductController@getToolsProducts'); //llamada a herramientas
+//Route::post('setInsertProduct','Product\ProductController@setInsertProducts'); //llamada al ingreso
+
 
 // Acceso al menu productos taxes
 Route::get('vw_Taxes',function(){
@@ -45,88 +49,76 @@ Route::get('vw_Variety',function(){
   $datos=Variety::get();
   return view('products.varieties',['tblDatos'=>$datos]);
 });
+Route::post('setInsertVariety','Product\ProductController@setInsertVariety'); // Ejecuta insertar Product types
+Route::post('setModificationVariety','Product\ProductController@setModificationVariety'); //Ejecuta modificacion Product types
+Route::get('getDeleteVariety','Product\ProductController@getDeleteVariety'); //Ejecuta modificacion Product types
+
 
 // Acceso al menu productos species
 Route::get('vw_Specie',function(){
   $datos=Specie::get();
   return view('products.species',['tblDatos'=>$datos]);
 });
+Route::post('setInsertSpecies','Product\ProductController@setInsertSpecies'); //Ejecuta insertar specie
+Route::post('setModificationSpecies','Product\ProductController@setModificationSpecies'); //Ejecuta modificacion specie
+Route::get('getDeleteSpecies','Product\ProductController@getDeleteSpecies'); //Ejecuta modificacion specie
 
-// Acceso al menu productos species
+
+// Acceso al menu productos process
 Route::get('vw_Process',function(){
   $datos=Process::get();
   return view('products.process',['tblDatos'=>$datos]);
 });
+Route::post('setInsertProcess','Product\ProductController@setInsertProcess'); // Ejecuta insertar Product types
+Route::post('setModificationProcess','Product\ProductController@setModificationProcess'); //Ejecuta modificacion Product types
+Route::get('getDeleteProcess','Product\ProductController@getDeleteProcess'); //Ejecuta modificacion Product types
+
 
 // Acceso al menu productos presentation
 Route::get('vw_Presentation',function(){
   $datos=Presentation::get();
   return view('products.presentation',['tblDatos'=>$datos]);
 });
+Route::post('setInsertPresentation','Product\ProductController@setInsertPresentation'); // Ejecuta insertar Product types
+Route::post('setModificationPresentation','Product\ProductController@setModificationPresentation'); //Ejecuta modificacion Product types
+Route::get('getDeletePresentation','Product\ProductController@getDeletePresentation'); //Ejecuta modificacion Product types
 
-// Acceso al menu productos presentation
+
+// Acceso al menu productos item type
 Route::get('vw_ItemTypes',function(){
   $datos=Items_type::get();
   return view('products.itemTypes',['tblDatos'=>$datos]);
 });
+Route::post('setInsertItemTypes','Product\ProductController@setInsertItemTypes'); // Ejecuta insertar items types
+Route::post('setModificationItemType','Product\ProductController@setModificationItemType'); //Ejecuta modificacion items types
+Route::get('getDeleteItemsTypes','Product\ProductController@getDeleteItemsTypes'); //Ejecuta modificacion items types
 
-// Acceso al menu productos presentation
+
+// Acceso al menu productos Grade
 Route::get('vw_Grade',function(){
   $datos=Grade::get();
   return view('products.grade',['tblDatos'=>$datos]);
 });
+Route::post('setInsertGrade','Product\ProductController@setInsertGrade'); // Ejecuta insertar Product types
+Route::post('setModificationGrade','Product\ProductController@setModificationGrade'); //Ejecuta modificacion Product types
+Route::get('getDeleteGrade','Product\ProductController@getDeleteGrade'); //Ejecuta modificacion Product types
 
-// Acceso al menu productos presentation
+
+// Acceso al menu productos cut
 Route::get('vw_Cut',function(){
   $datos=Cut::get();
   return view('products.cut',['tblDatos'=>$datos]);
 });
+Route::post('setInsertCut','Product\ProductController@setInsertCut'); // Ejecuta insertar Product types
+Route::post('setModificationCut','Product\ProductController@setModificationCut'); //Ejecuta modificacion Product types
+Route::get('getDeleteCut','Product\ProductController@getDeleteCut'); //Ejecuta modificacion Product types
 
-// Acceso al menu productos presentation
+
+// Acceso al menu productos color
 Route::get('vw_Color',function(){
   $datos=Color::get();
   return view('products.color',['tblDatos'=>$datos]);
 });
-
-
-//Modulo de Species
-Route::post('setInsertSpecies','Producto\ProductController@setInsertSpecies');
-/*
-Route::post('setModificationSpecies','Producto\ProductController@setModificationSpecies'); //Ejecuta modificacion specie
-Route::get('getDeleteSpecie/{ID_SPECIE}','Producto\ProductController@getDeleteSpecies'); //Ejecuta modificacion specie
-
-//Modulo de Item Types
-Route::post('setInsertItemTypes','Producto\ProductController@setInsertItemTypes'); // Ejecuta insertar items types
-Route::post('setModificationItemType','Producto\ProductController@setModificationItemType'); //Ejecuta modificacion items types
-Route::get('getDeleteItemsTypes/{ID_ITYPES}','Producto\ProductController@getDeleteItemsTypes'); //Ejecuta modificacion items types
-
-//Modulo de Product Types
-Route::post('setInsertPresentation','Producto\ProductController@setInsertPresentation'); // Ejecuta insertar Product types
-Route::post('setModificationPresentation','Producto\ProductController@setModificationPresentation'); //Ejecuta modificacion Product types
-Route::get('getDeletePresentation/{ID_PTYPE}','Producto\ProductController@getDeletePresentation'); //Ejecuta modificacion Product types
-
-//Modulo de Process
-Route::post('setInsertProcess','Producto\ProductController@setInsertProcess'); // Ejecuta insertar Product types
-Route::post('setModificationProcess','Producto\ProductController@setModificationProcess'); //Ejecuta modificacion Product types
-Route::get('getDeleteProcess/{ID_PROCESS}','Producto\ProductController@getDeleteProcess'); //Ejecuta modificacion Product types
-
-//Modulo de Variety
-Route::post('setInsertVariety','Producto\ProductController@setInsertVariety'); // Ejecuta insertar Product types
-Route::post('setModificationVariety','Producto\ProductController@setModificationVariety'); //Ejecuta modificacion Product types
-Route::get('getDeleteVariety/{ID_VARIETY}','Producto\ProductController@getDeleteVariety'); //Ejecuta modificacion Product types
-
-//Modulo de Color
-Route::post('setInsertColor','Producto\ProductController@setInsertColor'); // Ejecuta insertar Product types
-Route::post('setModificationColor','Producto\ProductController@setModificationColor'); //Ejecuta modificacion Product types
-Route::get('getDeleteColor/{ID_COLOR}','Producto\ProductController@getDeleteColor'); //Ejecuta modificacion Product types
-
-//Modulo de Grades
-Route::post('setInsertGrade','Producto\ProductController@setInsertGrade'); // Ejecuta insertar Product types
-Route::post('setModificationGrade','Producto\ProductController@setModificationGrade'); //Ejecuta modificacion Product types
-Route::get('getDeleteGrade/{ID_GRADE}','Producto\ProductController@getDeleteGrade'); //Ejecuta modificacion Product types
-
-//Modulo de Cuts
-Route::post('setInsertCut','Producto\ProductController@setInsertCut'); // Ejecuta insertar Product types
-Route::post('setModificationCut','Producto\ProductController@setModificationCut'); //Ejecuta modificacion Product types
-Route::get('getDeleteCut/{ID_CUT}','Producto\ProductController@getDeleteCut'); //Ejecuta modificacion Product types
-*/
+Route::post('setInsertColor','Product\ProductController@setInsertColor'); // Ejecuta insertar Product types
+Route::post('setModificationColor','Product\ProductController@setModificationColor'); //Ejecuta modificacion Product types
+Route::get('getDeleteColor','Product\ProductController@getDeleteColor'); //Ejecuta modificacion Product types

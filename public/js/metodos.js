@@ -32,13 +32,15 @@ function setRegistrosTaxesDel(v_cod, v_nam){
 }
 
 //Insert, edit, Variety
-function setRegistros(v_cod, v_nam){
+function setRegistros(v_cod, v_nam, v_accion){
   document.getElementById('txtCode').setAttribute('value',v_cod);
   document.getElementById('txtName').setAttribute('value',v_nam);
+  document.getElementById('form').setAttribute('action',v_accion);
 }
 
 //delete Variety
-function setRegistrosDel(v_cod, v_nam){
+function setRegistrosDel(v_cod, v_nam, v_accion){
   document.getElementById('txtCodeDel').setAttribute('value',v_cod);
   document.getElementById('txtNameDel').setAttribute('value',v_nam);
+  document.getElementById('formDel').setAttribute('action',v_accion);
 }
