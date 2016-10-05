@@ -98,7 +98,7 @@
         <form class="form-horizontal" method="post" id="form">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Species</h4>
+          <h4 class="modal-title" id="myModalLabel">Color</h4>
         </div>
         <div class="modal-body">
             {{csrf_field()}}
@@ -132,7 +132,7 @@
       <div class="modal-content">
         <form class="form-horizontal" id="formDel" method="get">
         <div class="modal-header">
-          <h4 class="modal-title" id="myModalLabel">Species</h4>
+          <h4 class="modal-title" id="myModalLabel">Color</h4>
         </div>
         <div class="modal-body">
           <h4>Are you sure you want to delete??</h4>

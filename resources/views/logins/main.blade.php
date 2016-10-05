@@ -55,7 +55,7 @@
                   <img class="img-responsive" src="../imgs/rainbow.png" id="imgModulo">
                   <div class="overlay">
                      <h2>Products</h2>
-                     <a class="info" href="getProducts">link here</a>
+                     <a class="info" href="getListProduct">link here</a>
                   </div>
               </div>
           </div>

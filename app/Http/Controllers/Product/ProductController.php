@@ -14,6 +14,7 @@ use inbloom\Model\Product\Variety;
 use inbloom\Model\Product\Color;
 use inbloom\Model\Product\Grade;
 use inbloom\Model\Product\Cut;
+use inbloom\Model\Product\Taxe;
 
 class ProductController extends Controller
 {
@@ -22,7 +23,10 @@ class ProductController extends Controller
       return view('products.insert');
     }
 
-    //ingresa item types
+    /*
+    * Module Item Types
+    */
+    //ingreso item types
     public function setInsertItemTypes(Request $request){
 
       $datos=[
@@ -55,6 +59,51 @@ class ProductController extends Controller
       $nom=$request->get('txtNameDel');
       Items_type::destroy($request->get('txtCodeDel'));
       return redirect('vw_ItemTypes')->with('message',"Deleting ".$nom);
+    }
+
+    /*
+    * Module Taxes
+    */
+    //ingreso Taxes
+    public function setInsertTaxe(Request $request){
+
+      $datos=[
+          'COD_TAX'=>$request->get('txtCode'),
+          'NAME_TAX'=>$request->get('txtName'),
+          'COST_TAX'=>$request->get('txtCost'),
+          'DATE_TAX'=>date('Ymd H:i:s') //fecha sistema
+      ];
+
+      Taxe::create($datos);
+
+      return redirect('vw_Taxes')->with('message',"Save");
+    }
+
+    //modifica Taxes
+    public function setModificationTaxe(Request $request ){
+      $datos=[
+        'idCod'=>$request->get('txtId'),
+        'Codes'=>$request->get('txtCode'),
+        'nameS'=>$request->get('txtName'),
+        'costs'=>$request->get('txtCost')
+      ];
+
+
+       Taxe::where('ID_TAX', $datos['idCod'])
+          ->update([
+            'COD_TAX'=>$datos['Codes'],
+            'NAME_TAX'=>$datos['nameS'],
+            'COST_TAX'=>$datos['costs']
+          ]);
+
+      return redirect('vw_Taxes')->with('message',"Modification");
+    }
+
+    //eliminar Taxes
+    public function getDeleteTaxe(Request $request){
+      $nom=$request->get('txtNameDel');
+      Taxe::destroy($request->get('txtIdDel'));
+      return redirect('vw_Taxes')->with('message',"Deleting ".$nom);
     }
 
     /*

@@ -43,7 +43,7 @@
                   <input type="text" class="form-control" name="taxeSearch" placeholder="Enter your search"/>
               </div>
               <div class="inner-addon left-addon col-xs-2 col-sm-2">
-                <button type="button" class="btn btn-inbloom" data-toggle="modal" data-target="#myRegister" onclick="setRegistrosTaxes('','','')">New register</button>
+                <button type="button" class="btn btn-inbloom" data-toggle="modal" data-target="#myRegister" onclick="setRegistrosTaxes('','','','','setInsertTaxe')">New register</button>
               </div>
             </div>
         </div>
@@ -73,9 +73,9 @@
                       </button>
 
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistrosTaxes('{{$datos->COD_TAX}}','{{$datos->NAME_TAX}}','{{$datos->COST_TAX}}')">Edit</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistrosTaxes('{{$datos->ID_TAX}}','{{$datos->COD_TAX}}','{{$datos->NAME_TAX}}','{{$datos->COST_TAX}}','setModificationTaxe')">Edit</a></li>
                         <li class="divider"></li>
-                        <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosTaxesDel('{{$datos->COD_TAX}}','{{$datos->NAME_TAX}}')">Delete</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosTaxesDel('{{$datos->ID_TAX}}','{{$datos->COD_TAX}}','{{$datos->NAME_TAX}}','getDeleteTaxe')">Delete</a></li>
                       </ul>
                     </div>
                   </td>
@@ -100,14 +100,20 @@
         <form class="form-horizontal" method="post" id="form">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Species</h4>
+          <h4 class="modal-title" id="myModalLabel">Taxes</h4>
         </div>
         <div class="modal-body">
             {{csrf_field()}}
             <div class="form-group" hidden="true">
               <label class="col-sm-2 control-label">Id</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" id="txtCode" name="txtCode" placeholder="Code"/>
+                <input type="text" class="form-control" id="txtId" name="txtId"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Code</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="txtCode" name="txtCode" placeholder="Code" required="true"/>
               </div>
             </div>
             <div class="form-group">
@@ -116,6 +122,13 @@
                 <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Name" required="true"/>
               </div>
             </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Cost</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="txtCost" name="txtCost" placeholder="Cost" required="true" onkeypress="return soloNumeros(event)"/>
+              </div>
+            </div>
+
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-default">
@@ -134,11 +147,17 @@
       <div class="modal-content">
         <form class="form-horizontal" id="formDel" method="get">
         <div class="modal-header">
-          <h4 class="modal-title" id="myModalLabel">Species</h4>
+          <h4 class="modal-title" id="myModalLabel">Taxes</h4>
         </div>
         <div class="modal-body">
           <h4>Are you sure you want to delete??</h4>
             {{csrf_field()}}
+            <div class="form-group" hidden="true">
+              <label class="col-sm-2 control-label">Id</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="txtIdDel" name="txtIdDel"/>
+              </div>
+            </div>
             <div class="form-group">
               <label class="col-sm-2 control-label">Code</label>
               <div class="col-sm-9">

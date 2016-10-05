@@ -30,7 +30,7 @@ Route::post('loginSucess_','Login\LoginController@getLoginSucess');
 Route::get('products','Login\LoginController@getProducts');
 
 //Ingreso de modulos
-Route::get('getProducts',function(){
+Route::get('getListProduct',function(){
   return view('products.main');
 });
 
@@ -43,6 +43,10 @@ Route::get('vw_Taxes',function(){
   $datos=Taxe::get();
   return view('products.taxe',['tblDatos'=>$datos]);
 });
+Route::post('setInsertTaxe','Product\ProductController@setInsertTaxe'); // Ejecuta insertar Product types
+Route::post('setModificationTaxe','Product\ProductController@setModificationTaxe'); //Ejecuta modificacion Product types
+Route::get('getDeleteTaxe','Product\ProductController@getDeleteTaxe'); //Ejecuta modificacion Product types
+
 
 // Acceso al menu productos varieties
 Route::get('vw_Variety',function(){
