@@ -69,7 +69,7 @@
                       </button>
 
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistros('{{$datos->ID_COLOR}}','{{$datos->NAME_COLOR}}')">Modify</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistros('{{$datos->ID_COLOR}}','{{$datos->NAME_COLOR}}')">Edit</a></li>
                         <li class="divider"></li>
                         <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosDel('{{$datos->ID_COLOR}}','{{$datos->NAME_COLOR}}')">Delete</a></li>
                       </ul>

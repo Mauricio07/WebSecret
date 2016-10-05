@@ -18,17 +18,19 @@
     </article>
   </div>
 
-  <div class="row">
-    @if (Session::get('message'))
-      <div class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <p>
-          <strong>Success </strong> {{Session::get('message')}}
-        </p>
-      </div>
-    @endif
+  <div class="container">
+    <article class="row">
+      @if (Session::get('message'))
+        <div class="alert alert-success alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <p>
+            <strong>Success </strong> {{Session::get('message')}}
+          </p>
+        </div>
+      @endif
+    </article>
    </div>
 
   <section id="main" class="container">
@@ -69,7 +71,7 @@
                       </button>
 
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistros('{{$datos->ID_SPECIE}}','{{$datos->NAME_SPECIE}}')">Modify</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistros('{{$datos->ID_SPECIE}}','{{$datos->NAME_SPECIE}}')">Edit</a></li>
                         <li class="divider"></li>
                         <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosDel('{{$datos->ID_SPECIE}}','{{$datos->NAME_SPECIE}}')">Delete</a></li>
                       </ul>
@@ -94,13 +96,13 @@
   <div class="modal fade" id="myRegister" tabindex="-1" role="dialog" aria-labelledby="myRegister">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
+        <form class="form-horizontal" method="post" action="setInsertSpecies">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel">Species</h4>
         </div>
         <div class="modal-body">
-
-          <form class="form-horizontal">
+            {{csrf_field()}}
             <div class="form-group" hidden="true">
               <label class="col-sm-2 control-label">Id</label>
               <div class="col-sm-9">
@@ -110,10 +112,9 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Name</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" id="txtName"  placeholder="Name" required="true"/>
+                <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Name" required="true"/>
               </div>
             </div>
-          </form>
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-default">
@@ -121,6 +122,7 @@
               Save changes
           </button>
         </div>
+        </form>
       </div>
     </div>
   </div>

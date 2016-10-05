@@ -71,7 +71,7 @@
                       </button>
 
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistrosTaxes('{{$datos->COD_TAX}}','{{$datos->NAME_TAX}}','{{$datos->COST_TAX}}')">Modify</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistrosTaxes('{{$datos->COD_TAX}}','{{$datos->NAME_TAX}}','{{$datos->COST_TAX}}')">Edit</a></li>
                         <li class="divider"></li>
                         <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosTaxesDel('{{$datos->COD_TAX}}','{{$datos->NAME_TAX}}')">Delete</a></li>
                       </ul>

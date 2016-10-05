@@ -49,15 +49,15 @@ class ProductController extends Controller
     }
 
     //ingresa Specie
-    public function setInsertSpecie(Request $request){
+    public function setInsertSpecies(Request $request){
     $datos=[
-        'name_specie'=>$request->get('nameSpecie'),
+        'name_specie'=>$request->get('txtName'),
         'date_specie'=>date('Ymd H:i:s') //fecha sistema
     ];
 
     Specie::create($datos);
-
-    return $this->getTools('Save');
+    $mensaje='Save';
+    return redirect('vw_Specie')->with('message',$mensaje);
     }
 
     //modifica Specie

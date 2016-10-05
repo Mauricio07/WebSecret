@@ -30,9 +30,9 @@ Route::post('loginSucess_','Login\LoginController@getLoginSucess');
 Route::get('products','Login\LoginController@getProducts');
 
 //Modulo de productos
-Route::get('getListProduct','Producto\ProductController@getListProducts'); //llamada a la lista
-Route::get('setInsertProduct','Producto\ProductController@setInsertProducts'); //llamada al ingreso
-Route::get('getToolsProduct','Producto\ProductController@getToolsProducts'); //llamada a herramientas
+Route::get('getListProduct','Product\ProductController@getListProducts'); //llamada a la lista
+Route::get('setInsertProduct','Product\ProductController@setInsertProducts'); //llamada al ingreso
+Route::get('getToolsProduct','Product\ProductController@getToolsProducts'); //llamada a herramientas
 
 // Acceso al menu productos taxes
 Route::get('vw_Taxes',function(){
@@ -88,10 +88,11 @@ Route::get('vw_Color',function(){
   return view('products.color',['tblDatos'=>$datos]);
 });
 
-/*
+
 //Modulo de Species
-Route::post('setInsertSpecies','Producto\ProductController@setInsertSpecie');
-Route::post('setModification','Producto\ProductController@setModificationSpecies'); //Ejecuta modificacion specie
+Route::post('setInsertSpecies','Producto\ProductController@setInsertSpecies');
+/*
+Route::post('setModificationSpecies','Producto\ProductController@setModificationSpecies'); //Ejecuta modificacion specie
 Route::get('getDeleteSpecie/{ID_SPECIE}','Producto\ProductController@getDeleteSpecies'); //Ejecuta modificacion specie
 
 //Modulo de Item Types
