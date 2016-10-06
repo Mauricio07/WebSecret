@@ -21,6 +21,7 @@ use inbloom\Model\Product\Cut;
 use inbloom\Model\Product\Color;
 use inbloom\Model\Product\Cost;
 use inbloom\Model\Product\Item;
+use inbloom\Model\Product\Recipe;
 
 Route::get('/',function(){
   return view('Logins\login');
@@ -125,7 +126,7 @@ Route::post('setInsertColor','Product\ProductController@setInsertColor'); // Eje
 Route::post('setModificationColor','Product\ProductController@setModificationColor'); //Ejecuta modificacion color
 Route::get('getDeleteColor','Product\ProductController@getDeleteColor'); //Ejecuta modificacion color
 
-//Recipes
+//items
 Route::get('vw_Items',function(){
   $datos=[
       'tblType'=>Items_type::get(),
@@ -145,3 +146,10 @@ Route::get('vw_Items',function(){
 Route::post('setInsertItems','Product\ProductController@setInsertItems');
 Route::post('setModificationItems','Product\ProductController@setModificationItems');
 Route::get('getDeleteItems','Product\ProductController@getDeleteItems');
+
+//Recipes
+Route::get('vw_recipes',function(){
+  $datos=Recipe::get();
+
+  return view('products.recipes',['datos'=>$datos]);
+});

@@ -40,8 +40,8 @@
           <li class="dropdown">
             <a style="color:#fff;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Recipes <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Recipes</a></li>
               <li><a href="vw_Items">Items</a></li>
+              <li><a href="vw_recipes">Recipes</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Materials</a></li>
               <li><a href="#">Boxes</a></li>

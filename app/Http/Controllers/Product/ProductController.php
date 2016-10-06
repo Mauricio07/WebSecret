@@ -297,6 +297,7 @@ class ProductController extends Controller
     /*
     * Modulo Colors
     */
+
     //ingresa Color types
     public function setInsertColor(Request $request){
 
@@ -335,6 +336,7 @@ class ProductController extends Controller
     /*
     * Modulo Species
     */
+
     //ingresa Specie
     public function setInsertSpecies(Request $request){
     $datos=[
@@ -413,5 +415,14 @@ class ProductController extends Controller
       $nom=$request->get('txtNameDel');
       Item::destroy($request->get('txtIdDel'));
       return redirect('vw_Items')->with('message',"Deleting ".$nom);
+    }
+
+    /*
+    * Model recipe
+    */
+    public function setInsertRecipe(Request $request){
+      $datos=[
+          
+      ];
     }
 }
