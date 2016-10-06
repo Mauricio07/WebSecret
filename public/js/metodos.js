@@ -76,3 +76,26 @@ function setRegistrosDel(v_cod, v_nam, v_accion){
   document.getElementById('txtNameDel').setAttribute('value',v_nam);
   document.getElementById('formDel').setAttribute('action',v_accion);
 }
+
+//Insert, edit, items
+function setRegistrosItems(v_cod, v_nam, v_quat,v_type, v_proc, v_col, v_vari, v_spe, v_gra, v_cut, v_tax, v_accion){
+  document.getElementById('txtId').setAttribute('value',v_cod);
+  document.getElementById('txtName').setAttribute('value',v_nam);
+  document.getElementById('txtQuant').setAttribute('value',v_quat);
+  document.getElementById('txtType').setAttribute('value',v_type);
+  document.getElementById('txtColor').setAttribute('value',v_col);
+  document.getElementById('txtVariety').setAttribute('value',v_vari);
+  document.getElementById('txtSpecie').setAttribute('value',v_spe);
+  document.getElementById('txtGrade').setAttribute('value',v_gra);
+  document.getElementById('txtCut').setAttribute('value',v_cut);
+  document.getElementById('txtProcess').setAttribute('value',v_proc);
+  document.getElementById('txtTaxe').setAttribute('value',v_tax);
+  document.getElementById('form').setAttribute('action',v_accion);
+}
+
+//delete items
+function setRegistrosItemsDel(v_cod, v_nam, v_accion){
+  document.getElementById('txtIdDel').setAttribute('value',v_cod);
+  document.getElementById('txtNameDel').setAttribute('value',v_nam);
+  document.getElementById('formDel').setAttribute('action',v_accion);
+}

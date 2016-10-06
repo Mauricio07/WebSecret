@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Specie extends Model
 {
     protected $primaryKey='ID_SPECIE';
-    protected $fillable=['name_specie','date_specie'];
+    protected $fillable=['NAME_SPECIE','DATE_SPECIE'];
     public  $timestamps=false;
 }

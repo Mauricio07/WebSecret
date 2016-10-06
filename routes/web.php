@@ -19,6 +19,8 @@ use inbloom\Model\Product\Items_type;
 use inbloom\Model\Product\Grade;
 use inbloom\Model\Product\Cut;
 use inbloom\Model\Product\Color;
+use inbloom\Model\Product\Cost;
+use inbloom\Model\Product\Item;
 
 Route::get('/',function(){
   return view('Logins\login');
@@ -125,5 +127,21 @@ Route::get('getDeleteColor','Product\ProductController@getDeleteColor'); //Ejecu
 
 //Recipes
 Route::get('vw_Items',function(){
-  return view('products.items');
+  $datos=[
+      'tblType'=>Items_type::get(),
+      'tblColor'=>Color::get(),
+      'tblVariety'=>Variety::get(),
+      'tblSpecie'=>Specie::get(),
+      'tblGrade'=>Grade::get(),
+      'tblCut'=>Cut::get(),
+      'tblCost'=>Cost::get(),
+      'tblTaxe'=>Taxe::get(),
+      'tblProcess'=>Process::get(),
+      'tblItems'=>DB::select('exec asp_ConsultaItems'),
+  ];
+
+  return view('products.items',['datos'=>$datos]);
 });
+Route::post('setInsertItems','Product\ProductController@setInsertItems');
+Route::post('setModificationItems','Product\ProductController@setModificationItems');
+Route::get('getDeleteItems','Product\ProductController@getDeleteItems');

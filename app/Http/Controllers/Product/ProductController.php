@@ -15,6 +15,7 @@ use inbloom\Model\Product\Color;
 use inbloom\Model\Product\Grade;
 use inbloom\Model\Product\Cut;
 use inbloom\Model\Product\Taxe;
+use inbloom\Model\Product\Item;
 
 class ProductController extends Controller
 {
@@ -337,8 +338,8 @@ class ProductController extends Controller
     //ingresa Specie
     public function setInsertSpecies(Request $request){
     $datos=[
-        'name_specie'=>$request->get('txtName'),
-        'date_specie'=>date('Ymd H:i:s') //fecha sistema
+        'NAME_SPECIE'=>$request->get('txtName'),
+        'DATE_SPECIE'=>date('Ymd H:i:s') //fecha sistema
     ];
 
     Specie::create($datos);
@@ -365,5 +366,52 @@ class ProductController extends Controller
       $nom=$request->get('txtNameDel');
       Specie::destroy($request->get('txtCodeDel'));
       return redirect('vw_Specie')->with('message',"Deleting ".$nom);
+    }
+
+    //Insert items
+    public function setInsertItems(Request $request){
+      $datos=[
+        'NAME_ITEM'=>$request->get('txtName'),
+        'QUANTITY_ITEM'=>$request->get('txtQuant'),
+        'ID_ITYPES'=>$request->get('txtType'),
+        'ID_COLOR'=>$request->get('txtColor'),
+        'ID_VARIATY'=>$request->get('txtVariety'),
+        'ID_SPECIE'=>$request->get('txtSpecie'),
+        'ID_GRADE'=>$request->get('txtGrade'),
+        'ID_CUT'=>$request->get('txtCut'),
+        'ID_TAX'=>$request->get('txtTaxe'),
+        'ID_PROCESS'=>$request->get('txtProcess')
+      ];
+
+      Item::create($datos);
+
+      return redirect('vw_Items')->with('message',"Save");
+    }
+
+    //modifica item
+    public function setModificationItems(Request $request ){
+       Item::where('ID_ITEM', $request->get('txtId'))
+          ->update([
+            'NAME_ITEM'=>$request->get('txtName'),
+            'QUANTITY_ITEM'=>$request->get('txtQuant'),
+            'ID_ITYPES'=>$request->get('txtType'),
+            'ID_COLOR'=>$request->get('txtColor'),
+            'ID_VARIATY'=>$request->get('txtVariety'),
+            'ID_SPECIE'=>$request->get('txtSpecie'),
+            'ID_GRADE'=>$request->get('txtGrade'),
+            'ID_CUT'=>$request->get('txtCut'),
+            'ID_TAX'=>$request->get('txtTaxe'),
+            'ID_PROCESS'=>$request->get('txtProcess'),
+          ]);
+
+      return redirect('vw_Items')->with('message',"Modification");
+
+    }
+
+    //eliminar item
+    public function getDeleteItems(Request $request){
+      $nom=$request->get('txtNameDel');
+      Item::destroy($request->get('txtIdDel'));
+      return redirect('vw_Items')->with('message',"Deleting ".$nom);
     }
 }
