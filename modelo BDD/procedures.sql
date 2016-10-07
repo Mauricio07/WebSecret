@@ -1,3 +1,5 @@
+
+use inbloom
 go
 
 create procedure asp_loginUsers @username varchar(50), @passuser varchar(50)
@@ -30,13 +32,13 @@ go
 
 create procedure asp_ConsultaItems
 as
-select it.NAME_ITEM, it.QUANTITY_ITEM, ity.NAME_ITYPES, pr.TYPE_PROCESS, co.NAME_COLOR, va.NAME_VARIETY, sp.NAME_SPECIE, gr.NAME_GRADE, cu.NAME_CUT, ta.NAME_TAX
+select it.ID_ITEM, it.NAME_ITEM, it.QUANTITY_ITEM, ity.NAME_ITYPES, pr.TYPE_PROCESS, co.NAME_COLOR, va.NAME_VARIETY, sp.NAME_SPECIE, gr.NAME_GRADE, cu.NAME_CUT, ta.NAME_TAX
 from items it, ITEMS_TYPES ity, TAXES ta, PROCESS pr, COLORS co, VARIETIES va, SPECIES sp, GRADES gr, CUTS cu
 where it.ID_ITYPES=ity.ID_ITYPES and
 	it.ID_TAX=ta.ID_TAX and
 	it.ID_PROCESS=pr.ID_PROCESS and
 	it.ID_COLOR=co.ID_COLOR and
-	it.ID_VARIATY=va.ID_VARIETY and
+	it.ID_VARIETY=va.ID_VARIETY and
 	IT.ID_SPECIE=SP.ID_SPECIE and
 	it.ID_GRADE=gr.ID_GRADE and
 	it.ID_CUT=cu.ID_CUT

@@ -377,7 +377,7 @@ class ProductController extends Controller
         'QUANTITY_ITEM'=>$request->get('txtQuant'),
         'ID_ITYPES'=>$request->get('txtType'),
         'ID_COLOR'=>$request->get('txtColor'),
-        'ID_VARIATY'=>$request->get('txtVariety'),
+        'ID_VARIETY'=>$request->get('txtVariety'),
         'ID_SPECIE'=>$request->get('txtSpecie'),
         'ID_GRADE'=>$request->get('txtGrade'),
         'ID_CUT'=>$request->get('txtCut'),
@@ -398,7 +398,7 @@ class ProductController extends Controller
             'QUANTITY_ITEM'=>$request->get('txtQuant'),
             'ID_ITYPES'=>$request->get('txtType'),
             'ID_COLOR'=>$request->get('txtColor'),
-            'ID_VARIATY'=>$request->get('txtVariety'),
+            'ID_VARIETY'=>$request->get('txtVariety'),
             'ID_SPECIE'=>$request->get('txtSpecie'),
             'ID_GRADE'=>$request->get('txtGrade'),
             'ID_CUT'=>$request->get('txtCut'),
@@ -422,7 +422,7 @@ class ProductController extends Controller
     */
     public function setInsertRecipe(Request $request){
       $datos=[
-          
+
       ];
     }
 }
