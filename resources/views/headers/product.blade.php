@@ -9,13 +9,17 @@
     <link rel="stylesheet" href="{{URL::asset('css/controles.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/default.css')}}">
   </head>
-  <body>
+  <body onload="limitRowsTbl('table')">
 
   @include('implements.navigationbarproduct')
 
   @yield('body')
 
   </body>
+
+<footer class="footer">
+      <p>© Copyright 2016-2017 Copyright.es - All Rights Reserved - Legal</p>
+</footer>
 
   <script src="{{URL::asset('js/jquery-3.1.0.min.js')}}" charset="utf-8"></script>
   <script src="{{URL::asset('js/bootstrap.min.js')}}" charset="utf-8"></script>

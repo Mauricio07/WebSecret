@@ -30,6 +30,18 @@
           </p>
         </div>
       @endif
+
+      @if (Session::get('message2'))
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <p>
+            <strong> {{Session::get('message2')}} </strong>
+          </p>
+        </div>
+      @endif
+
     </article>
    </div>
 

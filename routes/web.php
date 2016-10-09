@@ -59,7 +59,11 @@ Route::get('getDeleteVariety','Product\ProductController@getDeleteVariety'); //E
 
 // Acceso al menu productos species
 Route::get('vw_Specie',function(){
-  $datos=Specie::get();
+  $datos=[
+    'tblSpecie'=>DB::select('EXEC ASP_CONSULTASPECIE'),
+    'tblTaxe'=>Taxe::orderBy('COD_TAX','NAME_TAX')->get(),
+    'tblVariety'=>Variety::orderBy('NAME_VARIETY')->get(),
+  ];
   return view('products.species',['tblDatos'=>$datos]);
 });
 Route::post('setInsertSpecies','Product\ProductController@setInsertSpecies'); //Ejecuta insertar specie
@@ -131,14 +135,11 @@ Route::get('vw_Items',function(){
   $datos=[
       'tblType'=>Items_type::get(),
       'tblColor'=>Color::get(),
-      'tblVariety'=>Variety::get(),
       'tblSpecie'=>Specie::get(),
       'tblGrade'=>Grade::get(),
       'tblCut'=>Cut::get(),
-      'tblCost'=>Cost::get(),
-      'tblTaxe'=>Taxe::get(),
       'tblProcess'=>Process::get(),
-      'tblItems'=>DB::select('exec asp_ConsultaItems'),
+      'tblItems'=>DB::select('EXEC ASP_CONSULTA_ITEMS'),
   ];
 
   return view('products.items',['datos'=>$datos]);

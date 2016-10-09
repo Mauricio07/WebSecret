@@ -1,8 +1,10 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     06/10/2016 18:42:00                          */
+/* Created on:     08/10/2016 4:58:52                           */
 /*==============================================================*/
 
+use inbloom
+go
 
 /*==============================================================*/
 /* Table: BOXES                                                 */
@@ -68,17 +70,6 @@ create table COLORS (
 go
 
 /*==============================================================*/
-/* Table: COSTS                                                 */
-/*==============================================================*/
-create table COSTS (
-   ID_COST              int identity(1,1)    not null,
-   VALUE_COST           decimal(10,3)        null,
-   DATE_COST            datetime             null,
-   constraint PK_COSTS primary key nonclustered (ID_COST)
-)
-go
-
-/*==============================================================*/
 /* Table: CUTS                                                  */
 /*==============================================================*/
 create table CUTS (
@@ -139,16 +130,13 @@ go
 create table ITEMS (
    ID_ITEM              int identity(1,1)    not null,
    ID_ITYPES            int                  null,
-   ID_TAX               int                  null,
    ID_PROCESS           int                  null,
    ID_COLOR             int                  null,
-   ID_COST              int                  null,
-   ID_VARIETY           int                  null,
    ID_SPECIE            int                  null,
    ID_GRADE             int                  null,
    ID_CUT               int                  null,
-   NAME_ITEM            varchar(100)         null,
-   QUANTITY_ITEM        decimal(10,3)        null,
+   DATE_ITEM            datetime             null,
+   MODIFY_ITEM          datetime             null,
    constraint PK_ITEMS primary key nonclustered (ID_ITEM)
 )
 go
@@ -166,14 +154,6 @@ go
 /*==============================================================*/
 create index ITEM_COLOR_FK on ITEMS (
 ID_COLOR ASC
-)
-go
-
-/*==============================================================*/
-/* Index: ITEM_COSTS_FK                                         */
-/*==============================================================*/
-create index ITEM_COSTS_FK on ITEMS (
-ID_COST ASC
 )
 go
 
@@ -202,22 +182,6 @@ ID_CUT ASC
 go
 
 /*==============================================================*/
-/* Index: ITEM_TAXES_FK                                         */
-/*==============================================================*/
-create index ITEM_TAXES_FK on ITEMS (
-ID_TAX ASC
-)
-go
-
-/*==============================================================*/
-/* Index: ITEM_VARIETYS_FK                                      */
-/*==============================================================*/
-create index ITEM_VARIETYS_FK on ITEMS (
-ID_VARIETY ASC
-)
-go
-
-/*==============================================================*/
 /* Index: ITEM_SPECIE_FK                                        */
 /*==============================================================*/
 create index ITEM_SPECIE_FK on ITEMS (
@@ -226,27 +190,27 @@ ID_SPECIE ASC
 go
 
 /*==============================================================*/
-/* Table: ITEMS_PRESCRIPTION                                    */
+/* Table: ITEMS_RECIPES                                         */
 /*==============================================================*/
-create table ITEMS_PRESCRIPTION (
-   ID_PRESCRIPTION      int                  not null,
+create table ITEMS_RECIPES (
+   ID_RECIPE            int                  not null,
    ID_ITEM              int                  not null,
-   constraint PK_ITEMS_PRESCRIPTION primary key (ID_PRESCRIPTION, ID_ITEM)
+   constraint PK_ITEMS_RECIPES primary key (ID_RECIPE, ID_ITEM)
 )
 go
 
 /*==============================================================*/
-/* Index: ITEMS_PRESCRIPTION_FK                                 */
+/* Index: ITEMS_RECIPES_FK                                      */
 /*==============================================================*/
-create index ITEMS_PRESCRIPTION_FK on ITEMS_PRESCRIPTION (
-ID_PRESCRIPTION ASC
+create index ITEMS_RECIPES_FK on ITEMS_RECIPES (
+ID_RECIPE ASC
 )
 go
 
 /*==============================================================*/
-/* Index: ITEMS_PRESCRIPTION2_FK                                */
+/* Index: ITEMS_RECIPES2_FK                                     */
 /*==============================================================*/
-create index ITEMS_PRESCRIPTION2_FK on ITEMS_PRESCRIPTION (
+create index ITEMS_RECIPES2_FK on ITEMS_RECIPES (
 ID_ITEM ASC
 )
 go
@@ -335,28 +299,46 @@ PRO_ID_PRODUCT ASC
 go
 
 /*==============================================================*/
-/* Table: RECIPES                                               */
+/* Table: PRODUCT_RECIPIES                                      */
 /*==============================================================*/
-create table RECIPES (
-   ID_PRESCRIPTION      int identity(1,1)    not null,
-   ID_PTYPE             int                  null,
-   ID_PRODUCT           int                  null,
-   NAME_PRESCRIPTION    varchar(100)         null,
-   STATUS_PRESCRIPTION  varchar(20)          null,
-   QUANTITY_PRESCRIPTION int                  null,
-   PRESENTATION_PRESCRIPTION varchar(100)         null,
-   DATECREATE_PRESCRIPTION datetime             null,
-   MODIFY_PRESCRIPTION  datetime             null,
-   ID_MATERIALR         int                  null,
-   constraint PK_RECIPES primary key nonclustered (ID_PRESCRIPTION)
+create table PRODUCT_RECIPIES (
+   ID_PRODUCT           int                  not null,
+   ID_RECIPE            int                  not null,
+   PACK                 int                  null,
+   constraint PK_PRODUCT_RECIPIES primary key (ID_PRODUCT, ID_RECIPE)
 )
 go
 
 /*==============================================================*/
 /* Index: PRODUCT_RECIPIES_FK                                   */
 /*==============================================================*/
-create index PRODUCT_RECIPIES_FK on RECIPES (
+create index PRODUCT_RECIPIES_FK on PRODUCT_RECIPIES (
 ID_PRODUCT ASC
+)
+go
+
+/*==============================================================*/
+/* Index: PRODUCT_RECIPIES2_FK                                  */
+/*==============================================================*/
+create index PRODUCT_RECIPIES2_FK on PRODUCT_RECIPIES (
+ID_RECIPE ASC
+)
+go
+
+/*==============================================================*/
+/* Table: RECIPES                                               */
+/*==============================================================*/
+create table RECIPES (
+   ID_RECIPE            int identity(1,1)    not null,
+   ID_PTYPE             int                  null,
+   NAME_RECIPE          varchar(100)         null,
+   STATUS_RECIPE        varchar(20)          null,
+   QUANTITY_RECIPE      int                  null,
+   PRESENTATION_RECIPE  varchar(100)         null,
+   DATECREATE_RECIPE    datetime             null,
+   MODIFY_RECIPE        datetime             null,
+   ID_MATERIALR         int                  null,
+   constraint PK_RECIPES primary key nonclustered (ID_RECIPE)
 )
 go
 
@@ -373,9 +355,27 @@ go
 /*==============================================================*/
 create table SPECIES (
    ID_SPECIE            int identity(1,1)    not null,
+   ID_TAX               int                  null,
+   ID_VARIETY           int                  null,
    NAME_SPECIE          varchar(50)          null,
    DATE_SPECIE          datetime             null,
    constraint PK_SPECIES primary key nonclustered (ID_SPECIE)
+)
+go
+
+/*==============================================================*/
+/* Index: ITEM_TAXES_FK                                         */
+/*==============================================================*/
+create index ITEM_TAXES_FK on SPECIES (
+ID_TAX ASC
+)
+go
+
+/*==============================================================*/
+/* Index: ITEM_VARIETYS_FK                                      */
+/*==============================================================*/
+create index ITEM_VARIETYS_FK on SPECIES (
+ID_VARIETY ASC
 )
 go
 
@@ -478,11 +478,6 @@ alter table ITEMS
 go
 
 alter table ITEMS
-   add constraint FK_ITEMS_ITEM_COST_COSTS foreign key (ID_COST)
-      references COSTS (ID_COST)
-go
-
-alter table ITEMS
    add constraint FK_ITEMS_ITEM_CUTS_CUTS foreign key (ID_CUT)
       references CUTS (ID_CUT)
 go
@@ -503,27 +498,17 @@ alter table ITEMS
 go
 
 alter table ITEMS
-   add constraint FK_ITEMS_ITEM_TAXE_TAXES foreign key (ID_TAX)
-      references TAXES (ID_TAX)
-go
-
-alter table ITEMS
    add constraint FK_ITEMS_ITEM_TYPE_ITEMS_TY foreign key (ID_ITYPES)
       references ITEMS_TYPES (ID_ITYPES)
 go
 
-alter table ITEMS
-   add constraint FK_ITEMS_ITEM_VARI_VARIETIE foreign key (ID_VARIETY)
-      references VARIETIES (ID_VARIETY)
+alter table ITEMS_RECIPES
+   add constraint FK_ITEMS_RE_ITEMS_REC_RECIPES foreign key (ID_RECIPE)
+      references RECIPES (ID_RECIPE)
 go
 
-alter table ITEMS_PRESCRIPTION
-   add constraint FK_ITEMS_PR_ITEMS_PRE_RECIPES foreign key (ID_PRESCRIPTION)
-      references RECIPES (ID_PRESCRIPTION)
-go
-
-alter table ITEMS_PRESCRIPTION
-   add constraint FK_ITEMS_PR_ITEMS_PRE_ITEMS foreign key (ID_ITEM)
+alter table ITEMS_RECIPES
+   add constraint FK_ITEMS_RE_ITEMS_REC_ITEMS foreign key (ID_ITEM)
       references ITEMS (ID_ITEM)
 go
 
@@ -537,14 +522,29 @@ alter table PRODUCTS
       references BOXES (ID_BOX)
 go
 
-alter table RECIPES
-   add constraint FK_RECIPES_PRODUCT_R_PRODUCTS foreign key (ID_PRODUCT)
+alter table PRODUCT_RECIPIES
+   add constraint FK_PRODUCT__PRODUCT_R_PRODUCTS foreign key (ID_PRODUCT)
       references PRODUCTS (ID_PRODUCT)
+go
+
+alter table PRODUCT_RECIPIES
+   add constraint FK_PRODUCT__PRODUCT_R_RECIPES foreign key (ID_RECIPE)
+      references RECIPES (ID_RECIPE)
 go
 
 alter table RECIPES
    add constraint FK_RECIPES_PRODUCT_T_PRESENTA foreign key (ID_PTYPE)
       references PRESENTATIONES (ID_PTYPE)
+go
+
+alter table SPECIES
+   add constraint FK_SPECIES_ITEM_TAXE_TAXES foreign key (ID_TAX)
+      references TAXES (ID_TAX)
+go
+
+alter table SPECIES
+   add constraint FK_SPECIES_ITEM_VARI_VARIETIE foreign key (ID_VARIETY)
+      references VARIETIES (ID_VARIETY)
 go
 
 alter table USER_PASSWORDS

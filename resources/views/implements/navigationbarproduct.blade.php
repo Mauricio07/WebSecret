@@ -17,11 +17,11 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a style="color:#fff;" href="home">Home</a></li>
-          <li><a style="color:#fff;" href="getListProduct">Products <span class="sr-only">(current)</span></a></li>
-          <li><a style="color:#fff;" href="setInsertProduct">New</a></li>
+          <li><a href="home">Home</a></li>
+          <li><a href="getListProduct">Products <span class="sr-only">(current)</span></a></li>
+          <li><a href="setInsertProduct">New</a></li>
           <li class="dropdown">
-            <a style="color:#fff;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tools <span class="caret"></span></a>
+            <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tools <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="vw_Color">Colors</a></li>
               <li><a href="vw_Cut">Cuts</a></li>
@@ -38,7 +38,7 @@
           </li>
 
           <li class="dropdown">
-            <a style="color:#fff;" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Recipes <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Recipes <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="vw_Items">Items</a></li>
               <li><a href="vw_recipes">Recipes</a></li>

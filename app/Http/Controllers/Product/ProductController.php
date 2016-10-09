@@ -290,8 +290,13 @@ class ProductController extends Controller
     //eliminar Cut types
     public function getDeleteCut(Request $request){
       $nom=$request->get('txtNameDel');
-      Cut::destroy($request->get('txtCodeDel'));
-      return redirect('vw_Cut')->with('message',"Deleting ".$nom);
+      $del=Cut::find($request->get('txtCodeDel'));
+      if ($del->delete()){
+        return redirect('vw_Cut')->with('message',"Deleting ".$nom);
+      }else{
+        return redirect('vw_Cut')->with('messageDel',"Error in the Transaction ".$nom);
+      }
+
     }
 
     /*
@@ -341,6 +346,8 @@ class ProductController extends Controller
     public function setInsertSpecies(Request $request){
     $datos=[
         'NAME_SPECIE'=>$request->get('txtName'),
+        'ID_VARIETY'=>$request->get('txtVariety'),
+        'ID_TAX'=>$request->get('txtTaxe'),
         'DATE_SPECIE'=>date('Ymd H:i:s') //fecha sistema
     ];
 
@@ -350,14 +357,11 @@ class ProductController extends Controller
 
     //modifica Specie
     public function setModificationSpecies(Request $request ){
-      $datos=[
-        'idCod'=>$request->get('txtCode'),
-        'nameS'=>$request->get('txtName')
-      ];
-
-       Specie::where('id_specie', $datos['idCod'])
+       Specie::where('id_specie', $request->get('txtCode'))
           ->update([
-            'name_specie'=>$datos['nameS']
+                'NAME_SPECIE'=>$request->get('txtName'),
+                'ID_VARIETY'=>$request->get('txtVariety'),
+                'ID_TAX'=>$request->get('txtTaxe'),
           ]);
 
       return redirect('vw_Specie')->with('message',"Modification");
@@ -373,18 +377,14 @@ class ProductController extends Controller
     //Insert items
     public function setInsertItems(Request $request){
       $datos=[
-        'NAME_ITEM'=>$request->get('txtName'),
-        'QUANTITY_ITEM'=>$request->get('txtQuant'),
         'ID_ITYPES'=>$request->get('txtType'),
         'ID_COLOR'=>$request->get('txtColor'),
-        'ID_VARIETY'=>$request->get('txtVariety'),
         'ID_SPECIE'=>$request->get('txtSpecie'),
         'ID_GRADE'=>$request->get('txtGrade'),
         'ID_CUT'=>$request->get('txtCut'),
-        'ID_TAX'=>$request->get('txtTaxe'),
-        'ID_PROCESS'=>$request->get('txtProcess')
+        'ID_PROCESS'=>$request->get('txtProcess'),
+        'DATE_ITEM'=>date('Ymd H:i:s') //fecha sistema
       ];
-
       Item::create($datos);
 
       return redirect('vw_Items')->with('message',"Save");
@@ -394,16 +394,13 @@ class ProductController extends Controller
     public function setModificationItems(Request $request ){
        Item::where('ID_ITEM', $request->get('txtId'))
           ->update([
-            'NAME_ITEM'=>$request->get('txtName'),
-            'QUANTITY_ITEM'=>$request->get('txtQuant'),
             'ID_ITYPES'=>$request->get('txtType'),
             'ID_COLOR'=>$request->get('txtColor'),
-            'ID_VARIETY'=>$request->get('txtVariety'),
             'ID_SPECIE'=>$request->get('txtSpecie'),
             'ID_GRADE'=>$request->get('txtGrade'),
             'ID_CUT'=>$request->get('txtCut'),
-            'ID_TAX'=>$request->get('txtTaxe'),
             'ID_PROCESS'=>$request->get('txtProcess'),
+            'MODIFY_ITEM'=>date('Ymd H:i:s') //fecha sistema
           ]);
 
       return redirect('vw_Items')->with('message',"Modification");
@@ -413,7 +410,12 @@ class ProductController extends Controller
     //eliminar item
     public function getDeleteItems(Request $request){
       $nom=$request->get('txtNameDel');
-      Item::destroy($request->get('txtIdDel'));
+      $desabilitar=1;
+      Item::where('ID_ITEM',$request->get('txtIdDel'))
+        ->update([
+          'STATE_ITEM'=>$desabilitar,
+          'DELETE_ITEM'=>date('Ymd H:i:s') //fecha sistema
+        ]);
       return redirect('vw_Items')->with('message',"Deleting ".$nom);
     }
 

@@ -55,7 +55,7 @@
           <thead>
               <th> Code </th>
               <th> Name </th>
-              <th> Cost </th>
+              <th> % </th>
               <th> Date </th>
               <th></th>
           </thead>
@@ -123,7 +123,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-2 control-label">Cost</label>
+              <label class="col-sm-2 control-label">Porcentage</label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" id="txtCost" name="txtCost" placeholder="Cost" required="true" onkeypress="return soloNumeros(event)"/>
               </div>

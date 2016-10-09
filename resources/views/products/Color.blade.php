@@ -51,7 +51,7 @@
 
     <article class="row">
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <table class="table table-striped">
+        <table class="table table-striped" id="table">
           <thead>
               <th> Id </th>
               <th> Name </th>
@@ -59,7 +59,6 @@
               <th></th>
           </thead>
           <tbody>
-            <tr>
               @foreach ($tblDatos as $datos)
                 <tr>
                   <td>{{$datos->ID_COLOR}}</td> <td>{{$datos->NAME_COLOR}}</td> <td>{{$datos->DATE_COLOR}}</td>
@@ -77,11 +76,29 @@
                       </ul>
                     </div>
                   </td>
-
                 </tr>
               @endforeach
-
-            </tr>
+              <tfoot>
+                <tr>
+                <td></td><td></td><td></td>
+                <td>
+                  <ul class="pagination pagination-sm">
+                    <li>
+                      <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li>
+                      <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </td>
+                  </tr>
+              </tfoot>
           </tbody>
         </table>
       </div>

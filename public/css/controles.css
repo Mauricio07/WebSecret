@@ -1,3 +1,11 @@
+.navbar-default .navbar-nav>li>a{
+    color: #fff;
+}
+
+.navbar-default .navbar-nav>li>a:hover{
+    color: rgb(219,13,0);
+}
+
 
 .btn-inbloom{
   background: rgba(133,3,96,1);

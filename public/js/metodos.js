@@ -78,24 +78,48 @@ function setRegistrosDel(v_cod, v_nam, v_accion){
 }
 
 //Insert, edit, items
-function setRegistrosItems(v_cod, v_nam, v_quat,v_type, v_proc, v_col, v_vari, v_spe, v_gra, v_cut, v_tax, v_accion){
+function setRegistrosItems(v_cod, v_spe, v_col, v_proc, v_type, v_cut, v_gra, v_accion){
+  var opt=null;
   document.getElementById('txtId').setAttribute('value',v_cod);
-  document.getElementById('txtName').setAttribute('value',v_nam);
-  document.getElementById('txtQuant').setAttribute('value',v_quat);
-  document.getElementById('txtType').setAttribute('value',v_type);
-  document.getElementById('txtColor').setAttribute('value',v_col);
-  document.getElementById('txtVariety').setAttribute('value',v_vari);
-  document.getElementById('txtSpecie').setAttribute('value',v_spe);
-  document.getElementById('txtGrade').setAttribute('value',v_gra);
-  document.getElementById('txtCut').setAttribute('value',v_cut);
-  document.getElementById('txtProcess').setAttribute('value',v_proc);
-  document.getElementById('txtTaxe').setAttribute('value',v_tax);
+  opt=document.getElementById('txtSpecie');
+  $(opt).val(v_spe).change();
+  opt=document.getElementById('txtColor');
+  $(opt).val(v_col).change();
+  opt=document.getElementById('txtProcess');
+  $(opt).val(v_proc).change();
+  opt=document.getElementById('txtType');
+  $(opt).val(v_type).change();
+  opt=document.getElementById('txtCut');
+  $(opt).val(v_cut).change();
+  opt=document.getElementById('txtGrade');
+  $(opt).val(v_gra).change();
   document.getElementById('form').setAttribute('action',v_accion);
 }
 
-//delete items
+//delete Items, Specie
 function setRegistrosItemsDel(v_cod, v_nam, v_accion){
   document.getElementById('txtIdDel').setAttribute('value',v_cod);
   document.getElementById('txtNameDel').setAttribute('value',v_nam);
   document.getElementById('formDel').setAttribute('action',v_accion);
+}
+
+//Insert, edit, Specie
+function setRegistroSpecie(v_cod, v_nam, v_var, v_tax, v_accion){
+  var option;
+  document.getElementById('txtCode').setAttribute('value',v_cod);
+  document.getElementById('txtName').setAttribute('value',v_nam);
+  option=document.getElementById('txtVariety');
+  $(option).val(v_var).change();
+  option=document.getElementById('txtTaxe')
+  $(option).val(v_tax).change();
+  document.getElementById('form').setAttribute('action',v_accion);
+}
+
+//limit to rows in table
+function limitRowsTbl(v_nameTbl){
+  var maxRows=10;
+  var table=document.getElementById(v_nameTbl);
+  var rows=$(table).find('tbody tr');
+  rows.hide().slice(0,7).show();
+
 }
