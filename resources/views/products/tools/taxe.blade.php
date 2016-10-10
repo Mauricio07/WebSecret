@@ -1,37 +1,8 @@
-@extends('headers.product')
+@extends('products.headers.product')
 
 @section('body')
 
-  <div class="container">
-    <ol class="breadcrumb">
-      <li><a href="home">Home</a></li>
-      <li><a href="getListProduct">Product</a></li>
-      <li class="active">Item Types</li>
-    </ol>
-  </div>
-
-  <div class="container">
-    <article class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h3>Manager Item Types</h3>
-      </div>
-    </article>
-  </div>
-
-  <div class="container">
-    <article class="row">
-      @if (Session::get('message'))
-        <div class="alert alert-success alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <p>
-            <strong>Success </strong> {{Session::get('message')}}
-          </p>
-        </div>
-      @endif
-    </article>
-   </div>
+@include('products.implements.messageTools')
 
   <section id="main" class="container">
     <article class="row">
@@ -40,10 +11,10 @@
               <label class="col-xs-2 col-sm-2 control-label">Search</label>
               <div class="inner-addon left-addon col-xs-8 col-sm-8 ">
                   <i class="glyphicon glyphicon-search" style="padding-left:25px;"></i>
-                  <input type="text" class="form-control" name="varietySearch" placeholder="Enter your search"/>
+                  <input type="text" class="form-control" name="taxeSearch" placeholder="Enter your search"/>
               </div>
               <div class="inner-addon left-addon col-xs-2 col-sm-2">
-                <button type="button" class="btn btn-inbloom" data-toggle="modal" data-target="#myRegister" onclick="setRegistros('','','setInsertItemTypes')">New register</button>
+                <button type="button" class="btn btn-inbloom" data-toggle="modal" data-target="#myRegister" onclick="setRegistrosTaxes('','','','','setInsertTaxe')">New register</button>
               </div>
             </div>
         </div>
@@ -53,8 +24,9 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <table class="table table-striped">
           <thead>
-              <th> Id </th>
+              <th> Code </th>
               <th> Name </th>
+              <th> % </th>
               <th> Date </th>
               <th></th>
           </thead>
@@ -62,7 +34,8 @@
             <tr>
               @foreach ($tblDatos as $datos)
                 <tr>
-                  <td>{{$datos->ID_ITYPES}}</td> <td>{{$datos->NAME_ITYPES}}</td> <td>{{$datos->DATE_ITYPES}}</td>
+                  <td> {{$datos->COD_TAX}}</td><td> {{$datos->NAME_TAX}}</td><td> {{$datos->COST_TAX}}</td><td> {{$datos->DATE_TAX}}</td>
+
                   <td>
                     <div class="btn-group">
                       <button type="button" class="btn btn-default btn-xs">Action </button>
@@ -71,9 +44,9 @@
                       </button>
 
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistros('{{$datos->ID_ITYPES}}','{{$datos->NAME_ITYPES}}','setModificationItemType')">Edit</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistrosTaxes('{{$datos->ID_TAX}}','{{$datos->COD_TAX}}','{{$datos->NAME_TAX}}','{{$datos->COST_TAX}}','setModificationTaxe')">Edit</a></li>
                         <li class="divider"></li>
-                        <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosDel('{{$datos->ID_ITYPES}}','{{$datos->NAME_ITYPES}}','getDeleteItemsTypes')">Delete</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosTaxesDel('{{$datos->ID_TAX}}','{{$datos->COD_TAX}}','{{$datos->NAME_TAX}}','getDeleteTaxe')">Delete</a></li>
                       </ul>
                     </div>
                   </td>
@@ -98,14 +71,20 @@
         <form class="form-horizontal" method="post" id="form">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Item Types</h4>
+          <h4 class="modal-title" id="myModalLabel">Taxes</h4>
         </div>
         <div class="modal-body">
             {{csrf_field()}}
             <div class="form-group" hidden="true">
               <label class="col-sm-2 control-label">Id</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" id="txtCode" name="txtCode" placeholder="Code"/>
+                <input type="text" class="form-control" id="txtId" name="txtId"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Code</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="txtCode" name="txtCode" placeholder="Code" required="true"/>
               </div>
             </div>
             <div class="form-group">
@@ -114,6 +93,13 @@
                 <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Name" required="true"/>
               </div>
             </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Porcentage</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="txtCost" name="txtCost" placeholder="Cost" required="true" onkeypress="return soloNumeros(event)"/>
+              </div>
+            </div>
+
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-default">
@@ -132,11 +118,17 @@
       <div class="modal-content">
         <form class="form-horizontal" id="formDel" method="get">
         <div class="modal-header">
-          <h4 class="modal-title" id="myModalLabel">Item Types</h4>
+          <h4 class="modal-title" id="myModalLabel">Taxes</h4>
         </div>
         <div class="modal-body">
           <h4>Are you sure you want to delete??</h4>
             {{csrf_field()}}
+            <div class="form-group" hidden="true">
+              <label class="col-sm-2 control-label">Id</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="txtIdDel" name="txtIdDel"/>
+              </div>
+            </div>
             <div class="form-group">
               <label class="col-sm-2 control-label">Code</label>
               <div class="col-sm-9">

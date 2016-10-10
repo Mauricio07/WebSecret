@@ -11,7 +11,7 @@
   </head>
   <body onload="limitRowsTbl('table')">
 
-  @include('implements.navigationbarproduct')
+  @include('products.implements.navigationbarproduct')
 
   @yield('body')
 
@@ -27,4 +27,4 @@
 
   </html>
 
-  @yield('modals')
+@yield('modals')

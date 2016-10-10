@@ -40,21 +40,21 @@ Route::get('getListProduct',function(){
 // Acceso al menu productos taxes
 Route::get('vw_Taxes',function(){
   $datos=Taxe::get();
-  return view('products.taxe',['tblDatos'=>$datos]);
+  return view('products.tools.taxe',['message'=>$message, 'post'=>true,'tittle'=>" Taxe",'tblDatos'=>$datos]);
 });
-Route::post('setInsertTaxe','Product\ProductController@setInsertTaxe'); // Ejecuta insertar taxes
-Route::post('setModificationTaxe','Product\ProductController@setModificationTaxe'); //Ejecuta modificacion taxes
-Route::get('getDeleteTaxe','Product\ProductController@getDeleteTaxe'); //Ejecuta modificacion Product taxes
+Route::post('setInsertTaxe','Product\Taxe\TaxeController@setInsertTaxe'); // Ejecuta insertar taxes
+Route::post('setModificationTaxe','Product\Taxe\TaxeController@setModificationTaxe'); //Ejecuta modificacion taxes
+Route::get('getDeleteTaxe','Product\Taxe\TaxeController@getDeleteTaxe'); //Ejecuta modificacion Product taxes
 
 
 // Acceso al menu productos varieties
 Route::get('vw_Variety',function(){
   $datos=Variety::get();
-  return view('products.varieties',['tblDatos'=>$datos]);
+  return view('products.tools.varieties',['post'=>true,'tittle'=>" Variety",'tblDatos'=>$datos]);
 });
-Route::post('setInsertVariety','Product\ProductController@setInsertVariety'); // Ejecuta insertar varieties
-Route::post('setModificationVariety','Product\ProductController@setModificationVariety'); //Ejecuta modificacion varieties
-Route::get('getDeleteVariety','Product\ProductController@getDeleteVariety'); //Ejecuta modificacion varieties
+Route::post('setInsertVariety','Product\Variety\VarietyController@setInsertVariety'); // Ejecuta insertar varieties
+Route::post('setModificationVariety','Product\Variety\VarietyController@setModificationVariety'); //Ejecuta modificacion varieties
+Route::get('getDeleteVariety','Product\Variety\VarietyController@getDeleteVariety'); //Ejecuta modificacion varieties
 
 
 // Acceso al menu productos species
@@ -64,71 +64,71 @@ Route::get('vw_Specie',function(){
     'tblTaxe'=>Taxe::orderBy('COD_TAX','NAME_TAX')->get(),
     'tblVariety'=>Variety::orderBy('NAME_VARIETY')->get(),
   ];
-  return view('products.species',['tblDatos'=>$datos]);
+  return view('products.tools.species',['post'=>true,'tittle'=>" Specie",'tblDatos'=>$datos]);
 });
-Route::post('setInsertSpecies','Product\ProductController@setInsertSpecies'); //Ejecuta insertar specie
-Route::post('setModificationSpecies','Product\ProductController@setModificationSpecies'); //Ejecuta modificacion specie
-Route::get('getDeleteSpecies','Product\ProductController@getDeleteSpecies'); //Ejecuta modificacion specie
+Route::post('setInsertSpecies','Product\Species\SpeciesController@setInsertSpecies'); //Ejecuta insertar specie
+Route::post('setModificationSpecies','Product\Species\SpeciesController@setModificationSpecies'); //Ejecuta modificacion specie
+Route::get('getDeleteSpecies','Product\Species\SpeciesController@getDeleteSpecies'); //Ejecuta modificacion specie
 
 
 // Acceso al menu productos process
 Route::get('vw_Process',function(){
   $datos=Process::get();
-  return view('products.process',['tblDatos'=>$datos]);
+  return view('products.tools.process',['post'=>true,'tittle'=>" Process",'tblDatos'=>$datos]);
 });
-Route::post('setInsertProcess','Product\ProductController@setInsertProcess'); // Ejecuta insertar process
-Route::post('setModificationProcess','Product\ProductController@setModificationProcess'); //Ejecuta modificacion process
-Route::get('getDeleteProcess','Product\ProductController@getDeleteProcess'); //Ejecuta modificacion process
+Route::post('setInsertProcess','Product\Process\ProcessController@setInsertProcess'); // Ejecuta insertar process
+Route::post('setModificationProcess','Product\Process\ProcessController@setModificationProcess'); //Ejecuta modificacion process
+Route::get('getDeleteProcess','Product\Process\ProcessController@getDeleteProcess'); //Ejecuta modificacion process
 
 
 // Acceso al menu productos presentation
 Route::get('vw_Presentation',function(){
   $datos=Presentation::get();
-  return view('products.presentation',['tblDatos'=>$datos]);
+  return view('products.tools.presentation',['post'=>true,'tittle'=>" Presentation",'tblDatos'=>$datos]);
 });
-Route::post('setInsertPresentation','Product\ProductController@setInsertPresentation'); // Ejecuta insertar presentation
-Route::post('setModificationPresentation','Product\ProductController@setModificationPresentation'); //Ejecuta modificacion presentation
-Route::get('getDeletePresentation','Product\ProductController@getDeletePresentation'); //Ejecuta modificacion presentation
+Route::post('setInsertPresentation','Product\Presentation\PresentationController@setInsertPresentation'); // Ejecuta insertar presentation
+Route::post('setModificationPresentation','Product\Presentation\PresentationController@setModificationPresentation'); //Ejecuta modificacion presentation
+Route::get('getDeletePresentation','Product\Presentation\PresentationController@getDeletePresentation'); //Ejecuta modificacion presentation
 
 
 // Acceso al menu productos item type
 Route::get('vw_ItemTypes',function(){
   $datos=Items_type::get();
-  return view('products.itemTypes',['tblDatos'=>$datos]);
+  return view('products.tools.itemTypes',['post'=>true,'tittle'=>" Item type",'tblDatos'=>$datos]);
 });
-Route::post('setInsertItemTypes','Product\ProductController@setInsertItemTypes'); // Ejecuta insertar items types
-Route::post('setModificationItemType','Product\ProductController@setModificationItemType'); //Ejecuta modificacion items types
-Route::get('getDeleteItemsTypes','Product\ProductController@getDeleteItemsTypes'); //Ejecuta modificacion items types
+Route::post('setInsertItemTypes','Product\ItemType\ItemTypeController@setInsertItemTypes'); // Ejecuta insertar items types
+Route::post('setModificationItemType','Product\ItemType\ItemTypeController@setModificationItemType'); //Ejecuta modificacion items types
+Route::get('getDeleteItemsTypes','Product\ItemType\ItemTypeController@getDeleteItemsTypes'); //Ejecuta modificacion items types
 
 
 // Acceso al menu productos Grade
 Route::get('vw_Grade',function(){
   $datos=Grade::get();
-  return view('products.grade',['tblDatos'=>$datos]);
+  return view('products.tools.grade',['post'=>true,'tittle'=>" Grade",'tblDatos'=>$datos]);
 });
-Route::post('setInsertGrade','Product\ProductController@setInsertGrade'); // Ejecuta insertar Grade
-Route::post('setModificationGrade','Product\ProductController@setModificationGrade'); //Ejecuta modificacion Grade
-Route::get('getDeleteGrade','Product\ProductController@getDeleteGrade'); //Ejecuta modificacion Grade
+Route::post('setInsertGrade','Product\Grade\GradeController@setInsertGrade'); // Ejecuta insertar Grade
+Route::post('setModificationGrade','Product\Grade\GradeController@setModificationGrade'); //Ejecuta modificacion Grade
+Route::get('getDeleteGrade','Product\Grade\GradeController@getDeleteGrade'); //Ejecuta modificacion Grade
 
 
 // Acceso al menu productos cut
 Route::get('vw_Cut',function(){
   $datos=Cut::get();
-  return view('products.cut',['tblDatos'=>$datos]);
+  return view('products.tools.cut',['post'=>true,'tittle'=>" Cut",'tblDatos'=>$datos]);
 });
-Route::post('setInsertCut','Product\ProductController@setInsertCut'); // Ejecuta insertar cut
-Route::post('setModificationCut','Product\ProductController@setModificationCut'); //Ejecuta modificacion cut
-Route::get('getDeleteCut','Product\ProductController@getDeleteCut'); //Ejecuta modificacion cut
+Route::post('setInsertCut','Product\Cut\CutController@setInsertCut'); // Ejecuta insertar cut
+Route::post('setModificationCut','Product\Cut\CutController@setModificationCut'); //Ejecuta modificacion cut
+Route::get('getDeleteCut','Product\Cut\CutController@getDeleteCut'); //Ejecuta modificacion cut
 
 
 // Acceso al menu productos color
 Route::get('vw_Color',function(){
   $datos=Color::get();
-  return view('products.color',['tblDatos'=>$datos]);
+  return view('products.tools.color',['post'=>true,'tittle'=>" Color",'tblDatos'=>$datos]);
 });
-Route::post('setInsertColor','Product\ProductController@setInsertColor'); // Ejecuta insertar color
-Route::post('setModificationColor','Product\ProductController@setModificationColor'); //Ejecuta modificacion color
-Route::get('getDeleteColor','Product\ProductController@getDeleteColor'); //Ejecuta modificacion color
+Route::post('setInsertColor','Product\Color\ColorController@setInsertColor'); // Ejecuta insertar color
+Route::post('setModificationColor','Product\Color\ColorController@setModificationColor'); //Ejecuta modificacion color
+Route::get('getDeleteColor','Product\Color\ColorController@getDeleteColor'); //Ejecuta modificacion color
 
 //items
 Route::get('vw_Items',function(){
@@ -142,15 +142,15 @@ Route::get('vw_Items',function(){
       'tblItems'=>DB::select('EXEC ASP_CONSULTA_ITEMS'),
   ];
 
-  return view('products.items',['datos'=>$datos]);
+  return view('products.recipes.items',['post'=>true,'tittle'=>" Items",'datos'=>$datos]);
 });
-Route::post('setInsertItems','Product\ProductController@setInsertItems');
-Route::post('setModificationItems','Product\ProductController@setModificationItems');
-Route::get('getDeleteItems','Product\ProductController@getDeleteItems');
+Route::post('setInsertItems','Product\Items\ItemsController@setInsertItems');
+Route::post('setModificationItems','Product\Items\ItemsController@setModificationItems');
+Route::get('getDeleteItems','Product\Items\ItemsController@getDeleteItems');
 
 //Recipes
 Route::get('vw_recipes',function(){
   $datos=Recipe::get();
 
-  return view('products.recipes',['datos'=>$datos]);
+  return view('products.tools.recipes',['datos'=>$datos]);
 });

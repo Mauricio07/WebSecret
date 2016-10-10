@@ -11,7 +11,7 @@
 
   </head>
   <body>
-    @include('implements.navigationbarproduct');
+    @include('products.implements.navigationbarproduct');
     <!-- Formularios de navegacion -->
     <!--Productos-->
     <section>
