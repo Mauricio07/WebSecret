@@ -1,4 +1,4 @@
-@extends('headers.product')
+@extends('products.headers.product')
 
 @section('body')
 

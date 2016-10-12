@@ -1,8 +1,8 @@
 
-use inbloom
+use inbloomOk
 go
 
-create procedure asp_loginUsers @username varchar(50), @passuser varchar(50)
+CREATE PROCEDURE ASP_LOGINUSERS @username varchar(50), @passuser varchar(50)
 as
 select u.name_users
 from users u, user_passwords up
@@ -11,7 +11,7 @@ and up.status_pass='enable';
 
 go
 
-create procedure Sp_loginUser @name varchar(80), @address varchar(80), @phone varchar(10), @nick varchar(50), @email varchar(80), @pass varchar(20)
+CREATE PROCEDURE SP_LOGINUSER @name varchar(80), @address varchar(80), @phone varchar(10), @nick varchar(50), @email varchar(80), @pass varchar(20)
 as
 	declare @v_id int;
 
@@ -40,12 +40,13 @@ GO
 
 CREATE PROCEDURE ASP_CONSULTA_ITEMS
 AS
-SELECT IT.ID_ITEM, SP.ID_SPECIE, SP.NAME_SPECIE, CO.ID_COLOR, CO.NAME_COLOR, ITY.ID_ITYPES, ITY.NAME_ITYPES, CU.ID_CUT, CU.NAME_CUT, GR.ID_GRADE, GR.NAME_GRADE
-FROM ITEMS IT, SPECIES SP, COLORS CO, ITEMS_TYPES ITY, CUTS CU, GRADES GR
+SELECT IT.ID_ITEM, SP.ID_SPECIE, SP.NAME_SPECIE, CO.ID_COLOR, CO.NAME_COLOR, ITY.ID_ITYPES, ITY.NAME_ITYPES, CU.ID_CUT, CU.NAME_CUT, GR.ID_GRADE, GR.NAME_GRADE, PR.ID_PROCESS, PR.TYPE_PROCESS
+FROM ITEMS IT, SPECIES SP, COLORS CO, ITEMS_TYPES ITY, CUTS CU, GRADES GR, PROCESS PR
 WHERE IT.ID_SPECIE=SP.ID_SPECIE
 AND IT.ID_COLOR=CO.ID_COLOR
 AND IT.ID_ITYPES=ITY.ID_ITYPES
 AND IT.ID_CUT=CU.ID_CUT
 AND IT.ID_GRADE=GR.ID_GRADE
+AND IT.ID_PROCESS=PR.ID_PROCESS
 ORDER BY SP.NAME_SPECIE, CO.NAME_COLOR,  ITY.NAME_ITYPES
 GO

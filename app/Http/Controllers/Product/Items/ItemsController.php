@@ -18,10 +18,11 @@ class ItemsController extends Controller
       'ID_COLOR'=>$request->get('txtColor'),
       'ID_SPECIE'=>$request->get('txtSpecie'),
       'ID_GRADE'=>$request->get('txtGrade'),
-      'ID_Items'=>$request->get('txtItems'),
       'ID_PROCESS'=>$request->get('txtProcess'),
+      'ID_CUT'=>$request->get('txtCut'),
       'DATE_ITEM'=>date('Ymd H:i:s') //fecha sistema
     ];
+
     Item::create($datos);
 
     return redirect('vw_Items')->with('message',"Save");
@@ -35,7 +36,7 @@ class ItemsController extends Controller
           'ID_COLOR'=>$request->get('txtColor'),
           'ID_SPECIE'=>$request->get('txtSpecie'),
           'ID_GRADE'=>$request->get('txtGrade'),
-          'ID_Items'=>$request->get('txtItems'),
+          'ID_CUT'=>$request->get('txtCut'),
           'ID_PROCESS'=>$request->get('txtProcess'),
           'MODIFY_ITEM'=>date('Ymd H:i:s') //fecha sistema
         ]);

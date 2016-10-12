@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     //ingreso de productos
     public function setInsertProducts(){
-      return view('products.insert');
+      return redirect('vw_material');
     }
 
 }

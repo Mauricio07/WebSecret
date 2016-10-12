@@ -22,6 +22,8 @@ use inbloom\Model\Product\Color;
 use inbloom\Model\Product\Cost;
 use inbloom\Model\Product\Item;
 use inbloom\Model\Product\Recipe;
+use inbloom\Model\Product\Materials;
+use inbloom\Model\Product\Dimension;
 
 Route::get('/',function(){
   return view('Logins\login');
@@ -37,10 +39,19 @@ Route::get('getListProduct',function(){
   return view('products.main');
 });
 
+//insert productos
+Route::get('setInsertProduct',function(){
+  $datos=[
+    'tblMaterial'=>Materials::get(),
+    'tblDimension'=>Dimension::get(),
+  ];
+  return view('products.insert',['tittle'=>"Product",'datos'=>$datos]);
+});
+
 // Acceso al menu productos taxes
 Route::get('vw_Taxes',function(){
   $datos=Taxe::get();
-  return view('products.tools.taxe',['message'=>$message, 'post'=>true,'tittle'=>" Taxe",'tblDatos'=>$datos]);
+  return view('products.tools.taxe',['post'=>true,'tittle'=>" Taxe",'tblDatos'=>$datos]);
 });
 Route::post('setInsertTaxe','Product\Taxe\TaxeController@setInsertTaxe'); // Ejecuta insertar taxes
 Route::post('setModificationTaxe','Product\Taxe\TaxeController@setModificationTaxe'); //Ejecuta modificacion taxes
@@ -151,6 +162,14 @@ Route::get('getDeleteItems','Product\Items\ItemsController@getDeleteItems');
 //Recipes
 Route::get('vw_recipes',function(){
   $datos=Recipe::get();
+  return view('products.recipes.recipe_main',['tittle'=>" Recipe",'datos'=>$datos]);
+});
 
-  return view('products.tools.recipes',['datos'=>$datos]);
+//Materials
+Route::get('vw_material',function(){
+  $datos=[
+    'tblMaterial'=>Materials::get(),
+    'tblDimension'=>Dimension::get(),
+  ];
+  return view('products.recipes.materials',['post'=>true,'tittle'=>" Materials", 'datos'=>$datos]);
 });

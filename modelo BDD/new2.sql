@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     05/10/2016 17:18:24                          */
+/* Created on:     12/10/2016 11:00:25                          */
 /*==============================================================*/
 
 
@@ -17,12 +17,9 @@ create table BOXES (
    WIDTH_BOX            decimal(10,3)        null,
    DENSITY_BOX          decimal(10,3)        null,
    DATE_BOX             datetime             null,
-   SHORTNAME_BOX        varchar(10)          null
+   SHORTNAME_BOX        varchar(10)          null,
+   constraint PK_BOXES primary key nonclustered (ID_BOX)
 )
-go
-
-alter table BOXES
-   add constraint PK_BOXES primary key nonclustered (ID_BOX)
 go
 
 /*==============================================================*/
@@ -54,12 +51,9 @@ go
 /*==============================================================*/
 create table BOX_TYPES (
    ID_BTYPE             int identity(1,1)    not null,
-   TYPEBOXE_BTYPE       varchar(10)          null
+   TYPEBOXE_BTYPE       varchar(10)          null,
+   constraint PK_BOX_TYPES primary key nonclustered (ID_BTYPE)
 )
-go
-
-alter table BOX_TYPES
-   add constraint PK_BOX_TYPES primary key nonclustered (ID_BTYPE)
 go
 
 /*==============================================================*/
@@ -68,26 +62,9 @@ go
 create table COLORS (
    ID_COLOR             int identity(1,1)    not null,
    NAME_COLOR           varchar(100)         null,
-   DATE_COLOR           datetime             null
+   DATE_COLOR           datetime             null,
+   constraint PK_COLORS primary key nonclustered (ID_COLOR)
 )
-go
-
-alter table COLORS
-   add constraint PK_COLORS primary key nonclustered (ID_COLOR)
-go
-
-/*==============================================================*/
-/* Table: COSTS                                                 */
-/*==============================================================*/
-create table COSTS (
-   ID_COST              int identity(1,1)    not null,
-   VALUE_COST           decimal(10,3)        null,
-   DATE_COST            datetime             null
-)
-go
-
-alter table COSTS
-   add constraint PK_COSTS primary key nonclustered (ID_COST)
 go
 
 /*==============================================================*/
@@ -96,12 +73,9 @@ go
 create table CUTS (
    ID_CUT               int identity(1,1)    not null,
    NAME_CUT             varchar(80)          null,
-   DATE_CUT             datetime             null
+   DATE_CUT             datetime             null,
+   constraint PK_CUTS primary key nonclustered (ID_CUT)
 )
-go
-
-alter table CUTS
-   add constraint PK_CUTS primary key nonclustered (ID_CUT)
 go
 
 /*==============================================================*/
@@ -113,32 +87,28 @@ create table DEALINGS (
    SYNTAXISAT_DEALING   varchar(100)         null,
    SYNTAXISNW_DEALING   varchar(100)         null,
    DATE_DEALING         datetime             null,
-   IDUSER_DEALING       int                  null
+   IDUSER_DEALING       int                  null,
+   constraint PK_DEALINGS primary key nonclustered (ID_DEALING)
 )
 go
 
-alter table DEALINGS
-   add constraint PK_DEALINGS primary key nonclustered (ID_DEALING)
-go
-
 /*==============================================================*/
-/* Table: EPHITES                                               */
+/* Table: DIMENSIONS                                            */
 /*==============================================================*/
-create table EPHITES (
-   ID_EPITHES           int identity(1,1)    not null,
+create table DIMENSIONS (
+   ID_DIMENSIONS        int identity(1,1)    not null,
    ID_MATERIAL          int                  null,
-   NAME_EPITHES         varchar(50)          null
+   HEIGHT_DIMENSIONS    decimal(10,3)        null,
+   WIDTH_DIMENSIONS     decimal(10,3)        null,
+   DEPTH_DIMENSIONS     decimal(10,3)        null,
+   constraint PK_DIMENSIONS primary key nonclustered (ID_DIMENSIONS)
 )
 go
 
-alter table EPHITES
-   add constraint PK_EPHITES primary key nonclustered (ID_EPITHES)
-go
-
 /*==============================================================*/
-/* Index: RELATIONSHIP_18_FK                                    */
+/* Index: MATERIAL_DIMENSION_FK                                 */
 /*==============================================================*/
-create index RELATIONSHIP_18_FK on EPHITES (
+create index MATERIAL_DIMENSION_FK on DIMENSIONS (
 ID_MATERIAL ASC
 )
 go
@@ -149,12 +119,9 @@ go
 create table GRADES (
    ID_GRADE             int identity(1,1)    not null,
    NAME_GRADE           varchar(80)          null,
-   DATE_GRADE           datetime             null
+   DATE_GRADE           datetime             null,
+   constraint PK_GRADES primary key nonclustered (ID_GRADE)
 )
-go
-
-alter table GRADES
-   add constraint PK_GRADES primary key nonclustered (ID_GRADE)
 go
 
 /*==============================================================*/
@@ -163,29 +130,16 @@ go
 create table ITEMS (
    ID_ITEM              int identity(1,1)    not null,
    ID_ITYPES            int                  null,
-   ID_TAX               int                  null,
    ID_PROCESS           int                  null,
    ID_COLOR             int                  null,
-   ID_COST              int                  null,
-   ID_VARIATY           int                  null,
    ID_SPECIE            int                  null,
-   ID_RECIPES           int                  null,
    ID_GRADE             int                  null,
    ID_CUT               int                  null,
-   NAME_ITEM            varchar(100)         null,
-   QUANTITY_ITEM        decimal(10,3)        null
-)
-go
-
-alter table ITEMS
-   add constraint PK_ITEMS primary key nonclustered (ID_ITEM)
-go
-
-/*==============================================================*/
-/* Index: ITEMS_RECIPES_FK                                      */
-/*==============================================================*/
-create index ITEMS_RECIPES_FK on ITEMS (
-ID_RECIPES ASC
+   DATE_ITEM            datetime             null,
+   MODIFY_ITEM          datetime             null,
+   DELETE_ITEM          datetime             null,
+   STATE_ITEM           smallint             null default 0,
+   constraint PK_ITEMS primary key nonclustered (ID_ITEM)
 )
 go
 
@@ -202,14 +156,6 @@ go
 /*==============================================================*/
 create index ITEM_COLOR_FK on ITEMS (
 ID_COLOR ASC
-)
-go
-
-/*==============================================================*/
-/* Index: ITEM_COSTS_FK                                         */
-/*==============================================================*/
-create index ITEM_COSTS_FK on ITEMS (
-ID_COST ASC
 )
 go
 
@@ -238,26 +184,36 @@ ID_CUT ASC
 go
 
 /*==============================================================*/
-/* Index: ITEM_TAXES_FK                                         */
-/*==============================================================*/
-create index ITEM_TAXES_FK on ITEMS (
-ID_TAX ASC
-)
-go
-
-/*==============================================================*/
-/* Index: ITEM_VARIETYS_FK                                      */
-/*==============================================================*/
-create index ITEM_VARIETYS_FK on ITEMS (
-ID_VARIATY ASC
-)
-go
-
-/*==============================================================*/
 /* Index: ITEM_SPECIE_FK                                        */
 /*==============================================================*/
 create index ITEM_SPECIE_FK on ITEMS (
 ID_SPECIE ASC
+)
+go
+
+/*==============================================================*/
+/* Table: ITEMS_RECIPES                                         */
+/*==============================================================*/
+create table ITEMS_RECIPES (
+   ID_RECIPE            int                  not null,
+   ID_ITEM              int                  not null,
+   constraint PK_ITEMS_RECIPES primary key (ID_RECIPE, ID_ITEM)
+)
+go
+
+/*==============================================================*/
+/* Index: ITEMS_RECIPES_FK                                      */
+/*==============================================================*/
+create index ITEMS_RECIPES_FK on ITEMS_RECIPES (
+ID_RECIPE ASC
+)
+go
+
+/*==============================================================*/
+/* Index: ITEMS_RECIPES2_FK                                     */
+/*==============================================================*/
+create index ITEMS_RECIPES2_FK on ITEMS_RECIPES (
+ID_ITEM ASC
 )
 go
 
@@ -267,12 +223,9 @@ go
 create table ITEMS_TYPES (
    ID_ITYPES            int identity(1,1)    not null,
    NAME_ITYPES          varchar(80)          null,
-   DATE_ITYPES          datetime             null
+   DATE_ITYPES          datetime             null,
+   constraint PK_ITEMS_TYPES primary key nonclustered (ID_ITYPES)
 )
-go
-
-alter table ITEMS_TYPES
-   add constraint PK_ITEMS_TYPES primary key nonclustered (ID_ITYPES)
 go
 
 /*==============================================================*/
@@ -281,12 +234,14 @@ go
 create table MATERIALS_ITEMS (
    ID_MATERIAL          int identity(1,1)    not null,
    NAME_MATERIALS       varchar(100)         null,
-   QUANTITY_MATERIAL    int                  null
+   ABREB_MATERIALS      varchar(10)          null,
+   QUANTITY_MATERIALS   int                  null,
+   DATE_MATERIAL        datetime             null,
+   MODIFY_MATERIAL      datetime             null,
+   DELETE_MATERIAL      datetime             null,
+   STATE_MATERIAL       int                  null,
+   constraint PK_MATERIALS_ITEMS primary key nonclustered (ID_MATERIAL)
 )
-go
-
-alter table MATERIALS_ITEMS
-   add constraint PK_MATERIALS_ITEMS primary key nonclustered (ID_MATERIAL)
 go
 
 /*==============================================================*/
@@ -295,12 +250,9 @@ go
 create table PRESENTATIONES (
    ID_PTYPE             int identity(1,1)    not null,
    NAME_PTYPE           varchar(80)          null,
-   DATE_PTYPE           datetime             null
+   DATE_PTYPE           datetime             null,
+   constraint PK_PRESENTATIONES primary key nonclustered (ID_PTYPE)
 )
-go
-
-alter table PRESENTATIONES
-   add constraint PK_PRESENTATIONES primary key nonclustered (ID_PTYPE)
 go
 
 /*==============================================================*/
@@ -309,12 +261,9 @@ go
 create table PROCESS (
    ID_PROCESS           int identity(1,1)    not null,
    TYPE_PROCESS         varchar(80)          null,
-   DATE_PROCESS         datetime             null
+   DATE_PROCESS         datetime             null,
+   constraint PK_PROCESS primary key nonclustered (ID_PROCESS)
 )
-go
-
-alter table PROCESS
-   add constraint PK_PROCESS primary key nonclustered (ID_PROCESS)
 go
 
 /*==============================================================*/
@@ -326,21 +275,16 @@ create table PRODUCTS (
    PRO_ID_PRODUCT       int                  null,
    NAME_PRODUCT         varchar(100)         null,
    DATECREATE_PRODUCT   datetime             null,
-   PRESENTATION_PRODUCT varchar(100)         null,
    IMAGE_PRODUCT        text                 null,
    DESCRIPTION_PRODUCT  varchar(100)         null,
-   QUANTITY_TOTAL_PRODUCT int                  null,
-   STATUS_PRODUCT       varchar(20)          null,
+   STATUS_PRODUCT       smallint             null,
    UPC_PRODUCT          varchar(20)          null,
-   CODTYPE_PRODUCT      varchar(20)          null,
    MODIFYDATE_PRODU     datetime             null,
    ONLINENAME_PRODUCT   varchar(50)          null,
-   ID_MATERIALP         int                  null
+   ID_MATERIALP         int                  null,
+   DATEDELETE_PRODUCT   datetime             null,
+   constraint PK_PRODUCTS primary key nonclustered (ID_PRODUCT)
 )
-go
-
-alter table PRODUCTS
-   add constraint PK_PRODUCTS primary key nonclustered (ID_PRODUCT)
 go
 
 /*==============================================================*/
@@ -360,31 +304,46 @@ PRO_ID_PRODUCT ASC
 go
 
 /*==============================================================*/
-/* Table: RECIPES                                               */
+/* Table: PRODUCT_RECIPIES                                      */
 /*==============================================================*/
-create table RECIPES (
-   ID_RECIPES           int identity(1,1)    not null,
-   ID_PTYPE             int                  null,
-   ID_PRODUCT           int                  null,
-   NAME_RECIPES         varchar(100)         null,
-   STATUS_RECIPES       varchar(20)          null,
-   QUANTITY_RECIPES     int                  null,
-   PRESENTATION_RECIPES varchar(100)         null,
-   DATECREATE_RECIPES   datetime             null,
-   MODIFY_RECIPES       datetime             null,
-   ID_MATERIALR         int                  null
+create table PRODUCT_RECIPIES (
+   ID_PRODUCT           int                  not null,
+   ID_RECIPE            int                  not null,
+   PACK                 int                  null,
+   constraint PK_PRODUCT_RECIPIES primary key (ID_PRODUCT, ID_RECIPE)
 )
-go
-
-alter table RECIPES
-   add constraint PK_RECIPES primary key nonclustered (ID_RECIPES)
 go
 
 /*==============================================================*/
 /* Index: PRODUCT_RECIPIES_FK                                   */
 /*==============================================================*/
-create index PRODUCT_RECIPIES_FK on RECIPES (
+create index PRODUCT_RECIPIES_FK on PRODUCT_RECIPIES (
 ID_PRODUCT ASC
+)
+go
+
+/*==============================================================*/
+/* Index: PRODUCT_RECIPIES2_FK                                  */
+/*==============================================================*/
+create index PRODUCT_RECIPIES2_FK on PRODUCT_RECIPIES (
+ID_RECIPE ASC
+)
+go
+
+/*==============================================================*/
+/* Table: RECIPES                                               */
+/*==============================================================*/
+create table RECIPES (
+   ID_RECIPE            int identity(1,1)    not null,
+   ID_PTYPE             int                  null,
+   NAME_RECIPE          varchar(100)         null,
+   STATUS_RECIPE        smallint             null,
+   QUANTITY_RECIPE      int                  null,
+   DATECREATE_RECIPE    datetime             null,
+   MODIFY_RECIPE        datetime             null,
+   ID_MATERIALR         int                  null,
+   DELETE_RECIPE        datetime             null,
+   constraint PK_RECIPES primary key nonclustered (ID_RECIPE)
 )
 go
 
@@ -401,12 +360,28 @@ go
 /*==============================================================*/
 create table SPECIES (
    ID_SPECIE            int identity(1,1)    not null,
-   NAME_SPECIE          varchar(50)          null
+   ID_TAX               int                  null,
+   ID_VARIETY           int                  null,
+   NAME_SPECIE          varchar(50)          null,
+   DATE_SPECIE          datetime             null,
+   constraint PK_SPECIES primary key nonclustered (ID_SPECIE)
 )
 go
 
-alter table SPECIES
-   add constraint PK_SPECIES primary key nonclustered (ID_SPECIE)
+/*==============================================================*/
+/* Index: ITEM_TAXES_FK                                         */
+/*==============================================================*/
+create index ITEM_TAXES_FK on SPECIES (
+ID_TAX ASC
+)
+go
+
+/*==============================================================*/
+/* Index: ITEM_VARIETYS_FK                                      */
+/*==============================================================*/
+create index ITEM_VARIETYS_FK on SPECIES (
+ID_VARIETY ASC
+)
 go
 
 /*==============================================================*/
@@ -416,12 +391,10 @@ create table TAXES (
    ID_TAX               int identity(1,1)    not null,
    NAME_TAX             varchar(80)          null,
    COST_TAX             decimal(10,3)        null,
-   DATE_TAX             datetime             null
+   DATE_TAX             datetime             null,
+   COD_TAX              varchar(20)          null,
+   constraint PK_TAXES primary key nonclustered (ID_TAX)
 )
-go
-
-alter table TAXES
-   add constraint PK_TAXES primary key nonclustered (ID_TAX)
 go
 
 /*==============================================================*/
@@ -435,12 +408,9 @@ create table USERS (
    NICK_USERS           varchar(10)          null,
    EMAIL_USERS          varchar(100)         null,
    DATECREATE_USERS     datetime             null,
-   MODIFY_USERS         datetime             null
+   MODIFY_USERS         datetime             null,
+   constraint PK_USERS primary key nonclustered (ID_USERS)
 )
-go
-
-alter table USERS
-   add constraint PK_USERS primary key nonclustered (ID_USERS)
 go
 
 /*==============================================================*/
@@ -452,12 +422,9 @@ create table USER_PASSWORDS (
    PASS                 varchar(10)          null,
    DATECREATE_PASS      datetime             null,
    STATUS_PASS          varchar(10)          null,
-   MODIFI_PASS          datetime             null
+   MODIFI_PASS          datetime             null,
+   constraint PK_USER_PASSWORDS primary key nonclustered (ID_PASS)
 )
-go
-
-alter table USER_PASSWORDS
-   add constraint PK_USER_PASSWORDS primary key nonclustered (ID_PASS)
 go
 
 /*==============================================================*/
@@ -472,14 +439,11 @@ go
 /* Table: VARIETIES                                             */
 /*==============================================================*/
 create table VARIETIES (
-   ID_VARIATY           int identity(1,1)    not null,
-   NAME_VARIATY         varchar(80)          null,
-   DATE_VARIATY         datetime             null
+   ID_VARIETY           int identity(1,1)    not null,
+   NAME_VARIETY         varchar(80)          null,
+   DATE_VARIETY         datetime             null,
+   constraint PK_VARIETIES primary key nonclustered (ID_VARIETY)
 )
-go
-
-alter table VARIETIES
-   add constraint PK_VARIETIES primary key nonclustered (ID_VARIATY)
 go
 
 /*==============================================================*/
@@ -488,12 +452,9 @@ go
 create table WEIGHTBOXES (
    ID_WEIGHT            int identity(1,1)    not null,
    LB_WEIGHT            decimal(10,3)        null,
-   KG_WEIGHT            decimal(10,3)        null
+   KG_WEIGHT            decimal(10,3)        null,
+   constraint PK_WEIGHTBOXES primary key nonclustered (ID_WEIGHT)
 )
-go
-
-alter table WEIGHTBOXES
-   add constraint PK_WEIGHTBOXES primary key nonclustered (ID_WEIGHT)
 go
 
 alter table BOXES
@@ -511,24 +472,14 @@ alter table BOXES
       references WEIGHTBOXES (ID_WEIGHT)
 go
 
-alter table EPHITES
-   add constraint FK_EPHITES_RELATIONS_MATERIAL foreign key (ID_MATERIAL)
+alter table DIMENSIONS
+   add constraint FK_DIMENSIO_MATERIAL__MATERIAL foreign key (ID_MATERIAL)
       references MATERIALS_ITEMS (ID_MATERIAL)
-go
-
-alter table ITEMS
-   add constraint FK_ITEMS_ITEMS_REC_RECIPES foreign key (ID_RECIPES)
-      references RECIPES (ID_RECIPES)
 go
 
 alter table ITEMS
    add constraint FK_ITEMS_ITEM_COLO_COLORS foreign key (ID_COLOR)
       references COLORS (ID_COLOR)
-go
-
-alter table ITEMS
-   add constraint FK_ITEMS_ITEM_COST_COSTS foreign key (ID_COST)
-      references COSTS (ID_COST)
 go
 
 alter table ITEMS
@@ -552,18 +503,18 @@ alter table ITEMS
 go
 
 alter table ITEMS
-   add constraint FK_ITEMS_ITEM_TAXE_TAXES foreign key (ID_TAX)
-      references TAXES (ID_TAX)
-go
-
-alter table ITEMS
    add constraint FK_ITEMS_ITEM_TYPE_ITEMS_TY foreign key (ID_ITYPES)
       references ITEMS_TYPES (ID_ITYPES)
 go
 
-alter table ITEMS
-   add constraint FK_ITEMS_ITEM_VARI_VARIETIE foreign key (ID_VARIATY)
-      references VARIETIES (ID_VARIATY)
+alter table ITEMS_RECIPES
+   add constraint FK_ITEMS_RE_ITEMS_REC_RECIPES foreign key (ID_RECIPE)
+      references RECIPES (ID_RECIPE)
+go
+
+alter table ITEMS_RECIPES
+   add constraint FK_ITEMS_RE_ITEMS_REC_ITEMS foreign key (ID_ITEM)
+      references ITEMS (ID_ITEM)
 go
 
 alter table PRODUCTS
@@ -576,9 +527,14 @@ alter table PRODUCTS
       references BOXES (ID_BOX)
 go
 
-alter table RECIPES
-   add constraint FK_RECIPES_PRODUCT_R_PRODUCTS foreign key (ID_PRODUCT)
+alter table PRODUCT_RECIPIES
+   add constraint FK_PRODUCT__PRODUCT_R_PRODUCTS foreign key (ID_PRODUCT)
       references PRODUCTS (ID_PRODUCT)
+go
+
+alter table PRODUCT_RECIPIES
+   add constraint FK_PRODUCT__PRODUCT_R_RECIPES foreign key (ID_RECIPE)
+      references RECIPES (ID_RECIPE)
 go
 
 alter table RECIPES
@@ -586,35 +542,18 @@ alter table RECIPES
       references PRESENTATIONES (ID_PTYPE)
 go
 
+alter table SPECIES
+   add constraint FK_SPECIES_ITEM_TAXE_TAXES foreign key (ID_TAX)
+      references TAXES (ID_TAX)
+go
+
+alter table SPECIES
+   add constraint FK_SPECIES_ITEM_VARI_VARIETIE foreign key (ID_VARIETY)
+      references VARIETIES (ID_VARIETY)
+go
+
 alter table USER_PASSWORDS
    add constraint FK_USER_PAS_USERS_PAS_USERS foreign key (ID_USERS)
       references USERS (ID_USERS)
 go
 
-create procedure asp_loginUsers @username varchar(50), @passuser varchar(50)
-as
-select u.name_users
-from users u, user_passwords up
-where u.id_users=up.id_users
-and up.status_pass='enable';
-
-go
-
-create procedure Sp_loginUser @name varchar(80), @address varchar(80), @phone varchar(10), @nick varchar(50), @email varchar(80), @pass varchar(20)
-as
-	declare @v_id int;
-
-	insert into USERS(NAME_USERS, ADRESS_USERS, PHONE_USERS,NICK_USERS, EMAIL_USERS, DATECREATE_USERS)
-	values (@name, @address, @phone, @nick, @email, getdate());
-
-	set @v_id=(select MAX(id_users) from USERS);
-
-	insert into USER_PASSWORDS(ID_USERS, PASS, DATECREATE_PASS, STATUS_PASS)
-	values(@v_id, @pass, GETDATE(), 'Enable');
-go
-
-	exec Sp_loginUser 'HUERTAS MAURICIO','NINGUNA','0992696254','EMHT','emauricio@hotmail.com','123456';
-	exec Sp_loginUser 'TORO ANDRES','NINGUNA','099999999','ANDRES','andres@hotmail.com','123456';
-	exec Sp_loginUser 'BENAVIDES DAVID','NINGUNA','099999999','DAVID','david@hotmail.com','123456';
-	exec Sp_loginUser 'JUAN CARLOS','NINGUNA','099999999','JUAN','jc@hotmail.com','123456';
-go

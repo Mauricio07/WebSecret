@@ -1,10 +1,8 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     08/10/2016 4:58:52                           */
+/* Created on:     11/10/2016 12:01:30                          */
 /*==============================================================*/
 
-use inbloom
-go
 
 /*==============================================================*/
 /* Table: BOXES                                                 */
@@ -137,6 +135,8 @@ create table ITEMS (
    ID_CUT               int                  null,
    DATE_ITEM            datetime             null,
    MODIFY_ITEM          datetime             null,
+   DELETE_ITEM          datetime             null,
+   STATE_ITEM           smallint             null default 0,
    constraint PK_ITEMS primary key nonclustered (ID_ITEM)
 )
 go
@@ -332,12 +332,12 @@ create table RECIPES (
    ID_RECIPE            int identity(1,1)    not null,
    ID_PTYPE             int                  null,
    NAME_RECIPE          varchar(100)         null,
-   STATUS_RECIPE        varchar(20)          null,
+   STATUS_RECIPE        smallint             null,
    QUANTITY_RECIPE      int                  null,
-   PRESENTATION_RECIPE  varchar(100)         null,
    DATECREATE_RECIPE    datetime             null,
    MODIFY_RECIPE        datetime             null,
    ID_MATERIALR         int                  null,
+   DELETE_RECIPE        datetime             null,
    constraint PK_RECIPES primary key nonclustered (ID_RECIPE)
 )
 go

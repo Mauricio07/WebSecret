@@ -1,10 +1,10 @@
 <?php
 
-namespace inbloom\Http\Requests\Product\Species;
+namespace inbloom\Http\Requests\Product\Taxe;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class InsertModifySpeciesTypeRequest extends FormRequest
+class InsertModifyTaxeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
