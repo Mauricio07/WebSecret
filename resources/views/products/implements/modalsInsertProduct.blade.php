@@ -1,4 +1,4 @@
-<div class="modal fade" id="myRegister" tabindex="-1" role="dialog" aria-labelledby="myRegister">
+<div class="modal fade" id="myRegisterMaterial" tabindex="-1" role="dialog" aria-labelledby="myRegisterMaterial">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <form class="form-horizontal" method="post" id="form">

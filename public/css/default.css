@@ -60,3 +60,13 @@
   text-align: center;
   font-size: 12px;
 }
+
+.tbl_hidden{
+  display: none;
+  height: 400px;
+  width: 95%;
+  margin: 10px auto;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px 10px;
+}

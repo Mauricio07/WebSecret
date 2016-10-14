@@ -123,3 +123,13 @@ function limitRowsTbl(v_nameTbl){
   rows.hide().slice(0,7).show();
 
 }
+
+//display table products
+function displayTbl(nameTbl){
+  var d_tbl=document.getElementById(nameTbl);
+  if($(d_tbl).css('display')=='none'){
+    $(d_tbl).fadeIn('slow');
+  }else{
+    $(d_tbl).fadeOut('slow');
+  }
+}

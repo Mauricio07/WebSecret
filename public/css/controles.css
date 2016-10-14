@@ -6,6 +6,23 @@
     color: rgb(219,13,0);
 }
 
+.panel-inbloom{
+  border-radius: 4px;
+  border:1px solid #ddd;
+  height: 45px;
+  padding: 5px 10px;
+  margin: 0 auto;
+  width: 98%;
+}
+
+.panel-inbloom h4{
+  color:#000;
+}
+
+.imgs-prod-inbloom{
+  height: 200px;
+  margin: 10px auto;
+}
 
 .btn-inbloom{
   background: rgba(133,3,96,1);

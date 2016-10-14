@@ -44,6 +44,12 @@ Route::get('setInsertProduct',function(){
   $datos=[
     'tblMaterial'=>Materials::get(),
     'tblDimension'=>Dimension::get(),
+    'tblType'=>Items_type::get(),
+    'tblColor'=>Color::get(),
+    'tblSpecie'=>Specie::get(),
+    'tblGrade'=>Grade::get(),
+    'tblCut'=>Cut::get(),
+    'tblProcess'=>Process::get(),
   ];
   return view('products.insert',['tittle'=>"Product",'datos'=>$datos]);
 });
