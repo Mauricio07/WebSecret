@@ -1,0 +1,17 @@
+.img-form{
+  height: 200px;
+  background: url(../imgs/logoEmpresa.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: block;
+}
+
+#imagenEmp{
+  height: 45px;
+  background: url(../imgs/logoEmpresa.png);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: block;
+}

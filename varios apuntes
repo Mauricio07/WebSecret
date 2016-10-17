@@ -1,0 +1,21 @@
+//Ajax en get
+Route::get('btn_login',function(){
+  if(Request::ajax()){
+    return "ok...";
+
+  }
+});
+
+//Ajax en post
+Route::post('bloque2',function(){
+  if (Request::ajax()){
+    return dar_dump_Response::json(Request::all());
+  }
+});
+
+
+$usuarioIng=DB::select('select NAME_USERS from users where NICK_USERS =:usuario ',array('usuario'=>$user_));
+
+//echo dd($usuarioIng); BARRIDO DE TODA LA MATRIZ
+
+//return view('logins.main'); //RETORNO VISTA
