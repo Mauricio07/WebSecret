@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{URL::asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/efectos.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/controles.css')}}">
-    <link rel="stylesheet" href="{{URL::asset('css/default.css')}}">    
+    <link rel="stylesheet" href="{{URL::asset('css/default.css')}}">
   </head>
   <body onload="limitRowsTbl('table')">
 
@@ -23,9 +23,8 @@
   <script src="{{URL::asset('js/jquery-3.1.0.min.js')}}"></script>
   <script src="{{URL::asset('js/bootstrap.min.js')}}" charset="utf-8"></script>
   <script src="{{URL::asset('js/metodos.js')}}" charset="utf-8"></script>
-
-
-  </script>
-  </html>
+</html>
 
 @yield('modals')
+
+@yield('_scripts')

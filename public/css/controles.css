@@ -77,3 +77,7 @@
   display: block;
   height: 25px;
 }
+
+.frm-error{
+  color: red;
+}
