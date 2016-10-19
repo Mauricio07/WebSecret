@@ -1,10 +1,10 @@
 <?php
 
-namespace inbloom\Http\Requests\Product\Process;
+namespace inbloom\Http\Requests\Product\Presentation;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class InsertModifyProcessTypeRequest extends FormRequest
+class InsertModifyPresentationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

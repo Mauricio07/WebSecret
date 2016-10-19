@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     11/10/2016 12:01:30                          */
+/* Created on:     18/10/2016 20:11:19                          */
 /*==============================================================*/
 
 
@@ -93,20 +93,22 @@ create table DEALINGS (
 go
 
 /*==============================================================*/
-/* Table: EPHITES                                               */
+/* Table: DIMENSIONS                                            */
 /*==============================================================*/
-create table EPHITES (
-   ID_EPITHES           int identity(1,1)    not null,
+create table DIMENSIONS (
+   ID_DIMENSIONS        int identity(1,1)    not null,
    ID_MATERIAL          int                  null,
-   NAME_EPITHES         varchar(50)          null,
-   constraint PK_EPHITES primary key nonclustered (ID_EPITHES)
+   HEIGHT_DIMENSIONS    decimal(10,3)        null,
+   WIDTH_DIMENSIONS     decimal(10,3)        null,
+   DEPTH_DIMENSIONS     decimal(10,3)        null,
+   constraint PK_DIMENSIONS primary key nonclustered (ID_DIMENSIONS)
 )
 go
 
 /*==============================================================*/
-/* Index: RELATIONSHIP_18_FK                                    */
+/* Index: MATERIAL_DIMENSION_FK                                 */
 /*==============================================================*/
-create index RELATIONSHIP_18_FK on EPHITES (
+create index MATERIAL_DIMENSION_FK on DIMENSIONS (
 ID_MATERIAL ASC
 )
 go
@@ -232,7 +234,12 @@ go
 create table MATERIALS_ITEMS (
    ID_MATERIAL          int identity(1,1)    not null,
    NAME_MATERIALS       varchar(100)         null,
-   QUANTITY_MATERIAL    int                  null,
+   ABREB_MATERIALS      varchar(10)          null,
+   QUANTITY_MATERIALS   int                  null,
+   DATE_MATERIAL        datetime             null,
+   MODIFY_MATERIAL      datetime             null,
+   DELETE_MATERIAL      datetime             null,
+   STATE_MATERIAL       int                  null,
    constraint PK_MATERIALS_ITEMS primary key nonclustered (ID_MATERIAL)
 )
 go
@@ -268,16 +275,14 @@ create table PRODUCTS (
    PRO_ID_PRODUCT       int                  null,
    NAME_PRODUCT         varchar(100)         null,
    DATECREATE_PRODUCT   datetime             null,
-   PRESENTATION_PRODUCT varchar(100)         null,
    IMAGE_PRODUCT        text                 null,
    DESCRIPTION_PRODUCT  varchar(100)         null,
-   QUANTITY_TOTAL_PRODUCT int                  null,
-   STATUS_PRODUCT       varchar(20)          null,
+   STATUS_PRODUCT       smallint             null,
    UPC_PRODUCT          varchar(20)          null,
-   CODTYPE_PRODUCT      varchar(20)          null,
    MODIFYDATE_PRODU     datetime             null,
    ONLINENAME_PRODUCT   varchar(50)          null,
    ID_MATERIALP         int                  null,
+   DATEDELETE_PRODUCT   datetime             null,
    constraint PK_PRODUCTS primary key nonclustered (ID_PRODUCT)
 )
 go
@@ -467,8 +472,8 @@ alter table BOXES
       references WEIGHTBOXES (ID_WEIGHT)
 go
 
-alter table EPHITES
-   add constraint FK_EPHITES_RELATIONS_MATERIAL foreign key (ID_MATERIAL)
+alter table DIMENSIONS
+   add constraint FK_DIMENSIO_MATERIAL__MATERIAL foreign key (ID_MATERIAL)
       references MATERIALS_ITEMS (ID_MATERIAL)
 go
 

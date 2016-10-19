@@ -52,8 +52,10 @@ Route::get('setInsertProduct',function(){
     'tblProcess'=>Process::get(),
   ];
   //dd($datos);
-  return view('products.insert',['tittle'=>"Product",'datos'=>$datos]);
+  return view('products.insert',['post'=>'true', 'tittle'=>"Product",'datos'=>$datos]);
 });
+
+Route::post('setAddProduct','Product\ProductController@setAddProduct');
 
 // Acceso al menu productos taxes
 Route::get('vw_Taxes',function(){
@@ -180,3 +182,7 @@ Route::get('vw_material',function(){
   ];
   return view('products.recipes.materials',['post'=>true,'tittle'=>" Materials", 'datos'=>$datos]);
 });
+
+Route::post('setInsertMaterial','Product\Material\MaterialController@setInsertMaterial');
+Route::post('setInsertMaterial','Product\Material\MaterialController@setModificationMaterial');
+Route::get('setInsertMaterial','Product\Material\MaterialController@getDeleteMaterial');

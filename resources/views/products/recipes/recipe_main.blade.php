@@ -2,6 +2,7 @@
 
 @section('body')
 
+@include('products.implements.breadcrumps')
 @include('products.implements.messageTools')
 
   <section id="main" class="container">

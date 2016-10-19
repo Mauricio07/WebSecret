@@ -1,5 +1,6 @@
 @extends('products.headers.product')
 @section('body')
+  @include('products.implements.breadcrumps')
   @include('products.implements.messageTools')
   <section id="main" class="container">
     <article class="row">
@@ -11,7 +12,7 @@
                   <input type="text" class="form-control" name="varietySearch" placeholder="Enter your search"/>
               </div>
               <div class="inner-addon left-addon col-xs-2 col-sm-2">
-                <button type="button" class="btn btn-inbloom" data-toggle="modal" data-target="#myRegister" >New register</button>
+                <button type="button" class="btn btn-inbloom" data-toggle="modal" data-target="#myRegister" onclick="setRegistroMaterial('','','','','setInsertMaterial')" >New register</button>
               </div>
             </div>
         </div>
@@ -39,9 +40,9 @@
                       </button>
 
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistros('{{$dato->ID_ITYPES}}','{{$dato->NAME_ITYPES}}','setModificationItemType')">Edit</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistroMaterial('{{$dato->ID_MATERIAL}}','{{$dato->NAME_MATERIALS}}','{{$dato->ABREB_MATERIALS}}','{{$dato->QUANTITY_MATERIALS}}','setModificationMaterial')">Edit</a></li>
                         <li class="divider"></li>
-                        <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosDel('{{$dato->ID_ITYPES}}','{{$dato->NAME_ITYPES}}','getDeleteItemsTypes')">Delete</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosDel('{{$dato->ID_MATERIAL}}','{{$dato->NAME_MATERIALS}}','getDeleteMaterial')">Delete</a></li>
                       </ul>
                     </div>
                   </td>
@@ -59,6 +60,6 @@
 @endsection
 
 @section('modals')
-  @include('products.implements.modalsMaterial')
+  @include('products.implements.modalsMaterials')
   @include('products.implements.modalsDeleteTools')
 @endsection

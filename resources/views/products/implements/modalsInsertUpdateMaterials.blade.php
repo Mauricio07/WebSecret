@@ -43,7 +43,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default"  onclick="addItemsTableRecipe('tblMaterial');">
+        <button type="button" class="btn btn-default"  onclick="addItemsTableMaterials('tblMaterial');">
             <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
             Save changes
         </button>

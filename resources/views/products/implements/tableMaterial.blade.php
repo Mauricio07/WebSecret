@@ -12,7 +12,6 @@
       </div>
     </div>
     <div class="tbl_hidden" id="divTblMaterial">
-      <button type="button" name="button" onclick="addItemsTableRecipe('tblMaterial');">ok</button>
       <table class="table" id="tblMaterial">
         <thead>
           <th>Name</th>
@@ -21,8 +20,6 @@
           <th></th>
         </thead>
         <tbody>
-          <tr>
-          </tr>
         </tbody>
       </table>
     </div>

@@ -4,7 +4,7 @@ namespace inbloom\Http\Requests\Product\Variety;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class InsertModifyVarietyTypeRequest extends FormRequest
+class InsertModifyVarietyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,20 +21,10 @@ class InsertModifyVarietyTypeRequest extends FormRequest
      *
      * @return array
      */
-     public function rules()
-     {
-         return [
-             'txtName'=>'required|min:3',
-         ];
-     }
-
-     /*
-     * Menssage
-     */
-     public function messages(){
-       return [
-         'txtName.required'=>'The name is required',
-         'txtName.unique'=>'The name not duplicate',
-       ];
-     }
+    public function rules()
+    {
+      return [
+          'txtName'=>'required|min:3',
+      ];
+    }
 }
