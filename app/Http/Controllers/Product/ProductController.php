@@ -11,7 +11,20 @@ class ProductController extends Controller
 {
     //ingreso de productos
     public function setAddProduct(InsertModifyProductRequest $request){
-      dd($request);
+
+      //materiales
+      $info=$request->input('nameMaterials')[0];
+      $valItems=explode('-',$info); //split
+
+      //save materials
+      $datoMat=[
+        'NAME_MATERIALS'=>$request->get('txtName'),
+        'ABREB_MATERIALS'=>$request->get('txtShortName'),
+        'QUANTITY_MATERIALS'=>$request->get('txtName'),
+        'DATE_MATERIAL'=>date('Ymd H:i:s'),
+      ];
+
+      dd($valItems);
       //return redirect('setInsertProduct')->with('message','Save');
     }
 

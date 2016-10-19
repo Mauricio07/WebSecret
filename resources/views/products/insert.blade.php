@@ -72,6 +72,7 @@
           <div class="container">
               <div class="row">
                 <hr>
+                <input type="text" id="nameMaterials" name="nameMaterials[]" hidden="true"/>
                 @include('products.implements.tableMaterial')
               </div>
           </div>
@@ -79,9 +80,10 @@
           <div class="container">
               <div class="row">
                 <hr>
+                <input type="text" id="nameRecipe" name="nameRecipe[]" hidden="true"/>
                 @include('products.implements.tableRecipe')
               </div>
-          </div>
+          </div>        
 
           <div class="container">
               <div class="row">

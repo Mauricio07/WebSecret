@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     18/10/2016 20:11:19                          */
+/* Created on:     19/10/2016 16:26:29                          */
 /*==============================================================*/
 
 
@@ -97,19 +97,10 @@ go
 /*==============================================================*/
 create table DIMENSIONS (
    ID_DIMENSIONS        int identity(1,1)    not null,
-   ID_MATERIAL          int                  null,
    HEIGHT_DIMENSIONS    decimal(10,3)        null,
    WIDTH_DIMENSIONS     decimal(10,3)        null,
    DEPTH_DIMENSIONS     decimal(10,3)        null,
    constraint PK_DIMENSIONS primary key nonclustered (ID_DIMENSIONS)
-)
-go
-
-/*==============================================================*/
-/* Index: MATERIAL_DIMENSION_FK                                 */
-/*==============================================================*/
-create index MATERIAL_DIMENSION_FK on DIMENSIONS (
-ID_MATERIAL ASC
 )
 go
 
@@ -235,12 +226,38 @@ create table MATERIALS_ITEMS (
    ID_MATERIAL          int identity(1,1)    not null,
    NAME_MATERIALS       varchar(100)         null,
    ABREB_MATERIALS      varchar(10)          null,
-   QUANTITY_MATERIALS   int                  null,
    DATE_MATERIAL        datetime             null,
    MODIFY_MATERIAL      datetime             null,
    DELETE_MATERIAL      datetime             null,
    STATE_MATERIAL       int                  null,
    constraint PK_MATERIALS_ITEMS primary key nonclustered (ID_MATERIAL)
+)
+go
+
+/*==============================================================*/
+/* Table: MATERIALS_PRODUCTS                                    */
+/*==============================================================*/
+create table MATERIALS_PRODUCTS (
+   ID_PRODUCT           int     not null,
+   ID_MATERIAL          int     not null,
+   QUANTITY_PRODMAT     int                  null,
+   constraint PK_MATERIALS_PRODUCTS primary key (ID_PRODUCT, ID_MATERIAL)
+)
+go
+
+/*==============================================================*/
+/* Index: MATERIALS_PRODUCTS_FK                                 */
+/*==============================================================*/
+create index MATERIALS_PRODUCTS_FK on MATERIALS_PRODUCTS (
+ID_PRODUCT ASC
+)
+go
+
+/*==============================================================*/
+/* Index: MATERIALS_PRODUCTS2_FK                                */
+/*==============================================================*/
+create index MATERIALS_PRODUCTS2_FK on MATERIALS_PRODUCTS (
+ID_MATERIAL ASC
 )
 go
 
@@ -281,7 +298,6 @@ create table PRODUCTS (
    UPC_PRODUCT          varchar(20)          null,
    MODIFYDATE_PRODU     datetime             null,
    ONLINENAME_PRODUCT   varchar(50)          null,
-   ID_MATERIALP         int                  null,
    DATEDELETE_PRODUCT   datetime             null,
    constraint PK_PRODUCTS primary key nonclustered (ID_PRODUCT)
 )
@@ -307,8 +323,8 @@ go
 /* Table: PRODUCT_RECIPIES                                      */
 /*==============================================================*/
 create table PRODUCT_RECIPIES (
-   ID_PRODUCT           int                  not null,
-   ID_RECIPE            int                  not null,
+   ID_PRODUCT           int     not null,
+   ID_RECIPE            int     not null,
    PACK                 int                  null,
    constraint PK_PRODUCT_RECIPIES primary key (ID_PRODUCT, ID_RECIPE)
 )
@@ -352,6 +368,34 @@ go
 /*==============================================================*/
 create index PRODUCT_TYPE_FK on RECIPES (
 ID_PTYPE ASC
+)
+go
+
+/*==============================================================*/
+/* Table: RECIPE_MATERIALS                                      */
+/*==============================================================*/
+create table RECIPE_MATERIALS (
+   ID_RECIPE            int     not null,
+   ID_MATERIAL          int     not null,
+   QUANTITY_RECIPEMAT   int                  null,
+   ID_DIMENSION         int                  null,
+   constraint PK_RECIPE_MATERIALS primary key (ID_RECIPE, ID_MATERIAL)
+)
+go
+
+/*==============================================================*/
+/* Index: RECIPE_MATERIALS_FK                                   */
+/*==============================================================*/
+create index RECIPE_MATERIALS_FK on RECIPE_MATERIALS (
+ID_RECIPE ASC
+)
+go
+
+/*==============================================================*/
+/* Index: RECIPE_MATERIALS2_FK                                  */
+/*==============================================================*/
+create index RECIPE_MATERIALS2_FK on RECIPE_MATERIALS (
+ID_MATERIAL ASC
 )
 go
 
@@ -472,11 +516,6 @@ alter table BOXES
       references WEIGHTBOXES (ID_WEIGHT)
 go
 
-alter table DIMENSIONS
-   add constraint FK_DIMENSIO_MATERIAL__MATERIAL foreign key (ID_MATERIAL)
-      references MATERIALS_ITEMS (ID_MATERIAL)
-go
-
 alter table ITEMS
    add constraint FK_ITEMS_ITEM_COLO_COLORS foreign key (ID_COLOR)
       references COLORS (ID_COLOR)
@@ -517,6 +556,16 @@ alter table ITEMS_RECIPES
       references ITEMS (ID_ITEM)
 go
 
+alter table MATERIALS_PRODUCTS
+   add constraint FK_MATERIAL_MATERIALS_PRODUCTS foreign key (ID_PRODUCT)
+      references PRODUCTS (ID_PRODUCT)
+go
+
+alter table MATERIALS_PRODUCTS
+   add constraint FK_MATERIAL_MATERIALS_MATERIAL foreign key (ID_MATERIAL)
+      references MATERIALS_ITEMS (ID_MATERIAL)
+go
+
 alter table PRODUCTS
    add constraint FK_PRODUCTS_PROD_PRODUCTS foreign key (PRO_ID_PRODUCT)
       references PRODUCTS (ID_PRODUCT)
@@ -540,6 +589,16 @@ go
 alter table RECIPES
    add constraint FK_RECIPES_PRODUCT_T_PRESENTA foreign key (ID_PTYPE)
       references PRESENTATIONES (ID_PTYPE)
+go
+
+alter table RECIPE_MATERIALS
+   add constraint FK_RECIPE_M_RECIPE_MA_RECIPES foreign key (ID_RECIPE)
+      references RECIPES (ID_RECIPE)
+go
+
+alter table RECIPE_MATERIALS
+   add constraint FK_RECIPE_M_RECIPE_MA_MATERIAL foreign key (ID_MATERIAL)
+      references MATERIALS_ITEMS (ID_MATERIAL)
 go
 
 alter table SPECIES

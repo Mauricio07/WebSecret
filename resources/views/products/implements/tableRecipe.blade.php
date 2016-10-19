@@ -12,8 +12,9 @@
       </div>
     </div>
     <div class="tbl_hidden" id="divTblRecipe">
-      <table class="table" id="tblRecipe">
+      <table class="table" id="tblRecipe" name='tblRecipe'>
         <thead>
+          <th></th>
           <th>Specie</th>
           <th>Color</th>
           <th>Process</th>

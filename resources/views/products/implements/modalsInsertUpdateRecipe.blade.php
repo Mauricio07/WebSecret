@@ -1,7 +1,7 @@
 <div class="modal fade" id="myRegister" tabindex="-1" role="dialog" aria-labelledby="myRegister">
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
-      <form class="form-horizontal" method="post" id="formRecipe">
+      <form class="form-horizontal" id="formRecipe">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title" id="myModalLabel">Manager {{$tittle}}</h4>
@@ -78,7 +78,7 @@
 
       </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-default" onclick="addItemsTableRecipe('tblRecipe')">
+          <button type="button" data-dismiss="modal" aria-label="Close"  class="btn btn-default" onclick="addItemsTableRecipe('tblRecipe')">
               <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
               Save changes
           </button>

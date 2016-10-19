@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="tbl_hidden" id="divTblMaterial">
-      <table class="table" id="tblMaterial" name="tblMaterial">
+      <table class="table" id="tblMaterial">
         <thead>
           <th>Name</th>
           <th>Quantity</th>
@@ -20,6 +20,8 @@
           <th></th>
         </thead>
         <tbody>
+          <tr>
+          </tr>
         </tbody>
       </table>
     </div>

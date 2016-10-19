@@ -138,15 +138,20 @@ function displayTbl(v_nameTbl){
 function addItemsTableMaterials(v_nameTbl){
   var vd_form=document.getElementById('formMaterial');
   var v_name=document.getElementById('txtMaterial');
-  var v_quanty=document.getElementById('txtQuantity');
+  var v_quanty=document.getElementById('txtQuantityMat');
   var v_Dimen=document.getElementById('txtDimension');
+  var vArray=document.getElementById('nameMaterials');
+  var v_arrayMaterials=new Array();
 
-  var v_datos={'idMaterial':$(v_name).val(), 'nameMaterial':$(v_name).find(':selected').html(), 'quantity':$(v_quanty).val(), 'idDimen':$(v_Dimen).val(),'nameDim':$(v_Dimen).find(':selected').html(),};
+  v_arrayMaterials.push($(v_name).val()+'-'+ $(v_quanty).val()+'-'+$(v_Dimen).val());
+
+  document.getElementById('nameMaterials').setAttribute('value',v_arrayMaterials);
+
   var vd_table=document.getElementById(v_nameTbl);   //nombre table
   var v_contenido="<tr>"+
-  "<td name='"+v_datos['idMaterial']+"'>"+v_datos['nameMaterial']+"</td>"+
-  "<td>"+v_datos['quantity']+"</td>"+
-  "<td name='"+v_datos['idDimen']+"'>"+v_datos['nameDim']+"</td>"+
+  "<td>"+$(v_name).find(':selected').html()+"</td>"+
+  "<td>"+$(v_quanty).val()+"</td>"+
+  "<td>"+$(v_Dimen).find(':selected').html()+"</td>"+
   "<td> <div class='btn-group'>"
       +"<button type='button' class='btn btn-default btn-xs'>Action </button>"
       +"<button type='button' class='btn btn-default dropdown-toggle btn-xs' data-toggle='dropdown'>"
@@ -154,9 +159,9 @@ function addItemsTableMaterials(v_nameTbl){
       +"</button>"
 
       +"<ul class='dropdown-menu' role='menu'>"
-      +"<li><a href='#' data-toggle='modal' data-target='#myRegisterMaterial' onclick="+"setRegistrosMaterial('"+v_datos['idMaterial']+"',"+v_datos['quantity']+",'"+v_datos['idDimen']+"','setModificationColor')"+">Edit</a></li>"
+      +"<li><a href='#' data-toggle='modal' data-target='#myRegisterMaterial'>Edit</a></li>"
       +"<li class='divider'></li>"
-      +"<li><a href='#' data-toggle='modal' data-target='#myRegisterDel' onclick="+"setRegistrosMaterialDel('"+v_datos['idMaterial']+"',"+v_datos['quantity']+",'getDeleteColor')"+">Delete</a></li>"
+      +"<li><a href='#' data-toggle='modal' data-target='#myRegisterDel'>Delete</a></li>"
       +"</ul> </div> </td>"
       +"</tr>";
   $(vd_table).append(v_contenido);
@@ -172,15 +177,21 @@ function addItemsTableRecipe(v_nameTbl){
   var v_nCut=document.getElementById('txtCut');
   var v_nGrade=document.getElementById('txtGrade');
   var v_quanty=document.getElementById('txtQuantity');
+  var vArray=document.getElementById('nameRecipe');
+  var v_arrayRecipe=new Array();
+
+  v_arrayRecipe.push($(v_nSpecie).val()+'-'+ $(v_nColor).val()+'-'+$(v_nProcess).val()+'-'+$(v_nType).val()+'-'+$(v_nCut).val()+'-'+$(v_nGrade).val()+'-'+$(v_quanty).val());
+  document.getElementById('nameRecipe').setAttribute('value',v_arrayRecipe);
 
   var vd_table=document.getElementById(v_nameTbl);   //nombre table
   var v_contenido="<tr>"+
-  "<td name='"+$(v_nSpecie).val()+"'>"+$(v_nSpecie).find(':selected').html()+"</td>"+
-  "<td name='"+$(v_nColor).val()+"'>"+$(v_nColor).find(':selected').html()+"</td>"+
-  "<td name='"+$(v_nProcess).val()+"'>"+$(v_nProcess).find(':selected').html()+"</td>"+
-  "<td name='"+$(v_nType).val()+"'>"+$(v_nType).find(':selected').html()+"</td>"+
-  "<td name='"+$(v_nCut).val()+"'>"+$(v_nCut).find(':selected').html()+"</td>"+
-  "<td name='"+$(v_nGrade).val()+"'>"+$(v_nGrade).find(':selected').html()+"</td>"+
+  "<td><a href='#'>+</a></td>"+
+  "<td>"+$(v_nSpecie).find(':selected').html()+"</td>"+
+  "<td>"+$(v_nColor).find(':selected').html()+"</td>"+
+  "<td>"+$(v_nProcess).find(':selected').html()+"</td>"+
+  "<td>"+$(v_nType).find(':selected').html()+"</td>"+
+  "<td>"+$(v_nCut).find(':selected').html()+"</td>"+
+  "<td>"+$(v_nGrade).find(':selected').html()+"</td>"+
   "<td>"+$(v_quanty).val()+"</td>"+
   "<td> <div class='btn-group'>"
       +"<button type='button' class='btn btn-default btn-xs'>Action </button>"
