@@ -69,14 +69,15 @@
               </div>
           </div>
 
-          <div id="ajaxResponse"> prueb</div>
-
           <div class="container">
               <div class="row">
                 <hr>
                 <div class="panel-inbloom">
-                  <div class="col-sm-10">
+                  <div class="col-sm-5">
                     <h4>Materials </h4>
+                  </div>
+                  <div class="col-sm-5">
+                    <div id="ajaxResponse"></div>
                   </div>
                   <div class="btn-group col-sm-2">
                     <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#myRegisterMaterial">Add </button>
@@ -99,15 +100,54 @@
                     </tbody>
                   </table>
                 </div>
-                
+
               </div>
           </div>
 
           <div class="container">
               <div class="row">
                 <hr>
-                <input type="text" id="nameRecipe" name="nameRecipe[]" hidden="true"/>
-                @include('products.implements.tableRecipe')
+                <div class="panel-inbloom">
+                  <div class="col-sm-5">
+                    <h4>Recipe</h4>
+                  </div>
+                  <div class="col-sm-5"><div id="ajaxRecipe"></div></div>
+                  <div class="btn-group col-sm-2">
+                    <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#myRegister">Add </button>
+                    <button type="button" class="btn btn-default dropdown-toggle btn-md" data-toggle="dropdown" onclick="displayTbl('divTblRecipe')">
+                      <span class="caret"></span>
+                    </button>
+                  </div>
+                </div>
+                <div class="tbl_hidden" id="divTblRecipe">
+                  <div class="form-group">
+                    <br>
+                    <label class="col-sm-2 control-label">Presentation</label>
+                    <div class="col-sm-4">
+                      <select class="form-control" id="txtPresentation" name="txtPresentation"  required="true">
+                        @foreach ($datos['tblPresentation'] as $dat)
+                          <option value="{{$dat['ID_PTYPE']}}">{{$dat['NAME_PTYPE']}}</option>
+                        @endforeach
+                      </select>
+                      <br>
+                    </div>
+                  </div>
+                  <table class="table" id="tblRecipe" name='tblRecipe'>
+                    <thead>
+                      <th></th>
+                      <th>Specie</th>
+                      <th>Color</th>
+                      <th>Process</th>
+                      <th>Types</th>
+                      <th>Cuts</th>
+                      <th>Grade</th>
+                      <th>Quantity</th>
+                      <th></th>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
               </div>
           </div>
 

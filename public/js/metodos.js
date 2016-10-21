@@ -137,43 +137,6 @@ function displayTbl(v_nameTbl){
   }
 }
 
-
-// add items table recipe
-function addItemsTableRecipe(v_nameTbl){
-  var vd_form=document.getElementById('formRecipe');
-  var v_nSpecie=document.getElementById('txtSpecie');
-  var v_nColor=document.getElementById('txtColor');
-  var v_nProcess=document.getElementById('txtProcess');
-  var v_nType=document.getElementById('txtType');
-  var v_nCut=document.getElementById('txtCut');
-  var v_nGrade=document.getElementById('txtGrade');
-  var v_quanty=document.getElementById('txtQuantity');
-
-  var vd_table=document.getElementById(v_nameTbl);   //nombre table
-  var v_contenido="<tr>"+
-  "<td><a href='#'>+</a></td>"+
-  "<td>"+$(v_nSpecie).find(':selected').html()+"</td>"+
-  "<td>"+$(v_nColor).find(':selected').html()+"</td>"+
-  "<td>"+$(v_nProcess).find(':selected').html()+"</td>"+
-  "<td>"+$(v_nType).find(':selected').html()+"</td>"+
-  "<td>"+$(v_nCut).find(':selected').html()+"</td>"+
-  "<td>"+$(v_nGrade).find(':selected').html()+"</td>"+
-  "<td>"+$(v_quanty).val()+"</td>"+
-  "<td> <div class='btn-group'>"
-      +"<button type='button' class='btn btn-default btn-xs'>Action </button>"
-      +"<button type='button' class='btn btn-default dropdown-toggle btn-xs' data-toggle='dropdown'>"
-      +"<span class='caret'></span>"
-      +"</button>"
-
-      +"<ul class='dropdown-menu' role='menu'>"
-      +"<li><a href='#' data-toggle='modal' data-target='#myRegisterMaterial'>Edit</a></li>"
-      +"<li class='divider'></li>"
-      +"<li><a href='#' data-toggle='modal' data-target='#myRegisterDel'>Delete</a></li>"
-      +"</ul> </div> </td>"
-      +"</tr>";
-  $(vd_table).append(v_contenido);
-}
-
 function setRegistroMaterial(v_code, v_name, v_sname, v_quanty, v_accion){
     document.getElementById('txtCode').setAttribute('value',v_code);
     document.getElementById('txtName').setAttribute('value',v_name);

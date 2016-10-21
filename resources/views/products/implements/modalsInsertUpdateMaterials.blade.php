@@ -44,7 +44,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss='modal' arial-label='close' onclick="addItemsTableMaterials('tblMaterial');">
+        <button type="button" class="btn btn-default" data-dismiss='modal' arial-label='close' id='saveMaterialsProduct' >
             <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
             Save changes
         </button>
@@ -54,18 +54,18 @@
   </div>
 </div>
 
-@section('_scripts')
+@section('_scripts2')
     <script type="text/javascript">
 
         // add item materials
-        function addItemsTableMaterials(v_nameTbl){
+        $('#saveMaterialsProduct').on('click',function(){
           var vd_form=$('#formMaterial');
           var v_name=$('#txtMaterial');
           var v_quanty=$('#txtQuantityMat');
           var v_Dimen=$('#txtDimension');
           var ajaxResponse=document.getElementById('ajaxResponse');
 
-          var vd_table=document.getElementById(v_nameTbl);   //nombre table
+          var vd_table=document.getElementById('tblMaterial');   //nombre table
           var v_contenido="<tr>"+
           "<td>"+$(v_name).find(':selected').html()+"</td>"+
           "<td>"+$(v_quanty).val()+"</td>"+
@@ -102,7 +102,6 @@
             console.log('ingreso ok '+data);
             $(ajaxResponse).append('ingreso ok '+data);
           });
-
-        }
+        });
     </script>
 @endsection

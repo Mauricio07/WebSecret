@@ -50,3 +50,33 @@ AND IT.ID_GRADE=GR.ID_GRADE
 AND IT.ID_PROCESS=PR.ID_PROCESS
 ORDER BY SP.NAME_SPECIE, CO.NAME_COLOR,  ITY.NAME_ITYPES
 GO
+
+CREATE PROCEDURE SP_ADD_ITEM_RECIPE(@idRecip int, @quanRecip int ,@idCol int, @idCut int, @idGra int, @idType int, @idProcess int, @idSpec int)
+as
+-- items receta
+declare @idItem int
+
+--comprueba que no exista creada la receta
+set @idItem = (select ID_ITEM from items 
+where ID_COLOR=@idCol and ID_CUT=@idCut and ID_GRADE=@idGra and ID_ITYPES=@idType and ID_PROCESS=@idProcess and ID_SPECIE=@idSpec)
+
+if (@idItem=null) 
+	insert into items(ID_COLOR, ID_CUT, ID_GRADE, ID_ITYPES, ID_PROCESS,ID_SPECIE, DATE_ITEM)
+	values(@idCol, @idCut, @idGra, @idType, @idProcess, @idSpec, GETDATE());
+
+-- almacena la id en la receta
+insert into ITEMS_RECIPES(ID_RECIPE, ID_ITEM, QUANTITY_RECIPE)
+values(@idRecip, @idItem, @quanRecip);
+
+go
+
+CREATE PROCEDURE SP_ADD_RECIPE_HEADER @idPtype INT
+AS
+DECLARE @vNum INT
+
+set @vNum=(select SUBSTRING('RECETA-1',8,1) from RECIPES);
+
+INSERT INTO RECIPES(ID_PTYPE, DATECREATE_RECIPE)
+VALUES(@idPtype, GETDATE());
+
+go

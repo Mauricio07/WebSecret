@@ -50,6 +50,7 @@ Route::get('setInsertProduct',function(){
     'tblGrade'=>Grade::get(),
     'tblCut'=>Cut::get(),
     'tblProcess'=>Process::get(),
+    'tblPresentation'=>Presentation::get(),
   ];
   //dd($datos);
   return view('products.insert',['post'=>'true', 'tittle'=>"Product",'datos'=>$datos]);
@@ -57,13 +58,63 @@ Route::get('setInsertProduct',function(){
 
 Route::post('setAddProduct','Product\ProductController@setAddProduct');
 
-Route::post('setAddInsertMaterial', function(){
+Route::post('setAddInsertMaterial', function(){  //Add items materials
   if(Request::ajax()){
-    //return var_dump(Response::json(Request::get('IdItemMaterialsProd')));
-    return Response::json(Request::get('DimItemMaterialsProd'));
-  }
-});//'Product\ProductController@setAddInsertMaterial'); //Add items materials
 
+    $datos=[
+      'IdItemMaterialsProd'=> Request::get('IdItemMaterialsProd'),
+      'NomItemMaterialsProd'=> Request::get('NomItemMaterialsProd'),
+      'QuantItemMaterialsProd'=> Request::get('QuantItemMaterialsProd'),
+      'DimItemMaterialsProd'=> Request::get('DimItemMaterialsProd'),
+    ];
+
+    Request::session()->push('ProductMaterials',$datos);
+
+    return Response::json('Success Transaction');
+  }
+});
+
+Route::post('setAddInsertRecipe', function(){  //Add items materials
+  if(Request::ajax()){
+
+    $datosRecipe=[
+      'idPtype'=>Request::get('IdPtype'),
+      'IdSpecie'=>Request::get('IdSpecie'),
+      'IdColor'=>Request::get('IdColor'),
+      'IdProcess'=>Request::get('IdProcess'),
+      'IdTypes'=>Request::get('IdTypes'),
+      'IdCuts'=>Request::get('IdCuts'),
+      'IdGrade'=>Request::get('IdGrade'),
+      'Quantity'=>Request::get('Quantity'),
+    ];
+
+    //Request::session()->push('ProductMaterials',$datos);
+    Request::session()->push('ProductRecipe',$datosRecipe);
+
+    return Response::json('Success Transaction');
+  }
+});
+
+/*
+Route::post('setAddInsertRecipe',function(){
+  if (Route::ajax()){
+
+    $datosRecipe=[
+      'IdSpecie'=>Request::get('IdSpecie'),
+      'IdColor'=>Request::get('IdColor'),
+      'IdProcess'=>Request::get('IdProcess'),
+      'IdTypes'=>Request::get('IdTypes'),
+      'IdCuts'=>Request::get('IdCuts'),
+      'IdGrade'=>Request::get('IdGrade'),
+      'Quantity'=>Request::get('Quantity'),
+    ];
+
+    Request::session()->push('Recipe',$datosRecipe);
+    return var_dump(Response::json(Request::all()));
+
+  }
+});
+*/
 // Acceso al menu productos taxes
 Route::get('vw_Taxes',function(){
   $datos=Taxe::get();
