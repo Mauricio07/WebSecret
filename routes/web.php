@@ -57,6 +57,13 @@ Route::get('setInsertProduct',function(){
 
 Route::post('setAddProduct','Product\ProductController@setAddProduct');
 
+Route::post('setAddInsertMaterial', function(){
+  if(Request::ajax()){
+    //return var_dump(Response::json(Request::get('IdItemMaterialsProd')));
+    return Response::json(Request::get('DimItemMaterialsProd'));
+  }
+});//'Product\ProductController@setAddInsertMaterial'); //Add items materials
+
 // Acceso al menu productos taxes
 Route::get('vw_Taxes',function(){
   $datos=Taxe::get();
@@ -164,6 +171,7 @@ Route::get('vw_Items',function(){
 
   return view('products.recipes.items',['post'=>true,'tittle'=>" Items",'datos'=>$datos]);
 });
+
 Route::post('setInsertItems','Product\Items\ItemsController@setInsertItems');
 Route::post('setModificationItems','Product\Items\ItemsController@setModificationItems');
 Route::get('getDeleteItems','Product\Items\ItemsController@getDeleteItems');
@@ -184,5 +192,5 @@ Route::get('vw_material',function(){
 });
 
 Route::post('setInsertMaterial','Product\Material\MaterialController@setInsertMaterial');
-Route::post('setInsertMaterial','Product\Material\MaterialController@setModificationMaterial');
-Route::get('setInsertMaterial','Product\Material\MaterialController@getDeleteMaterial');
+Route::post('setModificationMaterial','Product\Material\MaterialController@setModificationMaterial');
+Route::get('getDeleteMaterial','Product\Material\MaterialController@getDeleteMaterial');

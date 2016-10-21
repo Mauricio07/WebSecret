@@ -5,7 +5,7 @@ namespace inbloom\Http\Controllers\Product\Material;
 use Illuminate\Http\Request;
 
 use inbloom\Http\Requests;
-use inbloom\Http\Requests\Material\MaterialRequest;
+use inbloom\Http\Requests\Product\Material\MaterialRequest;
 use inbloom\Http\Controllers\Controller;
 use inbloom\Material;
 
@@ -32,15 +32,15 @@ class MaterialController extends Controller
                 'QUANTITY_MATERIALS'=>$request->get('txtName'),
                 'MODIFY_MATERIAL'=>date('Ymd H:i:s'),
               ]);
-      return view('vw_material')->->with('message', 'Edit')
+      return view('vw_material')->with('message', 'Edit');
     }
 
-    public function setRegistrosDel(Request $request){
+    public function getDeleteMaterial(Request $request){
         Material::where('ID_MATERIAL', $request->get('txtCode'))
           ->update([
             'STATE_MATERIAL'=>'0',
             'DELETE_MATERIAL'=>date('Ymd H:i:s'),
           ]);
-          return view('vw_material')->->with('message', 'Delete')
+          return view('vw_material')->with('message', 'Delete');
     }
 }

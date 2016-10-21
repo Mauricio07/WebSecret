@@ -10,12 +10,10 @@ use inbloom\Http\Requests\Product\Product\InsertModifyProductRequest;
 class ProductController extends Controller
 {
     //ingreso de productos
-    public function setAddProduct(InsertModifyProductRequest $request){
+    public function setAddProduct(Request $request){
 
       //materiales
-      $info=$request->input('nameMaterials')[0];
-      $valItems=explode('-',$info); //split
-
+      dd($request->session()->get('ItemsMaterialsProduct'));
       //save materials
       $datoMat=[
         'NAME_MATERIALS'=>$request->get('txtName'),
@@ -24,8 +22,16 @@ class ProductController extends Controller
         'DATE_MATERIAL'=>date('Ymd H:i:s'),
       ];
 
-      dd($valItems);
+      //dd($valItems);
       //return redirect('setInsertProduct')->with('message','Save');
+    }
+
+    public function setAddInsertMaterial(Request $request){
+
+      //$request->session()->set('ItemsMaterialsProduct',$data);
+
+      return response()->json('itemMenssage','adicionado');
+
     }
 
 }
