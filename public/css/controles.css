@@ -60,7 +60,7 @@
   color:#fff;
 }
 
-.modifi{
+.edit{
   background: URL('../imgs/editar.png');
   background-position: center;
   background-size: contain;
@@ -70,12 +70,12 @@
 }
 
 .delete{
-  background: URL('../imgs/eliminar.png');
+  background: URL('../imgs/delete.png');
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
   display: block;
-  height: 25px;
+  height: 20px;
 }
 
 .frm-error{

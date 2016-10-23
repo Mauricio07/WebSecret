@@ -24,6 +24,7 @@
   <script src="{{URL::asset('js/jquery-3.1.0.min.js')}}"></script>
   <script src="{{URL::asset('js/bootstrap.min.js')}}" charset="utf-8"></script>
   <script src="{{URL::asset('js/metodos.js')}}" charset="utf-8"></script>
+  <script src="{{URL::asset('js/ProductFunction.js')}}" charset="utf-8"></script>
   @yield('_scripts2')
   @yield('_scripts')
 

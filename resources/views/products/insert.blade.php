@@ -60,6 +60,15 @@
                     <label for="Description">Description</label>
                     <input type="text" name="txtDescription" class="form-control" placeholder="Description">
                   </div>
+
+                  <div class="form-group">
+                    <label for="Boxes">Boxes</label>
+                    <select class="form-control" name="txtBoxes" required="true">
+                      @foreach ($datos['tblVwBoxes'] as $box)
+                        <option value="{{$box->ID_BOX}}">{{$box->NAME_BOX}} {{$box->TYPEBOXE_BTYPE}} {{$box->SHORTNAME_BOX}}  {{$box->DIMENSSION}} {{$box->KG_WEIGHT}}</option>
+                      @endforeach
+                    </select>
+                  </div>
                 </div>
 
                 <div class="col-xs-3">
@@ -89,14 +98,12 @@
                 <div class="tbl_hidden" id="divTblMaterial">
                   <table class="table" id="tblMaterial">
                     <thead>
+                      <th>Id</th>
                       <th>Name</th>
                       <th>Quantity</th>
-                      <th>Dimension</th>
                       <th></th>
                     </thead>
                     <tbody>
-                      <tr>
-                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -145,6 +152,7 @@
                       <th></th>
                     </thead>
                     <tbody>
+
                     </tbody>
                   </table>
                 </div>
@@ -173,5 +181,6 @@
 @section('modals')
   @include('products.implements.modalsInsertUpdateRecipe')
   @include('products.implements.modalsInsertUpdateMaterials')
+  @include('products.implements.modalsInsertUpdateMaterialsItems')
   @include('products.implements.modalsDeleteTools')
 @endsection

@@ -12,7 +12,7 @@ class Materials extends Model
     protected $fillable=[
       'NAME_MATERIALS',
       'ABREB_MATERIALS',
-      'QUANTITY_MATERIALS',
+      'TYPE_MATERIALS',
       'DATE_MATERIAL',
       'MODIFY_MATERIAL',
       'DELETE_MATERIAL',

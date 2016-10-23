@@ -24,14 +24,18 @@
           <thead>
               <th> Name </th>
               <th> Shot name </th>
-              <th> Quantity </th>
+              <th> Description type </th>
+              <th> Date create </th>
+              <th> Date edit </th>
+              <th> State </th>
               <th></th>
           </thead>
           <tbody>
             <tr>
             @foreach ($datos['tblMaterial'] as $dato)
                 <tr>
-                  <td>{{$dato->NAME_MATERIALS}}</td> <td>{{$dato->ABREB_MATERIALS}}</td> <td>{{$dato->QUANTITY_MATERIALS}}</td>
+                  <td>{{$dato->NAME_MATERIALS}}</td> <td>{{$dato->ABREB_MATERIALS}}</td> <td>{{$dato->TYPE_MATERIALS}}</td>
+                  <td>{{$dato->DATE_MATERIAL}}</td><td>{{$dato->MODIFY_MATERIAL}}</td><td>@if ($dato->STATE_MATERIAL == 1)  Enable  @else  Disable  @endif</td>
                   <td>
                     <div class="btn-group">
                       <button type="button" class="btn btn-default btn-xs">Action </button>
@@ -40,7 +44,7 @@
                       </button>
 
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistroMaterial('{{$dato->ID_MATERIAL}}','{{$dato->NAME_MATERIALS}}','{{$dato->ABREB_MATERIALS}}','{{$dato->QUANTITY_MATERIALS}}','setModificationMaterial')">Edit</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistroMaterial('{{$dato->ID_MATERIAL}}','{{$dato->NAME_MATERIALS}}','{{$dato->ABREB_MATERIALS}}','{{$dato->TYPE_MATERIALS}}','setModificationMaterial')">Edit</a></li>
                         <li class="divider"></li>
                         <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosDel('{{$dato->ID_MATERIAL}}','{{$dato->NAME_MATERIALS}}','getDeleteMaterial')">Delete</a></li>
                       </ul>

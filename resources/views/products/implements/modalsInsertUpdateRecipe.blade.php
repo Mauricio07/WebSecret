@@ -78,7 +78,7 @@
 
       </div>
         <div class="modal-footer">
-          <button type="button" data-dismiss="modal" aria-label="Close" id="saveRecipe"  class="btn btn-default">
+          <button type="button" data-dismiss="modal" aria-label="Close" id="saveRecipe"  class="btn btn-default" onclick="setAddRecipe(IdItemRecipeProd,'setDelRecipeItems')">
               <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
               Save changes
           </button>
@@ -88,63 +88,3 @@
   </div>
 </div>
 </div>
-
-@section('_scripts')
-    <script type="text/javascript">
-    $('#saveRecipe').on('click',function(){
-      var vd_form=$('#formRecipe');
-      var v_nSpecie=$('#txtSpecie');
-      var v_nColor=$('#txtColor');
-      var v_nProcess=$('#txtProcess');
-      var v_nType=$('#txtType');
-      var v_nCut=$('#txtCut');
-      var v_nGrade=$('#txtGrade');
-      var v_quanty=$('#txtQuantity');
-      var ajaxRecipe=document.getElementById('ajaxRecipe');
-
-      var vd_table=document.getElementById('tblRecipe');   //nombre table
-      var v_contenido="<tr>"+
-      "<td><a href='#'>+</a></td>"+
-      "<td>"+$(v_nSpecie).find(':selected').html()+"</td>"+
-      "<td>"+$(v_nColor).find(':selected').html()+"</td>"+
-      "<td>"+$(v_nProcess).find(':selected').html()+"</td>"+
-      "<td>"+$(v_nType).find(':selected').html()+"</td>"+
-      "<td>"+$(v_nCut).find(':selected').html()+"</td>"+
-      "<td>"+$(v_nGrade).find(':selected').html()+"</td>"+
-      "<td>"+$(v_quanty).val()+"</td>"+
-      "<td> <div class='btn-group'>"
-          +"<button type='button' class='btn btn-default btn-xs'>Action </button>"
-          +"<button type='button' class='btn btn-default dropdown-toggle btn-xs' data-toggle='dropdown'>"
-          +"<span class='caret'></span>"
-          +"</button>"
-
-          +"<ul class='dropdown-menu' role='menu'>"
-          +"<li><a href='#' data-toggle='modal' data-target='#myRegisterMaterial'>Edit</a></li>"
-          +"<li class='divider'></li>"
-          +"<li><a href='#' data-toggle='modal' data-target='#myRegisterDel'>Delete</a></li>"
-          +"</ul> </div> </td>"
-          +"</tr>";
-      $(vd_table).append(v_contenido);
-
-      //insert with ajax
-      $.ajaxSetup({
-        headers:{
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-      });
-
-      $.post('setAddInsertRecipe',{
-        'IdSpecie':$(v_nSpecie).val(),
-        'IdColor':$(v_nColor).val(),
-        'IdProcess':$(v_nProcess).val(),
-        'IdTypes':$(v_nType).val(),
-        'IdCuts':$(v_nCut).val(),
-        'IdGrade':$(v_nGrade).val(),
-        'Quantity':$(v_quanty).val(),
-      },function(data){
-        console.log(data);
-        $(ajaxRecipe).append(data);
-      });
-    });
-    </script>
-@endsection

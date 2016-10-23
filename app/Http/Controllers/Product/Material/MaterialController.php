@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use inbloom\Http\Requests;
 use inbloom\Http\Requests\Product\Material\MaterialRequest;
 use inbloom\Http\Controllers\Controller;
-use inbloom\Material;
+use inbloom\Model\Product\Materials;
 
 class MaterialController extends Controller
 {
@@ -16,31 +16,32 @@ class MaterialController extends Controller
       $datos=[
         'NAME_MATERIALS'=>$request->get('txtName'),
         'ABREB_MATERIALS'=>$request->get('txtShortName'),
-        'QUANTITY_MATERIALS'=>$request->get('txtName'),
+        'TYPE_MATERIALS'=>$request->get('txtTypeMat'),
         'DATE_MATERIAL'=>date('Ymd H:i:s'),
+        'STATE_MATERIAL'=>1, //materials enable
       ];
 
-      Material::create($datos);
-      return view('vw_material')->with('messsage','Save');
+      Materials::create($datos);
+      return redirect('vw_material')->with('message','Save');
     }
 
     public function setModificationMaterial(MaterialRequest $request){
-      Material::where('ID_MATERIAL', $request->get('txtCode'))
+      Materials::where('ID_MATERIAL', $request->get('txtCode'))
               ->update([
                 'NAME_MATERIALS'=>$request->get('txtName'),
                 'ABREB_MATERIALS'=>$request->get('txtShortName'),
-                'QUANTITY_MATERIALS'=>$request->get('txtName'),
+                'TYPE_MATERIALS'=>$request->get('txtTypeMat'),
                 'MODIFY_MATERIAL'=>date('Ymd H:i:s'),
               ]);
-      return view('vw_material')->with('message', 'Edit');
+      return redirect('vw_material')->with('message', 'Edit');
     }
 
     public function getDeleteMaterial(Request $request){
-        Material::where('ID_MATERIAL', $request->get('txtCode'))
+        Materials::where('ID_MATERIAL', $request->get('txtCodeDel'))
           ->update([
-            'STATE_MATERIAL'=>'0',
+            'STATE_MATERIAL'=>0,
             'DELETE_MATERIAL'=>date('Ymd H:i:s'),
           ]);
-          return view('vw_material')->with('message', 'Delete');
+          return redirect('vw_material')->with('message', 'Delete');
     }
 }

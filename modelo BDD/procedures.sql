@@ -1,5 +1,5 @@
 
-use inbloomOk
+use inbloom
 go
 
 CREATE PROCEDURE ASP_LOGINUSERS @username varchar(50), @passuser varchar(50)
@@ -57,10 +57,10 @@ as
 declare @idItem int
 
 --comprueba que no exista creada la receta
-set @idItem = (select ID_ITEM from items 
+set @idItem = (select ID_ITEM from items
 where ID_COLOR=@idCol and ID_CUT=@idCut and ID_GRADE=@idGra and ID_ITYPES=@idType and ID_PROCESS=@idProcess and ID_SPECIE=@idSpec)
 
-if (@idItem=null) 
+if (@idItem=null)
 	insert into items(ID_COLOR, ID_CUT, ID_GRADE, ID_ITYPES, ID_PROCESS,ID_SPECIE, DATE_ITEM)
 	values(@idCol, @idCut, @idGra, @idType, @idProcess, @idSpec, GETDATE());
 
@@ -78,5 +78,49 @@ set @vNum=(select SUBSTRING('RECETA-1',8,1) from RECIPES);
 
 INSERT INTO RECIPES(ID_PTYPE, DATECREATE_RECIPE)
 VALUES(@idPtype, GETDATE());
+
+go
+
+CREATE PROCEDURE SP_ADD_PRODUCTS @idRecipe int, @pack int, @idBox int, @codProd varchar(20),
+	@nameProd varchar(100), @path varchar(200), @desc varchar(100), @codUpc varchar(20), @onlineName varchar(100)
+AS
+
+declare @IdProd int
+
+BEGIN TRANSACTION
+	BEGIN TRY
+		-- ADD PRODUCT
+		INSERT INTO PRODUCTS(CODE_PRODUCT, NAME_PRODUCT, IMAGE_PRODUCT, DESCRIPTION_PRODUCT, UPC_PRODUCT, ONLINENAME_PRODUCT, DATECREATE_PRODUCT)
+		VALUES(@codProd, @nameProd, @path, @desc, @codUpc, @onlineName, GETDATE());
+
+		set @IdProd=(SELECT MAX(ID_PRODUCT) FROM PRODUCTS); --Id product
+
+		-- ADD PRODUCT RECIPES
+		INSERT INTO PRODUCT_RECIPIES(ID_PRODUCT, ID_RECIPE, PACK)
+		VALUES(@IdProd, @idRecipe, @pack);
+
+		SELECT @IdProd;
+
+		COMMIT --add
+	END TRY
+	BEGIN CATCH
+		ROLLBACK
+		SELECT 0;
+	END CATCH
+
+go
+
+CREATE PROCEDURE SP_ADD_MATERIALS_PRODUCT @idProd int, @idMat int, @quantity int
+AS
+	INSERT INTO MATERIALS_PRODUCTS(ID_PRODUCT, ID_MATERIAL,QUANTITY_PRODMAT)
+	VALUES(@idProd,@idMat, @quantity);
+go
+
+CREATE VIEW VW_BOXES
+AS
+SELECT B.ID_BOX, B.NAME_BOX, BT.TYPEBOXE_BTYPE, B.SHORTNAME_BOX, CONCAT(B.HEIGHT_BOX ,' X ', B.WIDTH_BOX, ' X ',B.DENSITY_BOX)AS 'DIMENSSION', WB.KG_WEIGHT
+FROM BOXES B, BOX_TYPES BT, WEIGHTBOXES WB
+WHERE B.ID_BTYPE=BT.ID_BTYPE
+and b.ID_WEIGHT=wb.ID_WEIGHT
 
 go

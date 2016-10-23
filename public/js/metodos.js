@@ -1,6 +1,7 @@
 //var globals
 var IdItemMaterialsProd=0;
 var IdItemRecipeProd=0;
+var IdItemMaterialsItems=0;
 
   //Validacion de letras
   function soloLetras(e){
@@ -137,10 +138,11 @@ function displayTbl(v_nameTbl){
   }
 }
 
-function setRegistroMaterial(v_code, v_name, v_sname, v_quanty, v_accion){
+function setRegistroMaterial(v_code, v_name, v_sname, v_typeMat, v_accion){
     document.getElementById('txtCode').setAttribute('value',v_code);
     document.getElementById('txtName').setAttribute('value',v_name);
     document.getElementById('txtShortName').setAttribute('value',v_sname);
-    document.getElementById('txtQuantity').setAttribute('value',v_quanty);
+    var option=document.getElementById('txtTypeMat')
+    $(option).val(v_typeMat).change();
     document.getElementById('formMaterial').setAttribute('action',v_accion);
 }

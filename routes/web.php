@@ -36,14 +36,20 @@ Route::get('products','Login\LoginController@getProducts');
 
 //Ingreso de modulos
 Route::get('getListProduct',function(){
+  //remove storage product
+  Request::session()->forget('ProductMaterials');
+  Request::session()->forget('ProductRecipe');
+
   return view('products.main');
 });
 
 //insert productos
 Route::get('setInsertProduct',function(){
+
   $datos=[
-    'tblMaterial'=>Materials::get(),
-    'tblDimension'=>Dimension::get(),
+    'tblMaterialProduct'=>Materials::where('TYPE_MATERIALS', 'product')->get(),
+    'tblMaterialItems'=>Materials::where('TYPE_MATERIALS', 'items')->get(),
+    'tblVwBoxes'=>DB::select('select ID_BOX, NAME_BOX, TYPEBOXE_BTYPE, SHORTNAME_BOX, DIMENSSION, KG_WEIGHT from VW_BOXES order by NAME_BOX, TYPEBOXE_BTYPE'),
     'tblType'=>Items_type::get(),
     'tblColor'=>Color::get(),
     'tblSpecie'=>Specie::get(),
@@ -51,12 +57,34 @@ Route::get('setInsertProduct',function(){
     'tblCut'=>Cut::get(),
     'tblProcess'=>Process::get(),
     'tblPresentation'=>Presentation::get(),
+    //'datProductMaterials'=>Request::session()->get('ProductMaterials'),
   ];
   //dd($datos);
   return view('products.insert',['post'=>'true', 'tittle'=>"Product",'datos'=>$datos]);
 });
 
-Route::post('setAddProduct','Product\ProductController@setAddProduct');
+//Route::post('setAddProduct','Product\ProductController@setAddProduct');
+
+Route::get('setDelMaterials',function(){ //Remove items materials
+  if (Request::ajax()){
+    $IdItemDel=Request::get('IdItemDel');
+    $datosOk=[];
+    $datosTemp=Request::session()->get('ProductMaterials');
+
+    foreach ( $datosTemp as $productMaterials) {
+      if ($productMaterials['IdItemMaterialsProd']!=$IdItemDel) {
+        array_push($datosOk,[
+          'IdItemMaterialsProd'=> $productMaterials['IdItemMaterialsProd'],
+          'NomItemMaterialsProd'=> $productMaterials['NomItemMaterialsProd'],
+          'QuantItemMaterialsProd'=> $productMaterials['QuantItemMaterialsProd'],
+        ]);
+      }
+    }
+
+    Request::session()->forget('ProductMaterials');
+    Request::session()->set('ProductMaterials',$datosOk);
+  }
+});
 
 Route::post('setAddInsertMaterial', function(){  //Add items materials
   if(Request::ajax()){
@@ -65,7 +93,6 @@ Route::post('setAddInsertMaterial', function(){  //Add items materials
       'IdItemMaterialsProd'=> Request::get('IdItemMaterialsProd'),
       'NomItemMaterialsProd'=> Request::get('NomItemMaterialsProd'),
       'QuantItemMaterialsProd'=> Request::get('QuantItemMaterialsProd'),
-      'DimItemMaterialsProd'=> Request::get('DimItemMaterialsProd'),
     ];
 
     Request::session()->push('ProductMaterials',$datos);
@@ -78,7 +105,7 @@ Route::post('setAddInsertRecipe', function(){  //Add items materials
   if(Request::ajax()){
 
     $datosRecipe=[
-      'idPtype'=>Request::get('IdPtype'),
+      'IdItemRecipeProd'=>Request::get('IdItemRecipeProd'),
       'IdSpecie'=>Request::get('IdSpecie'),
       'IdColor'=>Request::get('IdColor'),
       'IdProcess'=>Request::get('IdProcess'),
@@ -88,33 +115,36 @@ Route::post('setAddInsertRecipe', function(){  //Add items materials
       'Quantity'=>Request::get('Quantity'),
     ];
 
-    //Request::session()->push('ProductMaterials',$datos);
     Request::session()->push('ProductRecipe',$datosRecipe);
 
     return Response::json('Success Transaction');
   }
 });
 
-/*
-Route::post('setAddInsertRecipe',function(){
-  if (Route::ajax()){
+Route::get('setDelRecipeItems',function(){ //Remove items materials
+  if (Request::ajax()){
+    $IdItemDel=Request::get('IdItemDel');
+    $datosOk=[];
+    $datosTemp=Request::session()->get('ProductRecipe');
 
-    $datosRecipe=[
-      'IdSpecie'=>Request::get('IdSpecie'),
-      'IdColor'=>Request::get('IdColor'),
-      'IdProcess'=>Request::get('IdProcess'),
-      'IdTypes'=>Request::get('IdTypes'),
-      'IdCuts'=>Request::get('IdCuts'),
-      'IdGrade'=>Request::get('IdGrade'),
-      'Quantity'=>Request::get('Quantity'),
-    ];
+    foreach ( $datosTemp as $product) {
+      if ($product['IdItemRecipeProd']!=$IdItemDel) {
+        array_push($datosOk,[
+          'IdColor'=>$product['IdColor'],
+          'IdProcess'=>$product['IdProcess'],
+          'IdTypes'=>$product['IdTypes'],
+          'IdCuts'=>$product['IdCuts'],
+          'IdGrade'=>$product['IdGrade'],
+          'Quantity'=>$product['Quantity'],
+        ]);
+      }
+    }
 
-    Request::session()->push('Recipe',$datosRecipe);
-    return var_dump(Response::json(Request::all()));
-
+    Request::session()->forget('ProductRecipe');
+    Request::session()->set('ProductRecipe',$datosOk);
   }
 });
-*/
+
 // Acceso al menu productos taxes
 Route::get('vw_Taxes',function(){
   $datos=Taxe::get();
@@ -236,8 +266,7 @@ Route::get('vw_recipes',function(){
 //Materials
 Route::get('vw_material',function(){
   $datos=[
-    'tblMaterial'=>Materials::get(),
-    'tblDimension'=>Dimension::get(),
+    'tblMaterial'=>Materials::orderBy('NAME_MATERIALS', 'TYPE_MATERIALS')->get()
   ];
   return view('products.recipes.materials',['post'=>true,'tittle'=>" Materials", 'datos'=>$datos]);
 });
