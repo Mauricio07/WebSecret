@@ -1,5 +1,6 @@
-<div class="dz-message">
-  <p id="id_image">Insert the photo click here!!</p>
-</div>
 
-<div class="dropzone-previews"></div>
+<form class="" action="uploading" method="post" enctype="multipart/form-data">
+{{csrf_field()}}
+<input type="field" name="archivo" id="archivo" accept="image/png" />
+<button type="submit" class="btn btn-default" name="button"></button>
+</form>

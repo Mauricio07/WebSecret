@@ -1,14 +1,15 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     22/10/2016 7:16:18                           */
+/* Created on:     24/10/2016 11:10:28                          */
 /*==============================================================*/
-
+use inbloomOk
 
 /*==============================================================*/
 /* Table: BOXES                                                 */
 /*==============================================================*/
 create table BOXES (
    ID_BOX               int identity(1,1)    not null,
+   ID_PRODUCT           int                  null,
    ID_BTYPE             int                  null,
    ID_WEIGHT            int                  null,
    NAME_BOX             varchar(50)          null,
@@ -18,6 +19,14 @@ create table BOXES (
    DATE_BOX             datetime             null,
    SHORTNAME_BOX        varchar(10)          null,
    constraint PK_BOXES primary key nonclustered (ID_BOX)
+)
+go
+
+/*==============================================================*/
+/* Index: PRODUCT_BOXES2_FK                                     */
+/*==============================================================*/
+create index PRODUCT_BOXES2_FK on BOXES (
+ID_PRODUCT ASC
 )
 go
 
@@ -80,6 +89,18 @@ create table DEALINGS (
    DATE_DEALING         datetime             null,
    IDUSER_DEALING       int                  null,
    constraint PK_DEALINGS primary key nonclustered (ID_DEALING)
+)
+go
+
+/*==============================================================*/
+/* Table: DIMENSIONS                                            */
+/*==============================================================*/
+create table DIMENSIONS (
+   ID_DIMENSIONS        int identity(1,1)    not null,
+   HEIGHT_DIMENSIONS    decimal(10,3)        null,
+   WIDTH_DIMENSIONS     decimal(10,3)        null,
+   DEPTH_DIMENSIONS     decimal(10,3)        null,
+   constraint PK_DIMENSIONS primary key nonclustered (ID_DIMENSIONS)
 )
 go
 
@@ -165,9 +186,9 @@ go
 /* Table: ITEMS_RECIPES                                         */
 /*==============================================================*/
 create table ITEMS_RECIPES (
-   ID_RECIPE            int                 not null,
-   ID_ITEM              int                 not null,
-   QUANTITY_RECIPEITEM  int,
+   ID_RECIPE            int               not null,
+   ID_ITEM              int               not null,
+   QUANTITY_RECIPEITEM  int                  null,
    constraint PK_ITEMS_RECIPES primary key (ID_RECIPE, ID_ITEM)
 )
 go
@@ -210,6 +231,7 @@ create table MATERIALS_ITEMS (
    MODIFY_MATERIAL      datetime             null,
    DELETE_MATERIAL      datetime             null,
    STATE_MATERIAL       int                  null,
+   TYPE_MATERIALS       varchar(20)          null,
    constraint PK_MATERIALS_ITEMS primary key nonclustered (ID_MATERIAL)
 )
 go
@@ -218,9 +240,10 @@ go
 /* Table: MATERIALS_PRODUCTS                                    */
 /*==============================================================*/
 create table MATERIALS_PRODUCTS (
-   ID_PRODUCT           int                 not null,
-   ID_MATERIAL          int                 not null,
+   ID_PRODUCT           int               not null,
+   ID_MATERIAL          int               not null,
    QUANTITY_PRODMAT     int                  null,
+   ID_DIMENSION         int                  null,
    constraint PK_MATERIALS_PRODUCTS primary key (ID_PRODUCT, ID_MATERIAL)
 )
 go
@@ -270,7 +293,6 @@ create table PRODUCTS (
    ID_PRODUCT           int identity(1,1)    not null,
    ID_BOX               int                  null,
    PRO_ID_PRODUCT       int                  null,
-   CODE_PRODUCT         varchar(20)          null,
    NAME_PRODUCT         varchar(100)         null,
    DATECREATE_PRODUCT   datetime             null,
    IMAGE_PRODUCT        text                 null,
@@ -280,6 +302,7 @@ create table PRODUCTS (
    MODIFYDATE_PRODU     datetime             null,
    ONLINENAME_PRODUCT   varchar(50)          null,
    DATEDELETE_PRODUCT   datetime             null,
+   CODE_PRODUCT         varchar(20)          null,
    constraint PK_PRODUCTS primary key nonclustered (ID_PRODUCT)
 )
 go
@@ -304,8 +327,8 @@ go
 /* Table: PRODUCT_RECIPIES                                      */
 /*==============================================================*/
 create table PRODUCT_RECIPIES (
-   ID_PRODUCT           int                 not null,
-   ID_RECIPE            int                 not null,
+   ID_PRODUCT           int               not null,
+   ID_RECIPE            int               not null,
    PACK                 int                  null,
    constraint PK_PRODUCT_RECIPIES primary key (ID_PRODUCT, ID_RECIPE)
 )
@@ -335,7 +358,6 @@ create table RECIPES (
    ID_PTYPE             int                  null,
    NAME_RECIPE          varchar(100)         null,
    STATUS_RECIPE        smallint             null,
-   QUANTITY_RECIPE      int                  null,
    DATECREATE_RECIPE    datetime             null,
    MODIFY_RECIPE        datetime             null,
    ID_MATERIALR         int                  null,
@@ -356,9 +378,10 @@ go
 /* Table: RECIPE_MATERIALS                                      */
 /*==============================================================*/
 create table RECIPE_MATERIALS (
-   ID_RECIPE            int     not null,
-   ID_MATERIAL          int     not null,
+   ID_RECIPE            int               not null,
+   ID_MATERIAL          int               not null,
    QUANTITY_RECIPEMAT   int                  null,
+   ID_DIMENSION         int                  null,
    constraint PK_RECIPE_MATERIALS primary key (ID_RECIPE, ID_MATERIAL)
 )
 go
@@ -487,6 +510,11 @@ alter table BOXES
 go
 
 alter table BOXES
+   add constraint FK_BOXES_PRODUCT_B_PRODUCTS foreign key (ID_PRODUCT)
+      references PRODUCTS (ID_PRODUCT)
+go
+
+alter table BOXES
    add constraint FK_BOXES_WEIGHTES__WEIGHTBO foreign key (ID_WEIGHT)
       references WEIGHTBOXES (ID_WEIGHT)
 go
@@ -590,3 +618,4 @@ alter table USER_PASSWORDS
    add constraint FK_USER_PAS_USERS_PAS_USERS foreign key (ID_USERS)
       references USERS (ID_USERS)
 go
+

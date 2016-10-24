@@ -146,3 +146,7 @@ function setRegistroMaterial(v_code, v_name, v_sname, v_typeMat, v_accion){
     $(option).val(v_typeMat).change();
     document.getElementById('formMaterial').setAttribute('action',v_accion);
 }
+
+function getIdRowRecipe(v_idRowRecipe){
+  document.getElementById('txtIdRow').setAttribute('value',v_idRowRecipe);
+}

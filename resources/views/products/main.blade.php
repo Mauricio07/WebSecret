@@ -1,63 +1,42 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Inbloom Group S.A.</title>
-    <!--Bootstrap stilos-->
-    <link rel="stylesheet" href="{{URL::asset('css/bootstrap.min.css')}}">
-    <!--default stilos-->
-    <link rel="stylesheet" href="{{URL::asset('css/defaultBarra.css')}}">
-    <link rel="stylesheet" href="{{URL::asset('css/controles.css')}}">
+@extends('products.headers.product')
 
-  </head>
-  <body>
-    @include('products.implements.navigationbarproduct');
-    <!-- Formularios de navegacion -->
-    <!--Productos-->
-    <section>
-      <div class="frm">
-      	<div class="busquedaArticulo form-group">
-      		<label class="titulos" for="busqueArticulo">List of products</label>
-      		<input type="text" placeholder="Buscar" class="form-control">
-      	</div>
-      	<div class="formularios">
-      		<table class="table">
-      			<thead>
-      				<tr>
-      					<th>Id</th>
-      					<th>Imag</th>
-      					<th>Name</th>
-      					<th>type</th>
-      					<th>Presentation</th>
-      					<th></th>
-      					<th></th>
-      				</tr>
-      			</thead>
-      			<tbody>
-      				<tr>
-      					<td>1</td>
-      					<td>xxx</td>
-      					<td>Rainbow</td>
-      					<td>48x48</td>
-      					<td>ninguna</td>
-      					<td><a href="#" id="modifica" data-toggle="modal" data-placement="buttom" title="Modify" data-target=".bs-modificar"></a></td>
-      					<td><a href="#" id="elimina" data-toggle="modal" data-placement="buttom" title="Delete" data-target=".bs-eliminar"></a></td>
-      				</tr>
-      				<tr>
-      					<td>2</td>
-      					<td>xxx</td>
-      					<td>Rainbow</td>
-      					<td>48x48</td>
-      					<td>ninguna</td>
-      					<td><a href="#" id="modifica" data-toggle="modal" data-target=".bs-modificar" title="Modify" ></a></td>
-      					<td><a href="#" id="elimina" data-toggle="modal" data-target=".bs-eliminar" title="Delete" ></a></td>
-      				</tr>
-      			</tbody>
-      		</table>
-      	</div>
-      </div>
-    </section>
-  </body>
-  <script src="{{URL::asset('js/jquery-3.1.0.min.js')}}" charset="utf-8"></script>
-  <script src="{{URL::asset('js/bootstrap.min.js')}}" charset="utf-8"></script>
-</html>
+@section('body')
+  @include('products.implements.breadcrumps')
+  <section class="container">
+    <article class="row">
+        <div class="form-horizontal">
+          <div class="form-group">
+              <label class="col-xs-2 col-sm-2 control-label">Search</label>
+              <div class="inner-addon left-addon col-xs-8 col-sm-8 ">
+                  <i class="glyphicon glyphicon-search" style="padding-left:25px;"></i>
+                  <input type="text" class="form-control" name="varietySearch" placeholder="Enter your search"/>
+              </div>
+              <div class="inner-addon left-addon col-xs-2 col-sm-2">
+                <button type="button" class="btn btn-inbloom" data-toggle="modal" data-target="#myRegister" onclick="setRegistros('','','setInsertColor')">Add</button>
+              </div>
+            </div>
+        </div>
+    </article>
+    <article class="row">
+      <table class="table table-striped">
+        <thead>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Online</th>
+          <th>Upc</th>
+          <th>Box</th>
+          <th>Image</th>
+          <th><th>
+        </thead>
+        <tbody>
+          @foreach ($tblProducts['tblProductos'] as $product)
+            <tr>
+              <td>{{$product->CODE_PRODUCT}}</td><td>{{$product->NAME_PRODUCT}}</td><td>{{$product->ONLINENAME_PRODUCT}}</td>
+              <td>{{$product->UPC_PRODUCT}}</td><td>{{$product->NAME_BOX}}</td><td>{{$product->IMAGE_PRODUCT}}</td><td></td>
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </article>
+  </section>
+@endsection

@@ -3,6 +3,7 @@
 namespace inbloom\Model\Product;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Product extends Model
 {
@@ -13,4 +14,10 @@ class Product extends Model
       'IMAGE_PRODUCT','DESCRIPTION_PRODUCT','STATUS_PRODUCT','CODE_PRODUCT'
       'UPC_PRODUCT','MODIFYDATE_PRODU','ONLINENAME_PRODUCT','DATEDELETE_PRODUCT',
     ];
+
+    public function setAtribute($path){
+      $this->attributes[$path]=Carbon::now()->second.$path->getClientOriginalName();
+      $name=Carbon::now()->second.$path->getClientOriginalName();
+      \Storage::disk('local')->put($name,\File::get($path));
+    }
 }

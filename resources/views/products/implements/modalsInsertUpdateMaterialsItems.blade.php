@@ -11,6 +11,7 @@
           <div class="form-group" hidden="true">
             <label class="col-sm-2 control-label">Id</label>
             <div class="col-sm-9">
+              <input type="text" class="form-control" id="txtIdRow" name="txtIdRow" hidden="true"/>
               <input type="text" class="form-control" id="txtCode" name="txtCode" placeholder="Code"/>
             </div>
           </div>
@@ -34,7 +35,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" arial-label="close" id='saveMaterialsProductItems' onclick="saveMaterialProduct('tblMaterialRecipe',IdItemMaterialsRecipe,'setAddInsertMaterialsRecipe','setDelMaterialsRecipe')">
+        <button type="button" class="btn btn-default" data-dismiss="modal" arial-label="close" id='saveMaterialsProductItems' onclick="saveMaterialRecipe('tblMaterialRecipe',IdItemMaterialsRecipe,'setAddInsertMaterialsRecipe','setDelMaterialsRecipe')">
             <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
             Save changes
         </button>

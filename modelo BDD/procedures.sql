@@ -1,5 +1,5 @@
 
-use inbloom
+use inbloomOk
 go
 
 CREATE PROCEDURE ASP_LOGINUSERS @username varchar(50), @passuser varchar(50)
@@ -57,22 +57,26 @@ as
 declare @idItem int
 SET NOCOUNT ON
 --comprueba que no exista creada la receta
-set @idItem = (select ID_ITEM from items
-where ID_COLOR=@idCol and ID_CUT=@idCut and ID_GRADE=@idGra and ID_ITYPES=@idType and ID_PROCESS=@idProcess and ID_SPECIE=@idSpec)
+set @idItem =(select count(*) from items where ID_COLOR=@idCol and ID_CUT=@idCut and ID_GRADE=@idGra and ID_ITYPES=@idType 
+and ID_PROCESS=@idProcess and ID_SPECIE=@idSpec)
 
-if (SELECT ISNULL(@idItem,0))=0
+if (@idItem=0)
+
 	insert into items(ID_COLOR, ID_CUT, ID_GRADE, ID_ITYPES, ID_PROCESS,ID_SPECIE, DATE_ITEM)
 	values(@idCol, @idCut, @idGra, @idType, @idProcess, @idSpec, GETDATE());
-
+	
+	set @idItem =(select count(*) from items where ID_COLOR=@idCol and ID_CUT=@idCut 
+	and ID_GRADE=@idGra and ID_ITYPES=@idType and ID_PROCESS=@idProcess and ID_SPECIE=@idSpec)	
+	
 -- almacena la id en la receta
+if (select count(*) from ITEMS_RECIPES where ID_RECIPE=@idRecip and ID_ITEM=@idItem)=0
 	insert into ITEMS_RECIPES(ID_RECIPE, ID_ITEM, QUANTITY_RECIPEITEM)
 	values(@idRecip, @idItem, @quanRecip);
 
-select @idItem as 'ok'
-
+select @idItem as 'INDEX'
 go
 
-ALTER PROCEDURE SP_ADD_RECIPE_HEADER @idPtype INT
+CREATE PROCEDURE SP_ADD_RECIPE_HEADER @idPtype INT
 AS
 DECLARE @vNum INT
 
@@ -95,9 +99,9 @@ SET NOCOUNT ON
 BEGIN TRANSACTION
 	BEGIN TRY
 		-- ADD PRODUCT
-		INSERT INTO PRODUCTS(CODE_PRODUCT, NAME_PRODUCT, IMAGE_PRODUCT, DESCRIPTION_PRODUCT, UPC_PRODUCT, ONLINENAME_PRODUCT, DATECREATE_PRODUCT)
-		VALUES(@codProd, @nameProd, @path, @desc, @codUpc, @onlineName, GETDATE());
-
+		INSERT INTO PRODUCTS(CODE_PRODUCT, NAME_PRODUCT, ID_BOX, IMAGE_PRODUCT, DESCRIPTION_PRODUCT, UPC_PRODUCT, ONLINENAME_PRODUCT, DATECREATE_PRODUCT, STATUS_PRODUCT)
+		VALUES(@codProd, @nameProd, @idBox, @path, @desc, @codUpc, @onlineName, GETDATE(),1);
+		
 		set @IdProd=(SELECT MAX(ID_PRODUCT) FROM PRODUCTS); --Id product
 
 		-- ADD PRODUCT RECIPES
@@ -140,3 +144,13 @@ VALUES(@idRecipe, @idMaterial, @quantity);
 SELECT 'OK'AS'OK';
 
 go
+
+CREATE PROCEDURE ASP_REP_PRODUCTS @state int
+AS
+SELECT P.ID_PRODUCT,CODE_PRODUCT, NAME_PRODUCT, ONLINENAME_PRODUCT, UPC_PRODUCT, B.NAME_BOX , IMAGE_PRODUCT
+FROM PRODUCTS P, BOXES B
+WHERE P.ID_BOX=B.ID_BOX
+AND P.STATUS_PRODUCT=@state
+ORDER BY P.DATECREATE_PRODUCT
+
+GO

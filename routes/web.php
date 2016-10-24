@@ -35,13 +35,16 @@ Route::post('loginSucess_','Login\LoginController@getLoginSucess');
 Route::get('products','Login\LoginController@getProducts');
 
 //Ingreso de modulos
-Route::get('getListProduct',function(){
+Route::get('vw_product',function(){
   //remove storage product
   Request::session()->forget('ProductMaterials');
   Request::session()->forget('ProductRecipe');
   Request::session()->forget('ProductMaterialsRecipe');
+  $datos=[
+    'tblProductos'=>DB::select('EXEC ASP_REP_PRODUCTS ?',array('1')),
+  ];
 
-  return view('products.main');
+  return view('products.main',['post'=>'true', 'tittle'=>'List of products','tblProducts'=>$datos]);
 });
 
 //insert productos
@@ -106,6 +109,7 @@ Route::post('setAddInsertMaterialsRecipe', function(){  //Add items materials re
   if(Request::ajax()){
 
     $datos=[
+      'IdItemRecipe'=> Request::get('IdItemRecipe'),
       'IdItemMaterialsProd'=> Request::get('IdItemMaterialsProd'),
       'NomItemMaterialsProd'=> Request::get('NomItemMaterialsProd'),
       'QuantItemMaterialsProd'=> Request::get('QuantItemMaterialsProd'),
@@ -113,7 +117,7 @@ Route::post('setAddInsertMaterialsRecipe', function(){  //Add items materials re
 
     Request::session()->push('ProductMaterialsRecipe',$datos);
 
-    return Response::json('Success Transaction');
+    return Response::json($datos);
   }
 });
 
@@ -138,6 +142,12 @@ Route::get('setDelMaterialsRecipe',function(){ //Remove items materials
   }
 });
 
+Route::get('loadImage',function(){
+  return view('products.uploadImage');
+});
+
+Route::get('upload','Product\ProductController@upload');
+Route::post('uploading','Product\ProductController@uploading');
 
 Route::post('setAddInsertRecipe', function(){  //Add items materials
   if(Request::ajax()){

@@ -63,7 +63,7 @@
 
                   <div class="form-group">
                     <label for="Boxes">Boxes</label>
-                    <select class="form-control" name="txtBoxes" required="true">
+                    <select class="form-control" name="txtBoxes" id="txtBoxes" required="true">
                       @foreach ($datos['tblVwBoxes'] as $box)
                         <option value="{{$box->ID_BOX}}">{{$box->NAME_BOX}} {{$box->TYPEBOXE_BTYPE}} {{$box->SHORTNAME_BOX}}  {{$box->DIMENSSION}} {{$box->KG_WEIGHT}}</option>
                       @endforeach
@@ -72,9 +72,7 @@
                 </div>
 
                 <div class="col-xs-3">
-                    {{Form::open(['route','products.image', 'method','post','files'=>true])}}
-                    {{Form::button('Include',['class','btn btn-primary'])}}
-
+                  <a href="loadImage">Cargar Imagen</a>
                 </div>
 
               </div>

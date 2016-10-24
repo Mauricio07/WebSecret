@@ -78,7 +78,7 @@
 
       </div>
         <div class="modal-footer">
-          <button type="button" data-dismiss="modal" aria-label="Close" id="saveRecipe"  class="btn btn-default" onclick="setAddRecipe(IdItemRecipeProd,'setDelRecipeItems')">
+          <button type="button" data-dismiss="modal" aria-label="Close" id="saveRecipe"  class="btn btn-default" onclick="setAddRecipe('setDelRecipeItems')">
               <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
               Save changes
           </button>
