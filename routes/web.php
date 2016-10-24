@@ -39,6 +39,7 @@ Route::get('getListProduct',function(){
   //remove storage product
   Request::session()->forget('ProductMaterials');
   Request::session()->forget('ProductRecipe');
+  Request::session()->forget('ProductMaterialsRecipe');
 
   return view('products.main');
 });
@@ -63,7 +64,7 @@ Route::get('setInsertProduct',function(){
   return view('products.insert',['post'=>'true', 'tittle'=>"Product",'datos'=>$datos]);
 });
 
-//Route::post('setAddProduct','Product\ProductController@setAddProduct');
+Route::post('setAddProduct','Product\ProductController@setAddProduct');
 
 Route::get('setDelMaterials',function(){ //Remove items materials
   if (Request::ajax()){
@@ -100,6 +101,43 @@ Route::post('setAddInsertMaterial', function(){  //Add items materials
     return Response::json('Success Transaction');
   }
 });
+
+Route::post('setAddInsertMaterialsRecipe', function(){  //Add items materials recipe
+  if(Request::ajax()){
+
+    $datos=[
+      'IdItemMaterialsProd'=> Request::get('IdItemMaterialsProd'),
+      'NomItemMaterialsProd'=> Request::get('NomItemMaterialsProd'),
+      'QuantItemMaterialsProd'=> Request::get('QuantItemMaterialsProd'),
+    ];
+
+    Request::session()->push('ProductMaterialsRecipe',$datos);
+
+    return Response::json('Success Transaction');
+  }
+});
+
+Route::get('setDelMaterialsRecipe',function(){ //Remove items materials
+  if (Request::ajax()){
+    $IdItemDel=Request::get('IdItemDel');
+    $datosOk=[];
+    $datosTemp=Request::session()->get('ProductMaterialsRecipe');
+
+    foreach ( $datosTemp as $productMaterials) {
+      if ($productMaterials['IdItemMaterialsProd']!=$IdItemDel) {
+        array_push($datosOk,[
+          'IdItemMaterialsProd'=> $productMaterials['IdItemMaterialsProd'],
+          'NomItemMaterialsProd'=> $productMaterials['NomItemMaterialsProd'],
+          'QuantItemMaterialsProd'=> $productMaterials['QuantItemMaterialsProd'],
+        ]);
+      }
+    }
+
+    Request::session()->forget('ProductMaterialsRecipe');
+    Request::session()->set('ProductMaterialsRecipe',$datosOk);
+  }
+});
+
 
 Route::post('setAddInsertRecipe', function(){  //Add items materials
   if(Request::ajax()){

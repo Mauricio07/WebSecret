@@ -55,30 +55,35 @@ CREATE PROCEDURE SP_ADD_ITEM_RECIPE(@idRecip int, @quanRecip int ,@idCol int, @i
 as
 -- items receta
 declare @idItem int
-
+SET NOCOUNT ON
 --comprueba que no exista creada la receta
 set @idItem = (select ID_ITEM from items
 where ID_COLOR=@idCol and ID_CUT=@idCut and ID_GRADE=@idGra and ID_ITYPES=@idType and ID_PROCESS=@idProcess and ID_SPECIE=@idSpec)
 
-if (@idItem=null)
+if (SELECT ISNULL(@idItem,0))=0
 	insert into items(ID_COLOR, ID_CUT, ID_GRADE, ID_ITYPES, ID_PROCESS,ID_SPECIE, DATE_ITEM)
 	values(@idCol, @idCut, @idGra, @idType, @idProcess, @idSpec, GETDATE());
 
 -- almacena la id en la receta
-insert into ITEMS_RECIPES(ID_RECIPE, ID_ITEM, QUANTITY_RECIPE)
-values(@idRecip, @idItem, @quanRecip);
+	insert into ITEMS_RECIPES(ID_RECIPE, ID_ITEM, QUANTITY_RECIPEITEM)
+	values(@idRecip, @idItem, @quanRecip);
+
+select @idItem as 'ok'
 
 go
 
-CREATE PROCEDURE SP_ADD_RECIPE_HEADER @idPtype INT
+ALTER PROCEDURE SP_ADD_RECIPE_HEADER @idPtype INT
 AS
 DECLARE @vNum INT
 
-set @vNum=(select SUBSTRING('RECETA-1',8,1) from RECIPES);
+SET NOCOUNT ON
 
-INSERT INTO RECIPES(ID_PTYPE, DATECREATE_RECIPE)
-VALUES(@idPtype, GETDATE());
+set @vNum=(SELECT ISNULL(MAX(ID_RECIPE),0) FROM RECIPES)+1;
 
+INSERT INTO RECIPES(ID_PTYPE, DATECREATE_RECIPE, STATUS_RECIPE, NAME_RECIPE)
+VALUES(@idPtype, GETDATE(),1, CONCAT('RECIPE_',@vNum));
+
+SELECT MAX(ID_RECIPE)as'ID_RECIPE' FROM RECIPES
 go
 
 CREATE PROCEDURE SP_ADD_PRODUCTS @idRecipe int, @pack int, @idBox int, @codProd varchar(20),
@@ -86,7 +91,7 @@ CREATE PROCEDURE SP_ADD_PRODUCTS @idRecipe int, @pack int, @idBox int, @codProd 
 AS
 
 declare @IdProd int
-
+SET NOCOUNT ON
 BEGIN TRANSACTION
 	BEGIN TRY
 		-- ADD PRODUCT
@@ -99,7 +104,7 @@ BEGIN TRANSACTION
 		INSERT INTO PRODUCT_RECIPIES(ID_PRODUCT, ID_RECIPE, PACK)
 		VALUES(@IdProd, @idRecipe, @pack);
 
-		SELECT @IdProd;
+		SELECT @IdProd AS'ID';
 
 		COMMIT --add
 	END TRY
@@ -107,13 +112,15 @@ BEGIN TRANSACTION
 		ROLLBACK
 		SELECT 0;
 	END CATCH
-
 go
 
 CREATE PROCEDURE SP_ADD_MATERIALS_PRODUCT @idProd int, @idMat int, @quantity int
 AS
+SET NOCOUNT ON
 	INSERT INTO MATERIALS_PRODUCTS(ID_PRODUCT, ID_MATERIAL,QUANTITY_PRODMAT)
 	VALUES(@idProd,@idMat, @quantity);
+
+	SELECT 'OK' AS 'OK'
 go
 
 CREATE VIEW VW_BOXES
@@ -122,5 +129,14 @@ SELECT B.ID_BOX, B.NAME_BOX, BT.TYPEBOXE_BTYPE, B.SHORTNAME_BOX, CONCAT(B.HEIGHT
 FROM BOXES B, BOX_TYPES BT, WEIGHTBOXES WB
 WHERE B.ID_BTYPE=BT.ID_BTYPE
 and b.ID_WEIGHT=wb.ID_WEIGHT
+
+go
+
+CREATE PROCEDURE SP_ADD_MATERIAL_RECIPE @idRecipe int, @idMaterial int, @quantity int
+AS
+SET NOCOUNT ON
+INSERT INTO RECIPE_MATERIALS (ID_RECIPE, ID_MATERIAL, QUANTITY_RECIPEMAT)
+VALUES(@idRecipe, @idMaterial, @quantity);
+SELECT 'OK'AS'OK';
 
 go

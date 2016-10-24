@@ -72,7 +72,9 @@
                 </div>
 
                 <div class="col-xs-3">
-                    <img src="{{URL::asset('imgs/logoEmpresa.png')}}" class="imgs-prod-inbloom img-responsive img-rounded" alt="Responsive image"/>
+                    {{Form::open(['route','products.image', 'method','post','files'=>true])}}
+                    {{Form::button('Include',['class','btn btn-primary'])}}
+
                 </div>
 
               </div>
@@ -182,5 +184,6 @@
   @include('products.implements.modalsInsertUpdateRecipe')
   @include('products.implements.modalsInsertUpdateMaterials')
   @include('products.implements.modalsInsertUpdateMaterialsItems')
+  @include('products.implements.tblDetailRecipeMaterial')
   @include('products.implements.modalsDeleteTools')
 @endsection

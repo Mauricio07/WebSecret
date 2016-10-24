@@ -12,7 +12,7 @@ function saveMaterialProduct(vd_table, IdItemMat, v_MetodAdd,v_MetodDel){
     var v_name=$('#txtMaterial');
     var v_nameMat=$(v_name).find(':selected').html();
     var v_quanty=$('#txtQuantityMat');
-    var vd_table=$('#tblMaterial');
+    //var vd_table=$('#tblMaterial');
     var ajaxResponse=document.getElementById('ajaxResponse');
 
     //insert with ajax
@@ -25,10 +25,10 @@ function saveMaterialProduct(vd_table, IdItemMat, v_MetodAdd,v_MetodDel){
     //add items materials
     $.post(v_MetodAdd,{
       'IdItemMaterialsProd': IdItemMat,// IdItemMaterialsProd,
-      'NomItemMaterialsProd': v_nameMat,
+      'NomItemMaterialsProd': $(v_name).val(),
       'QuantItemMaterialsProd': $(v_quanty).val(),
     },function(data){
-      $(ajaxResponse).append('ingreso ok '+data);
+      $(ajaxResponse).append(data);
       v_contenido="<tr id=ProdMat"+IdItemMat+">"+
       "<td>"+IdItemMat+"</td>"+
       "<td>"+v_nameMat+"</td>"+
@@ -86,7 +86,7 @@ function setAddRecipe(v_IdItem, v_MetodDel){
   },function(data){
     $(ajaxRecipe).append(data);
     var v_contenido="<tr id=RecipeItem"+v_IdItem+">"+
-    "<td><a href='#'>+</a></td>"+
+    "<td><a href='#' data-toggle='modal' data-target='#myRegisterMaterialRecipe'>+</a></td>"+
     "<td>"+$(v_nSpecie).find(':selected').html()+"</td>"+
     "<td>"+$(v_nColor).find(':selected').html()+"</td>"+
     "<td>"+$(v_nProcess).find(':selected').html()+"</td>"+
@@ -95,8 +95,8 @@ function setAddRecipe(v_IdItem, v_MetodDel){
     "<td>"+$(v_nGrade).find(':selected').html()+"</td>"+
     "<td>"+$(v_quanty).val()+"</td>"+
     "<td> <div class='btn-group'>"
-        +"<a href='' data-toggle='modal' class='btn edit' data-target='#myRegisterMaterialItems'></a>"
-        +"<a href='' data-toggle='modal' class='btn delete' onclick=deleteItem("+v_IdItem+",'RecipeItem"+v_IdItem+"','"+v_MetodDel+"')></a>"
+        +"<a href='#' data-toggle='modal' class='btn edit' data-target='#myRegisterMaterialItems'></a>"
+        +"<a href='#' data-toggle='modal' class='btn delete' onclick=deleteItem("+v_IdItem+",'RecipeItem"+v_IdItem+"','"+v_MetodDel+"')></a>"
         +"</div> </td>"
         +"</tr>";
     $(vd_table).append(v_contenido);

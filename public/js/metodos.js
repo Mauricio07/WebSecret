@@ -1,7 +1,7 @@
 //var globals
 var IdItemMaterialsProd=0;
 var IdItemRecipeProd=0;
-var IdItemMaterialsItems=0;
+var IdItemMaterialsRecipe=0;
 
   //Validacion de letras
   function soloLetras(e){

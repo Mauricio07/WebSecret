@@ -167,6 +167,7 @@ go
 create table ITEMS_RECIPES (
    ID_RECIPE            int                 not null,
    ID_ITEM              int                 not null,
+   QUANTITY_RECIPEITEM  int,
    constraint PK_ITEMS_RECIPES primary key (ID_RECIPE, ID_ITEM)
 )
 go

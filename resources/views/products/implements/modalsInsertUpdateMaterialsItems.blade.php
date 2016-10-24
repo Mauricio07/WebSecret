@@ -34,7 +34,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" arial-label="close" id='saveMaterialsProductItems' >
+        <button type="button" class="btn btn-default" data-dismiss="modal" arial-label="close" id='saveMaterialsProductItems' onclick="saveMaterialProduct('tblMaterialRecipe',IdItemMaterialsRecipe,'setAddInsertMaterialsRecipe','setDelMaterialsRecipe')">
             <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
             Save changes
         </button>
@@ -43,68 +43,3 @@
     </div>
   </div>
 </div>
-
-@section('_scripts2')
-    <script type="text/javascript">
-
-      $(document).ready(function(){
-        var dataRows=$('#tblMaterial tbody tr');
-        $(dataRows).each(
-          function(){
-            IdItemMaterialsProd+= 1;
-          }
-        );
-      });
-
-        // add item materials
-        $('#saveMaterialsProductItems').on('click',function(){
-          alert($('#tblMaterialItem'));
-          var v_name=$('#txtMaterial');
-          var v_nameMat=$(v_name).find(':selected').html();
-          var v_quanty=$('#txtQuantityMat');
-          var vd_table=$('#tblMaterialItem');
-          console.log(vd_table);
-          var ajaxResponse=document.getElementById('ajaxResponse');
-
-
-          //insert with ajax
-          $.ajaxSetup({
-            headers:{
-              'X-CSRF-Token': $('input[name="_token"]').val()
-            }
-          });
-
-          //add items materials
-          $.post('setAddInsertMaterial',{
-            'IdItemMaterialsProd': IdItemMaterialsProd,
-            'NomItemMaterialsProd': v_nameMat,
-            'QuantItemMaterialsProd': $(v_quanty).val(),
-          },function(data){
-            $(ajaxResponse).append('ingreso ok '+data);
-            v_contenido="<tr id="+IdItemMaterialsProd+">"+
-            "<td>"+IdItemMaterialsProd+"</td>"+
-            "<td>"+v_nameMat+"</td>"+
-            "<td>"+$(v_quanty).val()+"</td>"+
-            "<td> <div class='btn-group'>"
-                +"<a href='#' class='btn delete' id='deletingMat' onclick='deleteItemMatRecipe("+IdItemMaterialsProd+")'></span></a>"
-                +"</div> </td>"
-                +"</tr>";
-            $(vd_table).append(v_contenido);
-            IdItemMaterialsProd++; //index table of materials
-          });
-        });
-
-        //deleting items materials
-        function deleteItemMatRecipe(v_IdDel){
-          $.get('setDelMaterialsItems',{
-            'IdItemDel':v_IdDel
-          },function(data){
-            $(ajaxResponse).append('delete '+data);
-            $('#filaMat'+v_IdDel).remove();
-            alert('Deliting Success');
-          });
-        }
-
-    </script>
-
-@endsection
