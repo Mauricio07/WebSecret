@@ -16,7 +16,7 @@
     </div>
 
     <!--Formulario ingreso-->
-    <form id="frmProduct" method="post" action="setAddProduct">
+    <form id="frmProduct" method="post" action="setAddProduct" enctype="multipart/form-data">
 
           {{csrf_field()}}
 
@@ -25,13 +25,13 @@
 
                 <div class="col-xs-3">
                   <div class="form-group has-feedback">
-                    <label for="Code Product">Code Product</label>
-                      <input type="text" name="txtCodeProduct" class="form-control" placeholder="Code"  value="{{old('txtCodeProduct')}}" required/>
+                    <label for="Code Product">SKU</label>
+                      <input type="text" name="txtCodeProduct" class="form-control" placeholder="SKU"  value="{{old('txtCodeProduct')}}" required/>
                       @if ($errors->has('txtCodeProduct')) <span class="glyphicon glyphicon-remove form-control-feedback frm-error" aria-hidden="true"></span><p class="help-block">{{$errors->first('txtCodeProduct')}} </p>@endif
                   </div>
                   <div class="form-group has-feedback">
-                    <label for="Code Upc">Code Upc</label>
-                    <input type="text" name="txtCodeUpc"class="form-control" placeholder="Code Upc" value="{{old('txtCodeUpc')}}" required/>
+                    <label for="Code Upc">UPC</label>
+                    <input type="text" name="txtCodeUpc"class="form-control" placeholder="UPC" value="{{old('txtCodeUpc')}}" required/>
                     @if ($errors->has('txtCodeUpc')) <span class="glyphicon glyphicon-remove form-control-feedback frm-error" aria-hidden="true"></span><p class="help-block">{{$errors->first('txtCodeUpc')}} </p>@endif
                   </div>
                   <div class="form-group has-feedback">
@@ -65,17 +65,18 @@
                     <label for="Boxes">Boxes</label>
                     <select class="form-control" name="txtBoxes" id="txtBoxes" required="true">
                       @foreach ($datos['tblVwBoxes'] as $box)
-                        <option value="{{$box->ID_BOX}}">{{$box->NAME_BOX}} {{$box->TYPEBOXE_BTYPE}} {{$box->SHORTNAME_BOX}}  {{$box->DIMENSSION}} {{$box->KG_WEIGHT}}</option>
+                        <option value="{{$box->ID_BOX}}">{{$box->NAME_BOX}} {{$box->TYPEBOXE_BTYPE}} {{$box->ACRONYM_BOX}} {{$box->KG_WEIGHT}}</option>
                       @endforeach
                     </select>
                   </div>
                 </div>
 
                 <div class="col-xs-3">
-                  <a href="loadImage">Cargar Imagen</a>
-                  @@include('products.uploadImage')
+                  <div class="drag-drop">
+                    <input type="file" name="archivo" id="archivo" accept="image/jpeg"/>
+                    <span class="glyphicon glyphicon-cloud-upload glyphicon-lg"></span>
+                  </div>
                 </div>
-
               </div>
           </div>
 

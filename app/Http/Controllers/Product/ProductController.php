@@ -14,6 +14,11 @@ class ProductController extends Controller
     //ingreso de productos
     public function setAddProduct(Request $request){
       //Add recipe head
+      $file=Input::file('archivo');
+      $aleatorio=str_random(3);
+      $nombreArchivo=$aleatorio."-".$file->getClientOriginalName();
+      $nombreArchivoRuta="uploadingFile\\".$nombreArchivo;
+      $file->move('uploadingFile',$nombreArchivo);
 
       $idRecipe=DB::selectOne('EXEC SP_ADD_RECIPE_HEADER ?', array($request->get('txtPresentation')));
 
@@ -44,7 +49,7 @@ class ProductController extends Controller
         $idBoxes=$request->get('txtBoxes');
 
         //Add products
-        $idProduct=DB::selectOne('EXEC SP_ADD_PRODUCTS ?,?,?,?,?,?,?,?,? ',array($idRecipe, $request->get('txtPack'),$idBoxes, $request->get('txtCodeProduct'), $request->get('txtNameProduct'),$request->get('txtPathProduct'), $request->get('txtDescription'),$request->get('txtCodeUpc'),$request->get('txtOnlineName')));
+        $idProduct=DB::selectOne('EXEC SP_ADD_PRODUCTS ?,?,?,?,?,?,?,?,? ',array($idRecipe, $request->get('txtPack'),$idBoxes, $request->get('txtCodeProduct'), $request->get('txtNameProduct'),$nombreArchivoRuta, $request->get('txtDescription'),$request->get('txtCodeUpc'),$request->get('txtOnlineName')));
 
         $idProduct=$idProduct->ID;
 

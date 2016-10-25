@@ -49,7 +49,7 @@ class TaxeController extends Controller
   //eliminar Taxes
   public function getDeleteTaxe(Request $request){
     $nom=$request->get('txtNameDel');
-    Taxe::destroy($request->get('txtIdDel'));
+    Taxe::destroy($request->get('txtCodeDel'));
     return redirect('vw_Taxes')->with('message',"Deleting ".$nom);
   }
 }

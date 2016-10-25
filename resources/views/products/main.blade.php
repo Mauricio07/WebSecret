@@ -32,7 +32,21 @@
           @foreach ($tblProducts['tblProductos'] as $product)
             <tr>
               <td>{{$product->CODE_PRODUCT}}</td><td>{{$product->NAME_PRODUCT}}</td><td>{{$product->ONLINENAME_PRODUCT}}</td>
-              <td>{{$product->UPC_PRODUCT}}</td><td>{{$product->NAME_BOX}}</td><td>{{$product->IMAGE_PRODUCT}}</td><td></td>
+              <td>{{$product->UPC_PRODUCT}}</td><td>{{$product->NAME_BOX}}</td><td><img class="img-circle img-product-inbloom" src="{{URL::asset($product->IMAGE_PRODUCT)}}"/></td><td></td>
+              <td>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default btn-xs">Action </button>
+                  <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+                    <span class="caret"></span>
+                  </button>
+
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistrosProduct('{{$product->ID_PRODUCT}}','setModificationColor')">Edit</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosDel('{{$product->ID_PRODUCT}}','{{$product->NAME_PRODUCT}}','getDeleteColor')">Delete</a></li>
+                  </ul>
+                </div>
+              </td>
             </tr>
           @endforeach
         </tbody>

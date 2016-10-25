@@ -43,7 +43,7 @@
               <li><a href="vw_recipes">Recipes</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="vw_material">Materials</a></li>
-              <li><a href="#">Boxes</a></li>
+              <li><a href="vw_boxes">Boxes</a></li>
             </ul>
           </li>
 

@@ -7,22 +7,13 @@
         <h4 class="modal-title" id="myModalLabel">Details materials recipe</h4>
       </div>
       <div class="modal-body">
-        <table class="table table-striped">
+        <table class="table table-striped" id="tblDatosMaterialsRecipe">
           <thead>
             <th> Materials </th>
             <th> Quantity </th>
             <th> </th>
           </thead>
           <tbody>
-            @if (Session::get('ProductMaterialsRecipe'))
-              @foreach (Session::get('ProductMaterialsRecipe') as $datoMatRecipe)
-                <tr>
-                  <td>{{$datoMatRecipe['IdItemRecipe']}}</td>
-                  <td>{{$datoMatRecipe['NomItemMaterialsRecipe']}}</td>
-                  <td>{{$datoMatRecipe['QuantItemMaterialsRecipe']}}</td>                  
-                </tr>
-              @endforeach
-            @endif
           </tbody>
         </table>
       </div>

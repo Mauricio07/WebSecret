@@ -142,11 +142,24 @@ function setRegistroMaterial(v_code, v_name, v_sname, v_typeMat, v_accion){
     document.getElementById('txtCode').setAttribute('value',v_code);
     document.getElementById('txtName').setAttribute('value',v_name);
     document.getElementById('txtShortName').setAttribute('value',v_sname);
-    var option=document.getElementById('txtTypeMat')
+    var option=document.getElementById('txtTypeMat');
     $(option).val(v_typeMat).change();
     document.getElementById('formMaterial').setAttribute('action',v_accion);
 }
 
 function getIdRowRecipe(v_idRowRecipe){
   document.getElementById('txtIdRow').setAttribute('value',v_idRowRecipe);
+}
+
+function setAddRegisterBoxes(v_id, v_idType, v_Acronym, v_name, v_lenght,v_width, v_height, v_weight, v_accion){
+  document.getElementById('txtCode').setAttribute('value',v_id);
+  var vType=document.getElementById('txtType');
+  $(vType).val(v_idType).change();
+  document.getElementById('txtName').setAttribute('value',v_name);
+  document.getElementById('txtAcronym').setAttribute('value',v_Acronym);
+  document.getElementById('txtLength').setAttribute('value',v_lenght);
+  document.getElementById('txtWidth').setAttribute('value',v_width);
+  document.getElementById('txtHeight').setAttribute('value',v_height);
+  document.getElementById('txtWeigth').setAttribute('value',v_weight);
+  document.getElementById('formBoxes').setAttribute('action',v_accion);
 }

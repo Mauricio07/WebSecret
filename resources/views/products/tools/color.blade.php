@@ -82,4 +82,5 @@
 
 @section('modals')
     @include('products.implements.modalsTools')
+    @include('products.implements.modalsDeleteTools')
 @endsection

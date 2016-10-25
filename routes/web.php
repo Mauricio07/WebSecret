@@ -54,7 +54,7 @@ Route::get('setInsertProduct',function(){
   $datos=[
     'tblMaterialProduct'=>Materials::where('TYPE_MATERIALS', 'product')->get(),
     'tblMaterialItems'=>Materials::where('TYPE_MATERIALS', 'items')->get(),
-    'tblVwBoxes'=>DB::select('select ID_BOX, NAME_BOX, TYPEBOXE_BTYPE, SHORTNAME_BOX, DIMENSSION, KG_WEIGHT from VW_BOXES order by NAME_BOX, TYPEBOXE_BTYPE'),
+    'tblVwBoxes'=>DB::select('select ID_BOX, NAME_BOX, TYPEBOXE_BTYPE, ACRONYM_BOX, KG_WEIGHT from VW_BOXES order by NAME_BOX, TYPEBOXE_BTYPE'),
     'tblType'=>Items_type::get(),
     'tblColor'=>Color::get(),
     'tblSpecie'=>Specie::get(),
@@ -62,7 +62,6 @@ Route::get('setInsertProduct',function(){
     'tblCut'=>Cut::get(),
     'tblProcess'=>Process::get(),
     'tblPresentation'=>Presentation::get(),
-    //'datProductMaterials'=>Request::session()->get('ProductMaterials'),
   ];
   //dd($datos);
   return view('products.insert',['post'=>'true', 'tittle'=>"Product",'datos'=>$datos]);
@@ -144,12 +143,7 @@ Route::get('setDelMaterialsRecipe',function(){ //Remove items materials
   }
 });
 
-Route::get('loadImage',function(){
-  return view('products.uploadImage');
-});
-
-Route::post('uploading','Product\ProductController@uploading');
-
+//Route::post('uploading','Product\ProductController@uploading');
 
 Route::post('setAddInsertRecipe', function(){  //Add items materials
   if(Request::ajax()){
@@ -192,6 +186,28 @@ Route::get('setDelRecipeItems',function(){ //Remove items materials
 
     Request::session()->forget('ProductRecipe');
     Request::session()->set('ProductRecipe',$datosOk);
+  }
+});
+
+Route::get('updateSessionRoute',function(){
+  if (Request::ajax()) {
+    $idItemRecipe=Request::get('idItemRecipe');
+    $dt=Request::session()->get('ProductMaterialsRecipe');
+    $dtMat=[];
+    if (isset($dt)) {
+      foreach ($dt as $materialsRecipeItems) {
+        if ($materialsRecipeItems['IdItemRecipe']==$idItemRecipe) {
+          $dataMat=[
+            'IdItemRecipe'=>$materialsRecipeItems['IdItemRecipe'],
+            'IdMaterialsRecipe'=>$materialsRecipeItems['IdMaterialsRecipe'],
+            'NomItemMaterialsRecipe'=>$materialsRecipeItems['NomItemMaterialsRecipe'],
+            'QuantItemMaterialsRecipe'=>$materialsRecipeItems['QuantItemMaterialsRecipe'],
+          ];
+          array_push($dtMat,$dataMat);
+        }
+      }
+    }
+    return Response::json($dtMat);
   }
 });
 
@@ -324,3 +340,12 @@ Route::get('vw_material',function(){
 Route::post('setInsertMaterial','Product\Material\MaterialController@setInsertMaterial');
 Route::post('setModificationMaterial','Product\Material\MaterialController@setModificationMaterial');
 Route::get('getDeleteMaterial','Product\Material\MaterialController@getDeleteMaterial');
+
+Route::get('vw_boxes',function(){
+  $datos=[
+    'tblTypes'=>DB::select('select ID_BTYPE, TYPEBOXE_BTYPE from BOX_TYPES'),
+    'tblBoxes'=>DB::select('select * from VW_REP_BOXES'),
+  ];
+  return view('products.recipes.boxes',['post'=>'true','tittle'=>'Boxes','datos'=>$datos]);
+});
+Route::post('setAddBoxes','Product\Boxes\BoxesController@setAddBoxes');
