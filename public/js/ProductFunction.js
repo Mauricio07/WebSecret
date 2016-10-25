@@ -105,12 +105,12 @@ function setAddRecipe(v_MetodDel){
   });
 }
 
-function saveMaterialRecipe(vd_table, IdItemMat,v_MetodAdd,v_MetodDel){
+function saveMaterialRecipe(v_MetodAdd,v_MetodDel){
     var v_name=$('#txtMaterial');
     var v_nameMat=$(v_name).find(':selected').html();
-    var v_quanty=$('#txtQuantityMat');
-    var v_idRow=$('#txtIdRow').val();
-    console.log('valor rows> '+v_idRow);
+    var v_quanty=$('#txtQuantityMatRecipe');
+    var IdItemMat=$('#txtIdRow').val();
+    console.log($(v_quanty).val() + ' - '+ IdItemMat);
     //var vd_table=$('#tblMaterial');
     var ajaxResponse=document.getElementById('ajaxResponse');
     //insert with ajax
@@ -123,23 +123,28 @@ function saveMaterialRecipe(vd_table, IdItemMat,v_MetodAdd,v_MetodDel){
     //add items materials
     $.post(v_MetodAdd,{
       'IdItemRecipe': IdItemMat,
-      'IdItemMaterialsProd': IdItemMat,// IdItemMaterialsProd,
-      'NomItemMaterialsProd': $(v_name).val(),
-      'QuantItemMaterialsProd': $(v_quanty).val(),
+      'IdMaterialsRecipe': $(v_name).val(),
+      'NomItemMaterialsRecipe': v_nameMat,
+      'QuantItemMaterialsRecipe': $(v_quanty).val(),
     },function(data){
-      $(ajaxResponse).append(data);
-      v_contenido="<tr id=ProdMat"+IdItemMat+">"+
-      "<td>"+IdItemMat+"</td>"+
-      "<td>"+v_nameMat+"</td>"+
-      "<td>"+$(v_quanty).val()+"</td>"+
-      "<td> <div class='btn-group'>"
-          +"<a href='#' class='btn delete' id='deletingMat' onclick=deleteItem("+IdItemMat+",'ProdMat"+IdItemMat+"','"+v_MetodDel+"')></a>"
-          +"</div> </td>"
-          +"</tr>";
-      $(vd_table).append(v_contenido);
+      //$(ajaxResponse).append(data);
+      console.log(data);
       IdItemMat++; //index table of materials
-      console.log(IdItemMat);
     });
   }
-
-  
+/*
+  function loadImage(){
+    var v_file=$('#archivo');
+    $.ajaxSetup({
+      headers:{
+        'X-CSRF-Token': $('input[name="_token"]').val()
+      }
+    });
+    console.log($(v_file).val());
+    $.post('uploading',{
+      'archivo':v_file,
+    },function(data){
+      console.log("subido");
+    });
+  }
+*/

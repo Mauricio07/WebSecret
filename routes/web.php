@@ -24,6 +24,7 @@ use inbloom\Model\Product\Item;
 use inbloom\Model\Product\Recipe;
 use inbloom\Model\Product\Materials;
 use inbloom\Model\Product\Dimension;
+use Illuminate\Support\Facades\Input;
 
 Route::get('/',function(){
   return view('Logins\login');
@@ -110,14 +111,14 @@ Route::post('setAddInsertMaterialsRecipe', function(){  //Add items materials re
 
     $datos=[
       'IdItemRecipe'=> Request::get('IdItemRecipe'),
-      'IdItemMaterialsProd'=> Request::get('IdItemMaterialsProd'),
-      'NomItemMaterialsProd'=> Request::get('NomItemMaterialsProd'),
-      'QuantItemMaterialsProd'=> Request::get('QuantItemMaterialsProd'),
+      'IdMaterialsRecipe'=> Request::get('IdMaterialsRecipe'),
+      'NomItemMaterialsRecipe'=> Request::get('NomItemMaterialsRecipe'),
+      'QuantItemMaterialsRecipe'=> Request::get('QuantItemMaterialsRecipe'),
     ];
 
     Request::session()->push('ProductMaterialsRecipe',$datos);
 
-    return Response::json($datos);
+    return Response::json(Request::session()->get('ProductMaterialsRecipe'));
   }
 });
 
@@ -128,11 +129,12 @@ Route::get('setDelMaterialsRecipe',function(){ //Remove items materials
     $datosTemp=Request::session()->get('ProductMaterialsRecipe');
 
     foreach ( $datosTemp as $productMaterials) {
-      if ($productMaterials['IdItemMaterialsProd']!=$IdItemDel) {
+      if ($productMaterials['IdItemRecipe']!=$IdItemDel) {
         array_push($datosOk,[
-          'IdItemMaterialsProd'=> $productMaterials['IdItemMaterialsProd'],
-          'NomItemMaterialsProd'=> $productMaterials['NomItemMaterialsProd'],
-          'QuantItemMaterialsProd'=> $productMaterials['QuantItemMaterialsProd'],
+          'IdItemRecipe'=> $productMaterials['IdItemRecipe'],
+          'IdMaterialsRecipe'=> $productMaterials['IdMaterialsRecipe'],
+          'NomItemMaterialsRecipe'=> $productMaterials['NomItemMaterialsRecipe'],
+          'QuantItemMaterialsRecipe'=> $productMaterials['QuantItemMaterialsRecipe'],
         ]);
       }
     }
@@ -146,8 +148,8 @@ Route::get('loadImage',function(){
   return view('products.uploadImage');
 });
 
-Route::get('upload','Product\ProductController@upload');
 Route::post('uploading','Product\ProductController@uploading');
+
 
 Route::post('setAddInsertRecipe', function(){  //Add items materials
   if(Request::ajax()){

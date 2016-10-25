@@ -19,7 +19,6 @@
         <ul class="nav navbar-nav">
           <li><a href="home">Home</a></li>
           <li><a href="vw_product">Products <span class="sr-only">(current)</span></a></li>
-          <li><a href="setInsertProduct">New</a></li>          
           <li class="dropdown">
             <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tools <span class="caret"></span></a>
             <ul class="dropdown-menu">

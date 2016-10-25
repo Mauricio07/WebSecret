@@ -14,7 +14,15 @@
             <th> </th>
           </thead>
           <tbody>
-            <td>2</td><td>2</td><td>edit</td>
+            @if (Session::get('ProductMaterialsRecipe'))
+              @foreach (Session::get('ProductMaterialsRecipe') as $datoMatRecipe)
+                <tr>
+                  <td>{{$datoMatRecipe['IdItemRecipe']}}</td>
+                  <td>{{$datoMatRecipe['NomItemMaterialsRecipe']}}</td>
+                  <td>{{$datoMatRecipe['QuantItemMaterialsRecipe']}}</td>                  
+                </tr>
+              @endforeach
+            @endif
           </tbody>
         </table>
       </div>

@@ -29,13 +29,13 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">Quantity</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="txtQuantityMat" name="txtQuantityMat" placeholder="Quantity" autocomplete="off" onkeypress="return soloNumeros(event)"/>
+              <input type="text" class="form-control" id="txtQuantityMatRecipe" name="txtQuantityMatRecipe" placeholder="Quantity" autocomplete="off" onkeypress="return soloNumeros(event)"/>
             </div>
           </div>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" arial-label="close" id='saveMaterialsProductItems' onclick="saveMaterialRecipe('tblMaterialRecipe',IdItemMaterialsRecipe,'setAddInsertMaterialsRecipe','setDelMaterialsRecipe')">
+        <button type="button" class="btn btn-default" data-dismiss="modal" arial-label="close" id='saveMaterialsProductItems' onclick="saveMaterialRecipe('setAddInsertMaterialsRecipe','setDelMaterialsRecipe')">
             <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
             Save changes
         </button>

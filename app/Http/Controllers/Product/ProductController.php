@@ -4,9 +4,9 @@ namespace inbloom\Http\Controllers\Product;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use inbloom\Http\Controllers\Controller;
 use inbloom\Http\Requests;
-use Input;
 use inbloom\Http\Requests\Product\Product\InsertModifyProductRequest;
 
 class ProductController extends Controller
@@ -34,7 +34,7 @@ class ProductController extends Controller
               {
                 foreach ($arrayprodMaterial as $prodMatRecipe) {
                   if ($datoIndex->INDEX == $prodMatRecipe['IdItemRecipe']) {
-                    $seguir=DB::select('EXEC SP_ADD_MATERIAL_RECIPE ?,?,?',array($idRecipe, $prodMatRecipe['NomItemMaterialsProd'], $prodMatRecipe['QuantItemMaterialsProd'] ));
+                    $seguir=DB::select('EXEC SP_ADD_MATERIAL_RECIPE ?,?,?',array($idRecipe, $prodMatRecipe['IdMaterialsRecipe'], $prodMatRecipe['QuantItemMaterialsRecipe'] ));
                   }
                 }
             }
@@ -61,14 +61,14 @@ class ProductController extends Controller
 
     }
 
-    //Upload Image
-    public function upload(){
-
-    }
-
     public function uploading(){
-      $file=input::file('archivo');
-      $aleatorio=$str_random(3);
-      return true;
+
+      $file=Input::file('archivo');
+      $aleatorio=str_random(3);
+
+      $nombre=$aleatorio."-".$file->getClientOriginalName();
+      $file->move('uploadingFile',$nombre);
+
+      return 'ok';
     }
 }

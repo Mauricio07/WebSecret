@@ -73,6 +73,7 @@
 
                 <div class="col-xs-3">
                   <a href="loadImage">Cargar Imagen</a>
+                  @@include('products.uploadImage')
                 </div>
 
               </div>
