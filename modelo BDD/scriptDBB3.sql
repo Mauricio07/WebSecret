@@ -2,7 +2,7 @@
 /* DBMS name:      Microsoft SQL Server 2012                    */
 /* Created on:     25/10/2016 13:51:36                          */
 /*==============================================================*/
-
+use inbloomOk
 
 /*==============================================================*/
 /* Table: BOXES                                                 */
@@ -12,12 +12,10 @@ create table BOXES (
    ID_PRODUCT           int                  null,
    ID_BTYPE             int                  null,
    ID_WEIGHT            int                  null,
-   NAME_BOX             varchar(50)          null,
    HEIGHT_BOX           decimal(10,3)        null,
    WIDTH_BOX            decimal(10,3)        null,
-   LENGHT_BOX           decimal(10,3)        null,
+   LENGTH_BOX           decimal(10,3)        null,
    DATE_BOX             datetime             null,
-   ACRONYM_BOX          varchar(10)          null,
    constraint PK_BOXES primary key nonclustered (ID_BOX)
 )
 go

@@ -495,3 +495,14 @@ insert into CUTS(NAME_CUT, DATE_CUT ) values
 ('Americano 2',getdate()),
 ('0.2',getdate()),
 ('Punto 3',getdate())
+
+
+-- materials
+
+-- Type boxes
+insert into(TYPEBOXE_BTYPE,DATECREATE_BTYPE) values('SB',getdate() ),
+('PG',getdate() ),
+('QB',getdate() ),
+('Vendor',getdate() ),
+('EB',getdate() ),
+('HB',getdate() )

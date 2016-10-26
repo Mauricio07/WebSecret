@@ -2,7 +2,7 @@
 <div class="container">
   <ol class="breadcrumb">
     <li><a href="home">Home</a></li>
-    <li><a href="getListProduct">Product</a></li>
+    <li><a href="vw_product">Product</a></li>
     <li class="active">{{$tittle}}</li>
   </ol>
 </div>

@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\Input;
 use inbloom\Http\Controllers\Controller;
 use inbloom\Http\Requests;
 use inbloom\Http\Requests\Product\Product\InsertModifyProductRequest;
+use Validator;
 
 class ProductController extends Controller
 {
     //ingreso de productos
-    public function setAddProduct(Request $request){
+    public function setAddProduct(InsertModifyProductRequest $request){
       //Add recipe head
       $file=Input::file('archivo');
       $aleatorio=str_random(3);
@@ -20,15 +21,35 @@ class ProductController extends Controller
       $nombreArchivoRuta="uploadingFile\\".$nombreArchivo;
       $file->move('uploadingFile',$nombreArchivo);
 
+      $arrayProductRecipe = $request->session()->get('ProductRecipe');
+      $arrayProductMaterialsRecipe=$request->session()->get('ProductMaterialsRecipe');
+      $arrayProductMaterials= $request->session()->get('ProductMaterials');
+
+      //Validation Session
+      if (!isset($arrayProductMaterials)) {
+        $this->setSessionClear($request);
+        $errors=['MaterialsRecipe'=>'It has not been entered recipe materials'];
+        return redirect('setInsertProduct')->withErrors($errors);
+      }
+
+      if (!isset($arrayProductRecipe)) {
+        $this->setSessionClear($request);
+        $errors=['ItemsMaterialsRecipe'=>'It has not been entered recipe ingredients'];
+        return redirect('setInsertProduct')->withErrors($errors);
+      }
+
+      if (!isset($arrayProductMaterialsRecipe)) {
+        $this->setSessionClear($request);
+        $errors=['ItemRecipe'=>'It has not been entered materials ingredients'];
+        return redirect('setInsertProduct')->withErrors($errors);
+      }
+
       $idRecipe=DB::selectOne('EXEC SP_ADD_RECIPE_HEADER ?', array($request->get('txtPresentation')));
 
       if (isset($idRecipe)) {
         $idRecipe= $idRecipe->ID_RECIPE;
 
         //Add Recipe Product
-        $arrayProductRecipe = $request->session()->get('ProductRecipe');
-        $arrayProductMaterialsRecipe=$request->session()->get('ProductMaterialsRecipe');
-        $arrayProductMaterials= $request->session()->get('ProductMaterials');
 
         foreach ( $arrayProductRecipe as $pr) {
 
@@ -75,5 +96,11 @@ class ProductController extends Controller
       $file->move('uploadingFile',$nombre);
 
       return 'ok';
+    }
+
+    public function setSessionClear(InsertModifyProductRequest $request){
+      $request->session()->forget('ProductMaterials');
+      $request->session()->forget('ProductRecipe');
+      $request->session()->forget('ProductMaterialsRecipe');
     }
 }

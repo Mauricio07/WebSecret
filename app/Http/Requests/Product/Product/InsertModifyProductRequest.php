@@ -3,6 +3,7 @@
 namespace inbloom\Http\Requests\Product\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Session;
 
 class InsertModifyProductRequest extends FormRequest
 {
@@ -24,15 +25,15 @@ class InsertModifyProductRequest extends FormRequest
     public function rules()
     {
       return [
-          'txtCodeProduct'=>'min:3',
-          'txtCodeUpc'=>'min:3',
+          'txtCodeProduct'=>'min:3|max:20',
+          'txtCodeUpc'=>'min:3|max:20',
           'txtState'=>'min:3',
-          'txtNameProduct'=>'min:3',
-          'txtOnlineName'=>'min:3',
+          'txtNameProduct'=>'min:3|max:100',
+          'txtOnlineName'=>'min:3|max:100',
       ];
     }
 
-    public function message(){
+    public function messages(){
       return  [
         'txtCodeProduct.min'=> 'Longitud no valida',
       ];

@@ -18,47 +18,35 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">Type</label>
             <div class="col-sm-4">
-              <select class="form-control" id="txtType" name="txtType">
+              <select class="form-control" id="txtType" name="txtType" required="true">
                 @foreach ($datos['tblTypes'] as $dat)
                   <option value="{{$dat->ID_BTYPE}}">{{$dat->TYPEBOXE_BTYPE}}</option>
                 @endforeach
               </select>
             </div>
 
-            <label class="col-sm-2 control-label">Name</label>
+            <label class="col-sm-2 control-label">Length</label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" id="txtName" name="txtName" placeholder="Name"/>
+              <input type="text" class="form-control" id="txtLength" name="txtLength" placeholder="Length" onkeypress="return soloNumeros(event)" required="true"/>
             </div>
-          </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Acronym</label>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="txtAcronym" name="txtAcronym" placeholder="Acronym"/>
-            </div>
-
-          <label class="col-sm-2 control-label">Length</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="txtLength" name="txtLength" placeholder="Length" onkeypress="return soloNumeros(event)"/>
-          </div>
         </div>
 
         <div class="form-group">
           <label class="col-sm-2 control-label">Width</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="txtWidth" name="txtWidth" placeholder="Width"/>
+            <input type="text" class="form-control" id="txtWidth" name="txtWidth" placeholder="Width" onkeypress="return soloNumeros(event)" required="true"/>
           </div>
 
         <label class="col-sm-2 control-label">Height</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" id="txtHeight" name="txtHeight" placeholder="Height" onkeypress="return soloNumeros(event)"/>
+          <input type="text" class="form-control" id="txtHeight" name="txtHeight" placeholder="Height" onkeypress="return soloNumeros(event)" required="true"/>
         </div>
       </div>
 
       <div class="form-group">
         <label class="col-sm-2 control-label">Weigth(Lb)</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" id="txtWeigth" name="txtWeigth" placeholder="Weigth" onkeypress="return soloNumeros(event)"/>
+          <input type="text" class="form-control" id="txtWeigth" name="txtWeigth" placeholder="Weigth" onkeypress="return soloNumeros(event)" required="true"/>
         </div>
       </div>
 

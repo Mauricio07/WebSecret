@@ -65,7 +65,7 @@
                     <label for="Boxes">Boxes</label>
                     <select class="form-control" name="txtBoxes" id="txtBoxes" required="true">
                       @foreach ($datos['tblVwBoxes'] as $box)
-                        <option value="{{$box->ID_BOX}}">{{$box->NAME_BOX}} {{$box->TYPEBOXE_BTYPE}} {{$box->ACRONYM_BOX}} {{$box->KG_WEIGHT}}</option>
+                        <option value="{{$box->ID_BOX}}">{{$box->TYPEBOXE_BTYPE}} ({{$box->DATA}}) {{$box->KG_WEIGHT}} [LB]</option>
                       @endforeach
                     </select>
                   </div>
@@ -73,17 +73,17 @@
 
                 <div class="col-xs-3">
                   <div class="drag-drop">
-                    <input type="file" name="archivo" id="archivo" accept="image/jpeg"/>
+                    <input type="file" name="archivo" id="archivo" accept="image/jpeg" required="true"/>
                     <span class="glyphicon glyphicon-cloud-upload glyphicon-lg"></span>
                   </div>
                 </div>
               </div>
           </div>
 
-          <div class="container">
+          <div class="container ">
               <div class="row">
                 <hr>
-                <div class="panel-inbloom">
+                <div class="panel-inbloom has-feedback">
                   <div class="col-sm-5">
                     <h4>Materials </h4>
                   </div>
@@ -96,6 +96,7 @@
                       <span class="caret"></span>
                     </button>
                   </div>
+                  @if ($errors->has('MaterialsRecipe')) <span class="glyphicon glyphicon-remove form-control-feedback frm-error" aria-hidden="true"></span><p class="help-block">{{$errors->first('MaterialsRecipe')}} </p>@endif
                 </div>
                 <div class="tbl_hidden" id="divTblMaterial">
                   <table class="table" id="tblMaterial">
@@ -111,12 +112,13 @@
                 </div>
 
               </div>
+
           </div>
 
           <div class="container">
               <div class="row">
                 <hr>
-                <div class="panel-inbloom">
+                <div class="panel-inbloom has-feedback">
                   <div class="col-sm-5">
                     <h4>Recipe</h4>
                   </div>
@@ -127,6 +129,8 @@
                       <span class="caret"></span>
                     </button>
                   </div>
+                  @if ($errors->has('ItemsMaterialsRecipe')) <span class="glyphicon glyphicon-remove form-control-feedback frm-error" aria-hidden="true"></span><p class="help-block">{{$errors->first('ItemsMaterialsRecipe')}} </p>@endif
+                  @if ($errors->has('ItemRecipe')) <span class="glyphicon glyphicon-remove form-control-feedback frm-error" aria-hidden="true"></span><p class="help-block">{{$errors->first('ItemRecipe')}} </p>@endif
                 </div>
                 <div class="tbl_hidden" id="divTblRecipe">
                   <div class="form-group">

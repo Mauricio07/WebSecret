@@ -24,6 +24,7 @@ use inbloom\Model\Product\Item;
 use inbloom\Model\Product\Recipe;
 use inbloom\Model\Product\Materials;
 use inbloom\Model\Product\Dimension;
+use inbloom\Model\Product\Boxe_type;
 use Illuminate\Support\Facades\Input;
 
 Route::get('/',function(){
@@ -54,7 +55,7 @@ Route::get('setInsertProduct',function(){
   $datos=[
     'tblMaterialProduct'=>Materials::where('TYPE_MATERIALS', 'product')->get(),
     'tblMaterialItems'=>Materials::where('TYPE_MATERIALS', 'items')->get(),
-    'tblVwBoxes'=>DB::select('select ID_BOX, NAME_BOX, TYPEBOXE_BTYPE, ACRONYM_BOX, KG_WEIGHT from VW_BOXES order by NAME_BOX, TYPEBOXE_BTYPE'),
+    'tblVwBoxes'=>DB::select('select * from VW_BOXES'),
     'tblType'=>Items_type::get(),
     'tblColor'=>Color::get(),
     'tblSpecie'=>Specie::get(),
@@ -273,6 +274,15 @@ Route::get('vw_ItemTypes',function(){
 Route::post('setInsertItemTypes','Product\ItemType\ItemTypeController@setInsertItemTypes'); // Ejecuta insertar items types
 Route::post('setModificationItemType','Product\ItemType\ItemTypeController@setModificationItemType'); //Ejecuta modificacion items types
 Route::get('getDeleteItemsTypes','Product\ItemType\ItemTypeController@getDeleteItemsTypes'); //Ejecuta modificacion items types
+
+// Acceso al menu productos boxes type
+Route::get('vw_BoxeTypes',function(){
+  $datos=Boxe_type::get();
+  return view('products.tools.boxeTypes',['post'=>true,'tittle'=>" Boxe type",'tblDatos'=>$datos]);
+});
+Route::post('setInsertBoxType','Product\BoxeType\BoxTypeController@setInsertBoxType'); // Ejecuta insertar items types
+Route::post('setModificationBoxType','Product\BoxeType\BoxTypeController@setModificationBoxType'); //Ejecuta modificacion items types
+Route::get('getDeleteBoxType','Product\BoxeType\BoxTypeController@getDeleteBoxType'); //Ejecuta modificacion items types
 
 
 // Acceso al menu productos Grade

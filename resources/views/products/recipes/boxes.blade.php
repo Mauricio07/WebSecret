@@ -1,3 +1,4 @@
+
 @extends('products.headers.product')
 
 @section('body')
@@ -15,7 +16,7 @@
                 <input type="text" class="form-control" name="varietySearch" placeholder="Enter your search"/>
             </div>
             <div class="inner-addon left-addon col-xs-2 col-sm-2">
-              <button type="button" class="btn btn-inbloom" data-toggle="modal" data-target="#myModalBoxes" onclick="setAddRegisterBoxes('','','','','','','','','setAddBoxes')">Add</button>
+              <button type="button" class="btn btn-inbloom" data-toggle="modal" data-target="#myModalBoxes" onclick="setAddRegisterBoxes('','','','','','','setAddBoxes')">Add</button>
             </div>
           </div>
       </div>
@@ -24,8 +25,6 @@
     <table class="table table-striped">
       <thead>
         <th>Type</th>
-        <th>Acronym</th>
-        <th>Name</th>
         <th>Length</th>
         <th>Width</th>
         <th>Height</th>
@@ -36,8 +35,6 @@
         @foreach ($datos['tblBoxes'] as $value)
           <tr>
           <td>{{$value->TYPEBOXE_BTYPE}}</td>
-          <td>{{$value->ACRONYM_BOX}}</td>
-          <td>{{$value->NAME_BOX}}</td>
           <td>{{$value->LENGTH_BOX}}</td>
           <td>{{$value->WIDTH_BOX}}</td>
           <td>{{$value->HEIGHT_BOX}}</td>

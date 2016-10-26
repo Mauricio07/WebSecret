@@ -27,6 +27,7 @@
               <li><a href="vw_Grade">Grades</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="vw_ItemTypes">Item types</a></li>
+              <li><a href="vw_BoxeTypes">Boxe types</a></li>
               <li><a href="vw_Presentation">Presentation</a></li>
               <li><a href="vw_Process">Process</a></li>
               <li><a href="vw_Specie">Species</a></li>

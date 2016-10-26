@@ -151,12 +151,10 @@ function getIdRowRecipe(v_idRowRecipe){
   document.getElementById('txtIdRow').setAttribute('value',v_idRowRecipe);
 }
 
-function setAddRegisterBoxes(v_id, v_idType, v_Acronym, v_name, v_lenght,v_width, v_height, v_weight, v_accion){
+function setAddRegisterBoxes(v_id, v_idType, v_lenght,v_width, v_height, v_weight, v_accion){
   document.getElementById('txtCode').setAttribute('value',v_id);
   var vType=document.getElementById('txtType');
   $(vType).val(v_idType).change();
-  document.getElementById('txtName').setAttribute('value',v_name);
-  document.getElementById('txtAcronym').setAttribute('value',v_Acronym);
   document.getElementById('txtLength').setAttribute('value',v_lenght);
   document.getElementById('txtWidth').setAttribute('value',v_width);
   document.getElementById('txtHeight').setAttribute('value',v_height);
