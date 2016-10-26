@@ -69,11 +69,15 @@
         </div>
 
         <div class="form-group">
-          <label class="col-sm-2 control-label">Quantity</label>
+          <label class="col-sm-2 control-label">Stems</label>
           <div class="col-sm-4">
-          <input type="text" class="form-control" id="txtQuantity" name="txtQuantity" required="true" onkeypress="return soloNumeros(event)" />
+          <input type="text" class="form-control" id="txtStems" name="txtStems" required="true" onkeypress="return soloNumeros(event)"/>          
         </div>
 
+        <label class="col-sm-2 control-label">Quantity</label>
+        <div class="col-sm-4">
+          <input type="text" class="form-control" id="txtQuantity" name="txtQuantity" required="true" onkeypress="return soloNumeros(event)" />
+        </div>
       </div>
 
       </div>

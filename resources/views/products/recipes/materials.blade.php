@@ -12,7 +12,7 @@
                   <input type="text" class="form-control" name="varietySearch" placeholder="Enter your search"/>
               </div>
               <div class="inner-addon left-addon col-xs-2 col-sm-2">
-                <button type="button" class="btn btn-inbloom" data-toggle="modal" data-target="#myRegister" onclick="setRegistroMaterial('','','','','setInsertMaterial')" >New register</button>
+                <button type="button" class="btn btn-inbloom" data-toggle="modal" data-target="#myRegister" onclick="setRegistroMaterial('','','','setInsertMaterial')" >New register</button>
               </div>
             </div>
         </div>
@@ -23,7 +23,6 @@
         <table class="table table-striped">
           <thead>
               <th> Name </th>
-              <th> Shot name </th>
               <th> Description type </th>
               <th> Date create </th>
               <th> Date edit </th>
@@ -34,7 +33,7 @@
             <tr>
             @foreach ($datos['tblMaterial'] as $dato)
                 <tr>
-                  <td>{{$dato->NAME_MATERIALS}}</td> <td>{{$dato->ABREB_MATERIALS}}</td> <td>{{$dato->TYPE_MATERIALS}}</td>
+                  <td>{{$dato->NAME_MATERIALS}}</td> <td>{{$dato->TYPE_MATERIALS}}</td>
                   <td>{{$dato->DATE_MATERIAL}}</td><td>{{$dato->MODIFY_MATERIAL}}</td><td>@if ($dato->STATE_MATERIAL == 1)  Enable  @else  Disable  @endif</td>
                   <td>
                     <div class="btn-group">
@@ -44,7 +43,7 @@
                       </button>
 
                       <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistroMaterial('{{$dato->ID_MATERIAL}}','{{$dato->NAME_MATERIALS}}','{{$dato->ABREB_MATERIALS}}','{{$dato->TYPE_MATERIALS}}','setModificationMaterial')">Edit</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistroMaterial('{{$dato->ID_MATERIAL}}','{{$dato->NAME_MATERIALS}}','{{$dato->TYPE_MATERIALS}}','setModificationMaterial')">Edit</a></li>
                         <li class="divider"></li>
                         <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosDel('{{$dato->ID_MATERIAL}}','{{$dato->NAME_MATERIALS}}','getDeleteMaterial')">Delete</a></li>
                       </ul>

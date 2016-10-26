@@ -50,6 +50,7 @@ go
 create table BOX_TYPES (
    ID_BTYPE             int identity(1,1)    not null,
    TYPEBOXE_BTYPE       varchar(10)          null,
+   DATECREATE_BTYPE		datetime             null,
    constraint PK_BOX_TYPES primary key nonclustered (ID_BTYPE)
 )
 go
@@ -224,7 +225,6 @@ go
 create table MATERIALS_ITEMS (
    ID_MATERIAL          int identity(1,1)    not null,
    NAME_MATERIALS       varchar(100)         null,
-   ABREB_MATERIALS      varchar(10)          null,
    DATE_MATERIAL        datetime             null,
    MODIFY_MATERIAL      datetime             null,
    DELETE_MATERIAL      datetime             null,

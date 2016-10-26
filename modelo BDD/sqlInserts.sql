@@ -1,3 +1,5 @@
+use inbloomOk
+
 -- insert ITEMS_TYPES
 insert into ITEMS_TYPES (NAME_ITYPES, DATE_ITYPES) values
 ('Standard',getdate()),
@@ -500,9 +502,5 @@ insert into CUTS(NAME_CUT, DATE_CUT ) values
 -- materials
 
 -- Type boxes
-insert into(TYPEBOXE_BTYPE,DATECREATE_BTYPE) values('SB',getdate() ),
-('PG',getdate() ),
-('QB',getdate() ),
-('Vendor',getdate() ),
-('EB',getdate() ),
-('HB',getdate() )
+insert into BOX_TYPES (TYPEBOXE_BTYPE,DATECREATE_BTYPE) 
+values('SB',getdate()),('PG',getdate()),('QB',getdate()),('Vendor',getdate()),('EB',getdate()),('HB',getdate())

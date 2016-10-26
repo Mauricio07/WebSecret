@@ -25,7 +25,6 @@ class MaterialRequest extends FormRequest
     {
         return [
             'txtName'=>'required|min:3',
-            'txtShortName'=>'required|max:10',
             'txtTypeMat'=>'required',
         ];
     }

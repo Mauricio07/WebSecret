@@ -15,7 +15,6 @@ class MaterialController extends Controller
     public function setInsertMaterial(MaterialRequest $request){
       $datos=[
         'NAME_MATERIALS'=>$request->get('txtName'),
-        'ABREB_MATERIALS'=>$request->get('txtShortName'),
         'TYPE_MATERIALS'=>$request->get('txtTypeMat'),
         'DATE_MATERIAL'=>date('Ymd H:i:s'),
         'STATE_MATERIAL'=>1, //materials enable
@@ -29,7 +28,6 @@ class MaterialController extends Controller
       Materials::where('ID_MATERIAL', $request->get('txtCode'))
               ->update([
                 'NAME_MATERIALS'=>$request->get('txtName'),
-                'ABREB_MATERIALS'=>$request->get('txtShortName'),
                 'TYPE_MATERIALS'=>$request->get('txtTypeMat'),
                 'MODIFY_MATERIAL'=>date('Ymd H:i:s'),
               ]);

@@ -23,14 +23,6 @@
           </div>
 
           <div class="form-group">
-            <label class="col-sm-4 control-label">Short Name</label>
-            <div class="col-sm-6">
-              <input type="text" class="form-control" id="txtShortName" name="txtShortName" placeholder="Short Name"/>
-            </div>
-          </div>
-
-
-          <div class="form-group">
             <label class="col-sm-4 control-label">Description type</label>
             <div class="col-sm-6">
               <select class="form-control" id="txtTypeMat" name="txtTypeMat"  required="true">

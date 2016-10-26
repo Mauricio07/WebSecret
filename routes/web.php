@@ -158,6 +158,7 @@ Route::post('setAddInsertRecipe', function(){  //Add items materials
       'IdCuts'=>Request::get('IdCuts'),
       'IdGrade'=>Request::get('IdGrade'),
       'Quantity'=>Request::get('Quantity'),
+      'Stems'=>Request::get('Stems'),
     ];
 
     Request::session()->push('ProductRecipe',$datosRecipe);
@@ -181,6 +182,7 @@ Route::get('setDelRecipeItems',function(){ //Remove items materials
           'IdCuts'=>$product['IdCuts'],
           'IdGrade'=>$product['IdGrade'],
           'Quantity'=>$product['Quantity'],
+          'Stems'=>$product['Stems'],
         ]);
       }
     }

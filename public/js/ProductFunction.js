@@ -66,6 +66,7 @@ function setAddRecipe(v_MetodDel){
   var v_nCut=$('#txtCut');
   var v_nGrade=$('#txtGrade');
   var v_quanty=$('#txtQuantity');
+  var v_stems=$('#txtStems');
   var ajaxRecipe=$('#ajaxRecipe');// document.getElementById('ajaxRecipe');
 
   var vd_table=document.getElementById('tblRecipe');   //nombre table
@@ -86,6 +87,7 @@ function setAddRecipe(v_MetodDel){
     'IdCuts':$(v_nCut).val(),
     'IdGrade':$(v_nGrade).val(),
     'Quantity':$(v_quanty).val(),
+    'Stems':$(v_stems).val(),
   },function(data){
 
     $(ajaxRecipe).html(data);
@@ -99,6 +101,7 @@ function setAddRecipe(v_MetodDel){
     "<td>"+$(v_nCut).find(':selected').html()+"</td>"+
     "<td>"+$(v_nGrade).find(':selected').html()+"</td>"+
     "<td>"+$(v_quanty).val()+"</td>"+
+    "<td>"+$(v_stems).val()+"</td>"+
     "<td> <div class='btn-group'>"
         +"<a href='#' data-toggle='modal' class='btn edit' data-target='#myRegisterMaterialItems' onclick=getIdRowRecipe("+IdItemRecipeProd+")></a>"
         +"<a href='' data-toggle='modal' class='btn delete' onclick=deleteItem("+IdItemRecipeProd+",'RecipeItem"+IdItemRecipeProd+"','"+v_MetodDel+"')></a>"
@@ -153,4 +156,21 @@ function updateSession(v_idMaterialRecipe){
     });
     $(vd_table).append(contenido);
   });
+}
+
+/*
+  Limpia los controles de la receta
+*/
+
+function setLimpia(){
+  var vd_form=$('#formRecipe').attr('value','');
+  var v_nSpecie=$('#txtSpecie').attr('value','');
+  var v_nColor=$('#txtColor').attr('value','');
+  var v_nProcess=$('#txtProcess').attr('value','');
+  var v_nType=$('#txtType').attr('value','');
+  var v_nCut=$('#txtCut').attr('value','');
+  var v_nGrade=$('#txtGrade').attr('value','');
+  var v_quanty=$('#txtQuantity').attr('value','');
+  var v_stems=$('#txtStems').attr('value','');
+  var ajaxRecipe=$('#ajaxRecipe').html('');// document.getElementById('ajaxRecipe');  
 }

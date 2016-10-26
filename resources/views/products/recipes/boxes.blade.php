@@ -28,7 +28,8 @@
         <th>Length</th>
         <th>Width</th>
         <th>Height</th>
-        <th>Weigth (Lb)</th>
+        <th>Pounds</th>
+        <th>Kilo </th>
         <th></th>
       </thead>
       <tbody>
@@ -39,6 +40,7 @@
           <td>{{$value->WIDTH_BOX}}</td>
           <td>{{$value->HEIGHT_BOX}}</td>
           <td>{{$value->LB_WEIGHT}}</td>
+          <td>{{$value->KG_WEIGHT}}</td>
           <td></td>
         </tr>
         @endforeach
