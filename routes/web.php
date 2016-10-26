@@ -150,6 +150,7 @@ Route::post('setAddInsertRecipe', function(){  //Add items materials
   if(Request::ajax()){
 
     $datosRecipe=[
+      'Id_Recipe'=>Request::get('Id_Recipe'),
       'IdItemRecipeProd'=>Request::get('IdItemRecipeProd'),
       'IdSpecie'=>Request::get('IdSpecie'),
       'IdColor'=>Request::get('IdColor'),
@@ -158,7 +159,6 @@ Route::post('setAddInsertRecipe', function(){  //Add items materials
       'IdCuts'=>Request::get('IdCuts'),
       'IdGrade'=>Request::get('IdGrade'),
       'Quantity'=>Request::get('Quantity'),
-      'Stems'=>Request::get('Stems'),
     ];
 
     Request::session()->push('ProductRecipe',$datosRecipe);
@@ -219,10 +219,41 @@ Route::get('vw_Taxes',function(){
   $datos=Taxe::get();
   return view('products.tools.taxe',['post'=>true,'tittle'=>" Taxe",'tblDatos'=>$datos]);
 });
+
 Route::post('setInsertTaxe','Product\Taxe\TaxeController@setInsertTaxe'); // Ejecuta insertar taxes
+
 Route::post('setModificationTaxe','Product\Taxe\TaxeController@setModificationTaxe'); //Ejecuta modificacion taxes
+
 Route::get('getDeleteTaxe','Product\Taxe\TaxeController@getDeleteTaxe'); //Ejecuta modificacion Product taxes
 
+Route::post('setAddTypeRecipe',function(){
+    if (Request::ajax()) {
+      $datos=[
+        'indexRecipe'=>Request::get('indexRecipe'),
+        'IndexTypeRecipe'=>Request::get('IndexTypeRecipe'),
+      ];
+      Request::session()->push('Recipes',$datos);
+    }
+});
+
+Route::get('getItemsRecipe',function(){
+  if (Request::ajax()) {
+    $idItemRecipe=Request::get('idBusca');
+    $dt=Request::session()->get('ProductRecipe');
+    $datosRecipe=[];
+
+    if (isset($dt)) {
+      foreach ($dt as $recipeItems) {
+        if ($recipeItems['Id_Recipe']==$idItemRecipe) {
+          $datos=DB::select('EXEC ASP_ITEMS_RECIPE ?,?,?,?,?,?,?',array($recipeItems['IdSpecie'], $recipeItems['IdColor'],$recipeItems['IdProcess'],$recipeItems['IdTypes'],$recipeItems['IdCuts'],$recipeItems['IdGrade'],$recipeItems['Quantity']));
+          array_push($datosRecipe,$datos);
+        }
+      }
+    }
+
+    return Response::json($datosRecipe);
+  }
+});
 
 // Acceso al menu productos varieties
 Route::get('vw_Variety',function(){

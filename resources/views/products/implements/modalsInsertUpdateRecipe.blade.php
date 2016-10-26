@@ -65,18 +65,14 @@
                   <option value="{{$dat['ID_GRADE']}}">{{$dat['NAME_GRADE']}}</option>
                 @endforeach
               </select>
+              <input type="text" name="txtCodeRecipe" id="txtCodeRecipe" hidden="true"/>
             </div>
         </div>
 
         <div class="form-group">
-          <label class="col-sm-2 control-label">Stems</label>
+          <label class="col-sm-2 control-label">Quantity</label>
           <div class="col-sm-4">
-          <input type="text" class="form-control" id="txtStems" name="txtStems" required="true" onkeypress="return soloNumeros(event)"/>          
-        </div>
-
-        <label class="col-sm-2 control-label">Quantity</label>
-        <div class="col-sm-4">
-          <input type="text" class="form-control" id="txtQuantity" name="txtQuantity" required="true" onkeypress="return soloNumeros(event)" />
+          <input type="text" class="form-control" id="txtQuantity" name="txtQuantity" required="true" onkeypress="return soloNumeros(event)"/>
         </div>
       </div>
 

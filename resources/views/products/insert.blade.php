@@ -126,45 +126,53 @@
                   </div>
                   <div class="col-sm-5"><div id="ajaxRecipe"></div></div>
                   <div class="btn-group col-sm-2">
-                    <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#myRegister" onclick="setLimpia()">Add </button>
-                    <button type="button" class="btn btn-default dropdown-toggle btn-md" data-toggle="dropdown" onclick="displayTbl('divTblRecipe')">
+                    <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#myRegisterRecipe" onclick="setLimpia()">Add </button>
+                    <a href="#collapseRecipe" class="btn btn-default btn-md" data-toggle="collapse">
                       <span class="caret"></span>
-                    </button>
+                    </a>
                   </div>
                   @if ($errors->has('ItemsMaterialsRecipe')) <span class="glyphicon glyphicon-remove form-control-feedback frm-error" aria-hidden="true"></span><p class="help-block">{{$errors->first('ItemsMaterialsRecipe')}} </p>@endif
                   @if ($errors->has('ItemRecipe')) <span class="glyphicon glyphicon-remove form-control-feedback frm-error" aria-hidden="true"></span><p class="help-block">{{$errors->first('ItemRecipe')}} </p>@endif
                 </div>
-                <div class="tbl_hidden" id="divTblRecipe">
-                  <div class="form-group">
-                    <br>
-                    <label class="col-sm-2 control-label">Presentation</label>
-                    <div class="col-sm-4">
-                      <select class="form-control" id="txtPresentation" name="txtPresentation"  required="true">
-                        @foreach ($datos['tblPresentation'] as $dat)
-                          <option value="{{$dat['ID_PTYPE']}}">{{$dat['NAME_PTYPE']}}</option>
-                        @endforeach
-                      </select>
-                      <br>
+
+                <!--Div table modal recipe-->
+                <br>
+                <div class="container">
+                  <div class="collapse" id="collapseRecipe">
+                    <div class="well2">
+                      <table class="table table-striped" id="tblRecipes">
+                        <thead>
+                          <th>Code</th>
+                          <th>Name</th>
+                          <th></th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
-                  <table class="table" id="tblRecipe" name='tblRecipe'>
-                    <thead>
-                      <th></th>
-                      <th>Specie</th>
-                      <th>Color</th>
-                      <th>Process</th>
-                      <th>Types</th>
-                      <th>Cuts</th>
-                      <th>Grade</th>
-                      <th>Quantity</th>
-                      <th>Stems</th>
-                      <th></th>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                  </table>
                 </div>
+            
+                  <div class="collapse" id="collapseItems">
+                    <div class="well">
+                      <table class="table" id="tblRecipe" name='tblRecipe'>
+                        <thead>
+                          <th></th>
+                          <th>Specie</th>
+                          <th>Color</th>
+                          <th>Process</th>
+                          <th>Types</th>
+                          <th>Cuts</th>
+                          <th>Grade</th>
+                          <th>Quantity</th>
+                          <th>Stems</th>
+                          <th></th>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+                    </div>
+                  </div>
+
               </div>
           </div>
 
@@ -193,4 +201,5 @@
   @include('products.implements.modalsInsertUpdateMaterialsItems')
   @include('products.implements.tblDetailRecipeMaterial')
   @include('products.implements.modalsDeleteTools')
+  @include('products.implements.modalsInsertRecipe')
 @endsection

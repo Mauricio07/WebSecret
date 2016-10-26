@@ -2,6 +2,7 @@
 var IdItemMaterialsProd=0;
 var IdItemRecipeProd=0;
 var IdItemMaterialsRecipe=0;
+var indexRecipe=0;
 
   //Validacion de letras
   function soloLetras(e){
@@ -148,6 +149,10 @@ function setRegistroMaterial(v_code, v_name,  v_typeMat, v_accion){
 
 function getIdRowRecipe(v_idRowRecipe){
   document.getElementById('txtIdRow').setAttribute('value',v_idRowRecipe);
+}
+
+function getIndexRowRecipe(v_indexRecipe){
+  document.getElementById('txtCodeRecipe').setAttribute('value',v_indexRecipe);
 }
 
 function setAddRegisterBoxes(v_id, v_idType, v_lenght,v_width, v_height, v_weight, v_accion){
