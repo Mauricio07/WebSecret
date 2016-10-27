@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Input;
 
 Route::get('/',function(){
   return view('Logins\login');
+
 });
 
 //Modulo de inicio
@@ -41,7 +42,7 @@ Route::get('vw_product',function(){
   //remove storage product
   Request::session()->forget('ProductMaterials');
   Request::session()->forget('ProductRecipe');
-  Request::session()->forget('ProductMaterialsRecipe');
+  Request::session()->forget('ProductItemsMaterialsRecipe');
   Request::session()->forget('Recipes');
   $datos=[
     'tblProductos'=>DB::select('EXEC ASP_REP_PRODUCTS ?',array('1')),
@@ -54,8 +55,8 @@ Route::get('vw_product',function(){
 Route::get('setInsertProduct',function(){
 
   $datos=[
-    'tblMaterialProduct'=>Materials::where('TYPE_MATERIALS', 'product')->get(),
-    'tblMaterialItems'=>Materials::where('TYPE_MATERIALS', 'items')->get(),
+    'tblMaterialProduct'=>Materials::where('TYPE_MATERIALS', 'pr')->get(),
+    'tblMaterialItems'=>Materials::where('TYPE_MATERIALS', 'it')->get(),
     'tblVwBoxes'=>DB::select('select * from VW_BOXES'),
     'tblType'=>Items_type::orderBy('NAME_ITYPES')->get(),
     'tblColor'=>Color::orderBy('NAME_COLOR')->get(),
@@ -108,19 +109,21 @@ Route::post('setAddInsertMaterial', function(){  //Add items materials
   }
 });
 
-Route::post('setAddInsertMaterialsRecipe', function(){  //Add items materials recipe
+Route::post('setAddInsertItemMaterialsRecipe', function(){  //Add items materials recipe -----
   if(Request::ajax()){
 
     $datos=[
+      'IdItemMatProd'=>Request::get('IdItemMatProd'),
+      'IdRecipe'=> Request::get('IdRecipe'),
       'IdItemRecipe'=> Request::get('IdItemRecipe'),
       'IdMaterialsRecipe'=> Request::get('IdMaterialsRecipe'),
       'NomItemMaterialsRecipe'=> Request::get('NomItemMaterialsRecipe'),
       'QuantItemMaterialsRecipe'=> Request::get('QuantItemMaterialsRecipe'),
     ];
 
-    Request::session()->push('ProductMaterialsRecipe',$datos);
+    Request::session()->push('ProductItemsMaterialsRecipe',$datos);
 
-    return Response::json(Request::session()->get('ProductMaterialsRecipe'));
+    return Response::json(Request::session()->get('ProductItemsMaterialsRecipe'));
   }
 });
 
@@ -195,24 +198,27 @@ Route::get('setDelRecipeItems',function(){ //Remove items materials
   }
 });
 
-Route::get('updateSessionRoute',function(){
+Route::get('getItemsMaterials_',function(){
   if (Request::ajax()) {
-    $idItemRecipe=Request::get('idItemRecipe');
-    $dt=Request::session()->get('ProductMaterialsRecipe');
+    $idRecipe=Request::get('idRecipe');
+    $idIndexItem=Request::get('IdItemRecipe');
+    $dt=Request::session()->get('ProductItemsMaterialsRecipe');
     $dtMat=[];
+
     if (isset($dt)) {
-      foreach ($dt as $materialsRecipeItems) {
-        if ($materialsRecipeItems['IdItemRecipe']==$idItemRecipe) {
+      foreach ($dt as $matRecipeItems) {
+        if (($matRecipeItems['IdItemRecipe']==$idIndexItem) && ($matRecipeItems['idRecipe']==$idRecipe)) {
           $dataMat=[
-            'IdItemRecipe'=>$materialsRecipeItems['IdItemRecipe'],
-            'IdMaterialsRecipe'=>$materialsRecipeItems['IdMaterialsRecipe'],
-            'NomItemMaterialsRecipe'=>$materialsRecipeItems['NomItemMaterialsRecipe'],
-            'QuantItemMaterialsRecipe'=>$materialsRecipeItems['QuantItemMaterialsRecipe'],
+            'IdItemRecipe'=>$matRecipeItems['IdItemRecipe'],
+            'IdMaterialsRecipe'=>$matRecipeItems['IdMaterialsRecipe'],
+            'NomItemMaterialsRecipe'=>$matRecipeItems['NomItemMaterialsRecipe'],
+            'QuantItemMaterialsRecipe'=>$matRecipeItems['QuantItemMaterialsRecipe'],
           ];
           array_push($dtMat,$dataMat);
         }
       }
     }
+
     return Response::json($dtMat);
   }
 });
@@ -248,7 +254,7 @@ Route::get('getItemsRecipes',function(){
     if (isset($dt)) {
       foreach ($dt as $recipeItems) {
         if ($recipeItems['Id_Recipe']==$idItemRecipe) {
-          $datos=DB::select('EXEC ASP_ITEMS_RECIPE ?,?,?,?,?,?,?,?',array($recipeItems['IdSpecie'], $recipeItems['IdColor'],$recipeItems['IdProcess'],$recipeItems['IdTypes'],$recipeItems['IdCuts'],$recipeItems['IdGrade'],$recipeItems['IdVariety'],$recipeItems['Quantity']));
+          $datos=DB::select('EXEC ASP_ITEMS_RECIPE ?,?,?,?,?,?,?,?,?',array($recipeItems['IdSpecie'], $recipeItems['IdColor'],$recipeItems['IdProcess'],$recipeItems['IdTypes'],$recipeItems['IdCuts'],$recipeItems['IdGrade'],$recipeItems['IdVariety'],$recipeItems['Quantity'], $recipeItems['IdItemRecipeProd']));
           array_push($datosRecipe,$datos);
         }
       }

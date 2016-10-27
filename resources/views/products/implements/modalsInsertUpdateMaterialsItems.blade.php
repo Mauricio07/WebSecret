@@ -11,14 +11,15 @@
           <div class="form-group" hidden="true">
             <label class="col-sm-2 control-label">Id</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="txtIdRow" name="txtIdRow" hidden="true"/>
+              <input type="text" class="form-control" id="txtIdRowItem" name="txtIdRowItem" hidden="true"/>
+              <input type="text" class="form-control" id="txtIdRowRecipe" name="txtIdRowRecipe" hidden="true"/>
               <input type="text" class="form-control" id="txtCode" name="txtCode" placeholder="Code"/>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">Name</label>
             <div class="col-sm-9">
-              <select class="form-control" id="txtMaterial" name="txtMaterials"  required="true">
+              <select class="form-control" id="txtIMaterialItem" name="txtIMaterialItem"  required="true">
                 @foreach ($datos['tblMaterialItems'] as $dat)
                   <option value="{{$dat['ID_MATERIAL']}}">{{$dat['NAME_MATERIALS']}}</option>
                 @endforeach
@@ -35,7 +36,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" arial-label="close" id='saveMaterialsProductItems' disabled="true" onclick="saveMaterialRecipe('setAddInsertMaterialsRecipe','setDelMaterialsRecipe')">
+        <button type="button" class="btn btn-default" data-dismiss="modal" arial-label="close" id='saveMaterialsProductItems' disabled="true" onclick="saveItemMaterialRecipe()">
             <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
             Save changes
         </button>

@@ -15,16 +15,19 @@ class ProductController extends Controller
     //ingreso de productos
     public function setAddProduct(InsertModifyProductRequest $request){
       //Add recipe head
+
+      dd($request->session()->get('ProductMaterials'));
+
       $file=Input::file('archivo');
       $aleatorio=str_random(3);
       $nombreArchivo=$aleatorio."-".$file->getClientOriginalName();
       $nombreArchivoRuta="uploadingFile\\".$nombreArchivo;
       $file->move('uploadingFile',$nombreArchivo);
 
-      $arrayRecipe = $request->session()->get('Recipes');
-      $arrayProductRecipe = $request->session()->get('ProductRecipe');
-      $arrayProductMaterialsRecipe=$request->session()->get('ProductMaterialsRecipe');
-      $arrayProductMaterials= $request->session()->get('ProductMaterials');
+      $arrayRecipe = $request->session()->get('Recipes'); //Recetas
+      $arrayProductRecipe = $request->session()->get('ProductRecipe'); //bonches que forman la receta
+      $arrayProductMaterialsRecipe=$request->session()->get('ProductItemsMaterialsRecipe');
+      $arrayProductMaterials= $request->session()->get('ProductMaterials'); //Materiales de la receta
 
       //Validation Session
       if (!isset($arrayProductMaterials)) {
@@ -56,12 +59,12 @@ class ProductController extends Controller
 
           foreach ( $arrayProductRecipe as $pr) {
 
-                $datoIndex=DB::select('EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?',array($idRecipe,$pr['Quantity'],$pr['IdColor'], $pr['IdColor'], $pr['IdGrade'], $pr['IdTypes'], $pr['IdProcess'], $pr['IdSpecie'], $pr['IdVariety']));
+                $datoIndex=DB::select('EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?',array($idRecipe,$pr['Quantity'],$pr['IdColor'], $pr['IdCuts'], $pr['IdGrade'], $pr['IdTypes'], $pr['IdProcess'], $pr['IdSpecie'], $pr['IdVariety']));
 
                 //Add material recipe items
-                if (isset($arrayprodMaterial))
+                if (isset($arrayProductMaterialsRecipe))
                 {
-                  foreach ($arrayprodMaterial as $prodMatRecipe) {
+                  foreach ($arrayProductMaterialsRecipe as $prodMatRecipe) {
                     if ($datoIndex->INDEX == $prodMatRecipe['IdItemRecipe']) {
                       $seguir=DB::select('EXEC SP_ADD_MATERIAL_RECIPE ?,?,?',array($idRecipe, $prodMatRecipe['IdMaterialsRecipe'], $prodMatRecipe['QuantItemMaterialsRecipe'] ));
                     }
@@ -72,16 +75,17 @@ class ProductController extends Controller
 
 
         //Add boxes
+        $idUsuario=1;
         $idBoxes=$request->get('txtBoxes');
 
         //Add products
-        $idProduct=DB::selectOne('EXEC SP_ADD_PRODUCTS ?,?,?,?,?,?,?,?,? ',array($idRecipe, $request->get('txtPack'),$idBoxes, $request->get('txtCodeProduct'), $request->get('txtNameProduct'),$nombreArchivoRuta, $request->get('txtDescription'),$request->get('txtCodeUpc'),$request->get('txtOnlineName')));
+        $idProduct=DB::selectOne('EXEC SP_ADD_PRODUCTS ?,?,?,?,?,?,?,?,?,? ',array($idRecipe, $request->get('txtPack'),$idBoxes, $request->get('txtCodeProduct'), $request->get('txtNameProduct'),$nombreArchivoRuta, $request->get('txtDescription'),$request->get('txtCodeUpc'),$request->get('txtOnlineName'),$idUsuario));
 
         $idProduct=$idProduct->ID;
 
         //Add materials Product
         if ($idProduct>0){
-          foreach ($request->session()->get('ProductMaterials') as $pm) {
+          foreach ($arrayProductMaterials as $pm) {
               $seguir=DB::select('EXEC SP_ADD_MATERIALS_PRODUCT ?,?,? ',array($idProduct,$pm['NomItemMaterialsProd'], $pm['QuantItemMaterialsProd']));
           }
         }

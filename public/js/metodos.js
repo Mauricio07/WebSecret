@@ -149,8 +149,10 @@ function setRegistroMaterial(v_code, v_name,  v_typeMat, v_accion){
     document.getElementById('formMaterial').setAttribute('action',v_accion);
 }
 
-function getIdRowRecipe(v_idRowRecipe){
-  document.getElementById('txtIdRow').setAttribute('value',v_idRowRecipe);
+function getIdRowRecipe(v_idRowRecipe, v_idRowItem){
+  document.getElementById('txtIdRowRecipe').setAttribute('value',v_idRowRecipe); // index receta
+  document.getElementById('txtIdRowItem').setAttribute('value',v_idRowItem); //index item
+
 }
 
 function getIndexRowRecipe(v_indexRecipe){

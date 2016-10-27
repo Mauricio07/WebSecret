@@ -1,12 +1,14 @@
+/*
 $(document).ready(function(){
   var dataRows=$('#tblMaterial tbody tr');
   $(dataRows).each(
     function(){
-      IdItemMaterialsProd+= 1;
+      -IdItemMaterialsProd+= 1;
     }
   );
 });
-
+*/
+/*
   // add item materials
 function saveMaterialProduct(vd_table, v_MetodAdd,v_MetodDel){
     var v_name=$('#txtMaterial');
@@ -23,25 +25,25 @@ function saveMaterialProduct(vd_table, v_MetodAdd,v_MetodDel){
 
     //add items materials
     $.post(v_MetodAdd,{
-      'IdItemMaterialsProd': IdItemMaterialsProd,// IdItemMaterialsProd,
+      '-IdItemMaterialsProd': -IdItemMaterialsProd,// -IdItemMaterialsProd,
       'NomItemMaterialsProd': $(v_name).val(),
       'QuantItemMaterialsProd': $(v_quanty).val(),
     },function(data){
       $(ajaxRecipe).html(data);
-      v_contenido="<tr id=ProdMat"+IdItemMaterialsProd+">"+
-      "<td>"+IdItemMaterialsProd+"</td>"+
+      v_contenido="<tr id=ProdMat"+-IdItemMaterialsProd+">"+
+      "<td>"+-IdItemMaterialsProd+"</td>"+
       "<td>"+v_nameMat+"</td>"+
       "<td>"+$(v_quanty).val()+"</td>"+
       "<td> <div class='btn-group'>"
-          +"<a href='' class='btn delete' id='deletingMat' onclick=deleteItem("+IdItemMaterialsProd+",'ProdMat"+IdItemMaterialsProd+"','"+v_MetodDel+"')></a>"
+          +"<a href='' class='btn delete' id='deletingMat' onclick=deleteItem("+-IdItemMaterialsProd+",'ProdMat"+-IdItemMaterialsProd+"','"+v_MetodDel+"')></a>"
           +"</div> </td>"
           +"</tr>";
       $(vd_table).append(v_contenido);
-      IdItemMaterialsProd++; //index table of materials
+      -IdItemMaterialsProd++; //index table of materials
     });
   }
 
-
+*/
 //deleting items materials
 function deleteItem(v_IdDel, v_IdDelTr,v_function){
   $.get(v_function,{
@@ -64,7 +66,7 @@ function setAddItemRecipe(v_MetodDel){
   });
   $.post('setAddInsertRecipe',{
     'Id_Recipe':$('#txtCodeRecipe').val(),
-    'IdItemRecipeProd':v_IndexRecipe,
+    'IdItemRecipeProd':IdItemRecipeProd,
     'IdSpecie':$('#txtSpecie').val(),
     'IdColor':$('#txtColor').val(),
     'IdProcess':$('#txtProcess').val(),
@@ -83,11 +85,12 @@ function setAddItemRecipe(v_MetodDel){
 /*
   Almacena los items en la session
 */
-function saveMaterialRecipe(v_MetodAdd,v_MetodDel){
-    var v_name=$('#txtMaterial');
+function saveItemMaterialRecipe(){
+    var v_name=$('#txtIMaterialItem');
     var v_nameMat=$(v_name).find(':selected').html();
     var v_quanty=$('#txtQuantityMatRecipe');
-    var IdItemMat=$('#txtIdRow').val();
+    var IdItemMat=$('#txtIdRowItem').val();
+    var IdItemRecipe=$('#txtIdRowRecipe').val();
     var ajaxResponse=document.getElementById('ajaxResponse');
     //insert with ajax
     $.ajaxSetup({
@@ -97,29 +100,37 @@ function saveMaterialRecipe(v_MetodAdd,v_MetodDel){
     });
 
     //add items materials
-    $.post(v_MetodAdd,{
-      'IdItemRecipe': IdItemMat,
+    $.post('setAddInsertItemMaterialsRecipe',{
+      'IdItemMatProd':IdItemMaterialsProd,
+      'IdRecipe':$('#txtIdRowRecipe').val(),
+      'IdItemRecipe': $('#txtIdRowItem').val(),
       'IdMaterialsRecipe': $(v_name).val(),
       'NomItemMaterialsRecipe': v_nameMat,
       'QuantItemMaterialsRecipe': $(v_quanty).val(),
     },function(data){
-      IdItemMat++; //index table of materials
+      console.log(data);
+      IdItemMaterialsProd++; //index table of materials
     });
   }
 
 /*
   Muestra el contenido de la receta
 */
-function updateSession(v_idMaterialRecipe){
+function getItemsMaterials(v_indexRecipe, v_indexItem){
   var vd_table=$('#tblDatosMaterialsRecipe');
-  $.get('updateSessionRoute',{
-    'idItemRecipe':v_idMaterialRecipe
+  $.get('getItemsMaterials_',{
+    'idRecipe':v_indexItem,
+    'IdItemRecipe':v_indexRecipe
   },function(data){
+    console.log(data);
     var contenido;
     $.each(data, function(i, item) {
-      contenido+="<tr id=RecipeItemMat"+item.IdItemRecipe+"><td>"+item.NomItemMaterialsRecipe+"</td><td>"
-      +item.QuantItemMaterialsRecipe+"</td><td>"+"<a href='' data-toggle='modal' class='btn delete' onclick=deleteItem("+item.IdItemRecipe
-      +",'RecipeItemMat"+item.IdItemRecipe+"','setDelMaterialsRecipe')></a></td></tr>";
+      contenido+="<tr id=RecipeItemMat"+item.IdItemRecipe+"><td>"
+      +item.NomItemMaterialsRecipe+"</td><td>"
+      +item.QuantItemMaterialsRecipe+"</td><td>"
+      +"<a href='' data-toggle='modal' class='btn delete' onclick=deleteItem("
+      +item.IdItemRecipe+",RecipeItemMat"+item.IdItemRecipe
+      +",'setDelMaterialsRecipe')></a></td></tr>";
     });
     $(vd_table).append(contenido);
   });
@@ -163,7 +174,7 @@ function getItemsRecipe(v_id){
     $.each(data,function(i,item){
       $.each(item, function(j,item2){
         v_contenido+="<tr id=RecipeItem"+IdItemRecipeProd+">"+
-        "<td><a href='#' data-toggle='modal' data-target='#myRegisterMaterialRecipe' onclick=updateSession("+IdItemRecipeProd+")>+</a></td>"+
+        "<td><a href='#' data-toggle='modal' data-target='#myRegisterMaterialRecipe' onclick=getItemsMaterials("+v_id+","+item2.INDEXITEMRECIPE+")>+</a></td>"+
         "<td>"+item2.SPECIE+"</td>"+
         "<td>"+item2.TYPE+"</td>"+
         "<td>"+item2.PROCESS+"</td>"+
@@ -173,13 +184,14 @@ function getItemsRecipe(v_id){
         "<td>"+item2.CUTS+"</td>"+
         "<td>"+item2.QUANTITY+"</td>"+
         "<td> <div class='btn-group'>"
-            +"<a href='#' data-toggle='modal' class='btn edit' data-target='#myRegisterMaterialItems' onclick=getIdRowRecipe("+IdItemRecipeProd+")></a>"
+            +"<a href='#' data-toggle='modal' class='btn edit' data-target='#myRegisterMaterialItems' onclick=getIdRowRecipe("+v_id+","+item2.INDEXITEMRECIPE+")></a>"
             +"<a href='' data-toggle='modal' class='btn delete' onclick=deleteItem("+IdItemRecipeProd+",'RecipeItem"+IdItemRecipeProd+"','setDelRecipeItems')></a>"
             +"</div> </td>"
             +"</tr>";
       });
     });
     $('#tblRecipeBody').html(v_contenido);
+
   });
 }
 

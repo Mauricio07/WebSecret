@@ -26,8 +26,8 @@
             <label class="col-sm-4 control-label">Description type</label>
             <div class="col-sm-6">
               <select class="form-control" id="txtTypeMat" name="txtTypeMat"  required="true">
-                  <option value="items">Items</option>
-                  <option value="product">Products</option>
+                  <option value="it">Items</option>
+                  <option value="pr">Products</option>
               </select>
             </div>
           </div>

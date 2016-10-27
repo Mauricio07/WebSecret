@@ -1,8 +1,8 @@
-/*==============================================================*/
+ /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
 /* Created on:     27/10/2016 10:42:51                          */
 /*==============================================================*/
-
+use inbloomOk
 
 /*==============================================================*/
 /* Table: BOXES                                                 */
@@ -14,6 +14,7 @@ create table BOXES (
    HEIGHT_BOX           decimal(10,3)        null,
    WIDTH_BOX            decimal(10,3)        null,
    LARGE_BOX            decimal(10,3)        null,
+   LENGTH_BOX           decimal(10,3)        null,
    DATE_BOX             datetime             null,
    constraint PK_BOXES primary key nonclustered (ID_BOX)
 )
@@ -41,6 +42,7 @@ go
 create table BOX_TYPES (
    ID_BTYPE             int identity(1,1)    not null,
    TYPEBOXE_BTYPE       varchar(10)          null,
+   DATECREATE_BTYPE		  datetime             null,
    constraint PK_BOX_TYPES primary key nonclustered (ID_BTYPE)
 )
 go
@@ -208,6 +210,7 @@ create table MATERIALS_ITEMS (
    MODIFY_MATERIAL      datetime             null,
    DELETE_MATERIAL      datetime             null,
    STATE_MATERIAL       int                  null,
+   TYPE_MATERIALS       varchar(2)           null,
    constraint PK_MATERIALS_ITEMS primary key nonclustered (ID_MATERIAL)
 )
 go
@@ -587,4 +590,3 @@ alter table VARIETIES
    add constraint FK_VARIETIE_ITEM_VARI_SPECIES foreign key (ID_SPECIE)
       references SPECIES (ID_SPECIE)
 go
-

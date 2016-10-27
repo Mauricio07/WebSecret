@@ -502,24 +502,24 @@ insert into CUTS(NAME_CUT, DATE_CUT ) values
 -- materials
 insert into materials_items (NAME_MATERIALS, DATE_MATERIAL, TYPE_MATERIALS, STATE_MATERIAL)
 values 
-('Lámina Care & Handling', GETDATE(), 'product',1),
-('Lámina Botricida', GETDATE(), 'product',1),
-('Lámina Sulfito / Papel decorado', GETDATE(), 'product',1),
-('Adhesivo Inbloom', GETDATE(), 'product',1),
-('Comida Chrysal 10 gr', GETDATE(), 'items',1),
-('Comida Chrysal 5 gr', GETDATE(), 'items',1),
-('Comida Savemart 5 gr', GETDATE(), 'items',1),
-('Capuchon 40*40*12', GETDATE(), 'items',1),
-('Capuchon 45*45*12', GETDATE(), 'items',1),
-('Capuchon 45*45*14 (FROST)', GETDATE(), 'items',1),
-('Capuchon 50*35*10', GETDATE(), 'items',1),
-('Capuchon 50*49*12', GETDATE(), 'items',1),
-('UPCS', GETDATE(), 'items',1),
-('Gypso', GETDATE(), 'items',1),
-('Ruscus', GETDATE(), 'items',1),
-('Eucalipto', GETDATE(), 'items',1),
-('Hypericum', GETDATE(), 'items',1),
-('Fabwraps/Ruanas', GETDATE(), 'items',1)
+('Lámina Care & Handling', GETDATE(), 'pr',1),
+('Lámina Botricida', GETDATE(), 'pr',1),
+('Lámina Sulfito / Papel decorado', GETDATE(), 'pr',1),
+('Adhesivo Inbloom', GETDATE(), 'pr',1),
+('Comida Chrysal 10 gr', GETDATE(), 'it',1),
+('Comida Chrysal 5 gr', GETDATE(), 'it',1),
+('Comida Savemart 5 gr', GETDATE(), 'it',1),
+('Capuchon 40*40*12', GETDATE(), 'it',1),
+('Capuchon 45*45*12', GETDATE(), 'it',1),
+('Capuchon 45*45*14 (FROST)', GETDATE(), 'it',1),
+('Capuchon 50*35*10', GETDATE(), 'it',1),
+('Capuchon 50*49*12', GETDATE(), 'it',1),
+('UPCS', GETDATE(), 'it',1),
+('Gypso', GETDATE(), 'it',1),
+('Ruscus', GETDATE(), 'it',1),
+('Eucalipto', GETDATE(), 'it',1),
+('Hypericum', GETDATE(), 'it',1),
+('Fabwraps/Ruanas', GETDATE(), 'it',1)
 
 -- Type boxes
 insert into BOX_TYPES (TYPEBOXE_BTYPE,DATECREATE_BTYPE) 

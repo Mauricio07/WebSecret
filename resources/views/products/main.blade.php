@@ -32,7 +32,7 @@
           @foreach ($tblProducts['tblProductos'] as $product)
             <tr>
               <td>{{$product->CODE_PRODUCT}}</td><td>{{$product->NAME_PRODUCT}}</td><td>{{$product->ONLINENAME_PRODUCT}}</td>
-              <td>{{$product->UPC_PRODUCT}}</td><td>{{$product->NAME_BOX}}</td><td><img class="img-circle img-product-inbloom" src="{{URL::asset($product->IMAGE_PRODUCT)}}"/></td><td></td>
+              <td>{{$product->UPC_PRODUCT}}</td><td>{{$product->TYPEBOXE_BTYPE}}</td><td><img class="img-circle img-product-inbloom" src="{{URL::asset($product->IMAGE_PRODUCT)}}"/></td><td></td>
               <td>
                 <div class="btn-group">
                   <button type="button" class="btn btn-default btn-xs">Action </button>

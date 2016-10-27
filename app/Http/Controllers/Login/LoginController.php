@@ -21,7 +21,8 @@ class LoginController extends Controller
 
       $usuarioIng=DB::selectOne('exec asp_loginUsers ?,?',array($user_,$pass_));
 
-      if (isset($usuarioIng)){        
+      if (isset($usuarioIng)){
+        $request->session()->set('UsuarioIngresa',$user_);
         return redirect('home');
       }else{
         return redirect('/')->with('message','User o password incorrect');
