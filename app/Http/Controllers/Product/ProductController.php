@@ -21,6 +21,7 @@ class ProductController extends Controller
       $nombreArchivoRuta="uploadingFile\\".$nombreArchivo;
       $file->move('uploadingFile',$nombreArchivo);
 
+      $arrayRecipe = $request->session()->get('Recipes');
       $arrayProductRecipe = $request->session()->get('ProductRecipe');
       $arrayProductMaterialsRecipe=$request->session()->get('ProductMaterialsRecipe');
       $arrayProductMaterials= $request->session()->get('ProductMaterials');
@@ -43,28 +44,32 @@ class ProductController extends Controller
         $errors=['ItemRecipe'=>'It has not been entered materials ingredients'];
         return redirect('setInsertProduct')->withErrors($errors);
       }
+      //dd($arrayRecipe);
+      foreach ($arrayRecipe as $aPr) {
+        // Recipe
+        $idRecipe=DB::selectOne('EXEC SP_ADD_RECIPE_HEADER ?', array($aPr['IndexTypeRecipe']));
 
-      $idRecipe=DB::selectOne('EXEC SP_ADD_RECIPE_HEADER ?', array($request->get('txtPresentation')));
+        if (isset($idRecipe)) {
+          $idRecipe= $idRecipe->ID_RECIPE;
 
-      if (isset($idRecipe)) {
-        $idRecipe= $idRecipe->ID_RECIPE;
+          //Add Recipe Product
 
-        //Add Recipe Product
+          foreach ( $arrayProductRecipe as $pr) {
 
-        foreach ( $arrayProductRecipe as $pr) {
+                $datoIndex=DB::select('EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?',array($idRecipe,$pr['Quantity'],$pr['IdColor'], $pr['IdColor'], $pr['IdGrade'], $pr['IdTypes'], $pr['IdProcess'], $pr['IdSpecie'], $pr['IdVariety']));
 
-              $datoIndex=DB::select('EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?',array($idRecipe,$pr['Quantity'],$pr['IdColor'], $pr['IdColor'], $pr['IdGrade'], $pr['IdTypes'], $pr['IdProcess'], $pr['IdSpecie'], $pr['Stems']));
-
-              //Add material recipe items
-              if (isset($arrayprodMaterial))
-              {
-                foreach ($arrayprodMaterial as $prodMatRecipe) {
-                  if ($datoIndex->INDEX == $prodMatRecipe['IdItemRecipe']) {
-                    $seguir=DB::select('EXEC SP_ADD_MATERIAL_RECIPE ?,?,?',array($idRecipe, $prodMatRecipe['IdMaterialsRecipe'], $prodMatRecipe['QuantItemMaterialsRecipe'] ));
+                //Add material recipe items
+                if (isset($arrayprodMaterial))
+                {
+                  foreach ($arrayprodMaterial as $prodMatRecipe) {
+                    if ($datoIndex->INDEX == $prodMatRecipe['IdItemRecipe']) {
+                      $seguir=DB::select('EXEC SP_ADD_MATERIAL_RECIPE ?,?,?',array($idRecipe, $prodMatRecipe['IdMaterialsRecipe'], $prodMatRecipe['QuantItemMaterialsRecipe'] ));
+                    }
                   }
-                }
-            }
-        }
+              }
+          }
+      }
+
 
         //Add boxes
         $idBoxes=$request->get('txtBoxes');

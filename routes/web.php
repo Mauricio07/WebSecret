@@ -42,6 +42,7 @@ Route::get('vw_product',function(){
   Request::session()->forget('ProductMaterials');
   Request::session()->forget('ProductRecipe');
   Request::session()->forget('ProductMaterialsRecipe');
+  Request::session()->forget('Recipes');
   $datos=[
     'tblProductos'=>DB::select('EXEC ASP_REP_PRODUCTS ?',array('1')),
   ];
@@ -238,7 +239,7 @@ Route::post('setAddTypeRecipe',function(){
     }
 });
 
-Route::get('getItemsRecipe',function(){
+Route::get('getItemsRecipes',function(){
   if (Request::ajax()) {
     $idItemRecipe=Request::get('idBusca');
     $dt=Request::session()->get('ProductRecipe');

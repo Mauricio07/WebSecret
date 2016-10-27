@@ -3,7 +3,7 @@ var IdItemMaterialsProd=0;
 var IdItemRecipeProd=0;
 var IdItemMaterialsRecipe=0;
 var indexRecipe=0;
-var packRecipe=0;
+var packRecipe=[];
 var packTotal=0;
 
   //Validacion de letras

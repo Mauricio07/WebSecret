@@ -56,15 +56,15 @@ function deleteItem(v_IdDel, v_IdDelTr,v_function){
 
 function setAddItemRecipe(v_MetodDel){
   //insert with ajax
+  var v_IndexRecipe=$('#txtCodeRecipe').val()
   $.ajaxSetup({
     headers:{
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
-
   $.post('setAddInsertRecipe',{
     'Id_Recipe':$('#txtCodeRecipe').val(),
-    'IdItemRecipeProd':IdItemRecipeProd,
+    'IdItemRecipeProd':v_IndexRecipe,
     'IdSpecie':$('#txtSpecie').val(),
     'IdColor':$('#txtColor').val(),
     'IdProcess':$('#txtProcess').val(),
@@ -75,7 +75,7 @@ function setAddItemRecipe(v_MetodDel){
     'Quantity':$('#txtQuantity').val(),
   },function(data){
     $('#ajaxRecipe').html(data);
-    packsItems($('#txtQuantity').val(),IdItemRecipeProd,'suma');
+    packsItems($('#txtQuantity').val(),v_IndexRecipe,'suma');
     IdItemRecipeProd++;
   });
 }
@@ -156,7 +156,7 @@ function setAddRecipe(v_MetodDel){
 
 function getItemsRecipe(v_id){
 
-  $.get('getItemsRecipe',{
+  $.get('getItemsRecipes',{
     'idBusca':v_id
   },function(data){
     var v_contenido;
@@ -183,12 +183,33 @@ function getItemsRecipe(v_id){
   });
 }
 
-function packsItems(v_valorPack, v_indexRecipe,v_op){
+function packsItems(v_valorPack, v_indexRecipe, v_op){
+  var v_escribir=0;
+  var bandera=false;
+
+  $.each(packRecipe,function(i,item){
+    $.each(item,function(j,item2){
+      if (item2.index==v_indexRecipe) {
+        if (v_op=="suma") {
+          item2.total+=parseInt(v_valorPack);
+        }else{
+          item2.total-=parseInt(v_valorPack);
+        }
+        bandera=true;
+        v_escribir=pk.total;
+      }
+    });
+  });
+
+  if (!bandera) {
+    var a={'index':v_indexRecipe, 'total':v_valorPack};
+    packRecipe.push(a);
+    v_escribir=v_valorPack;
+  }
+
   if (v_op=='suma') { //revisar suma packs
-    packRecipe+=parseInt(v_valorPack);
-    packTotal+=parseInt(packRecipe);
+    packTotal+=parseInt(v_escribir);
     $('#txtPack').attr('value',packTotal);
-    $('#tdPackRecipes'+v_indexRecipe).html(packRecipe);
-    console.log(packRecipe + " - total: "+packTotal);
+    $('#tdPackRecipes'+v_indexRecipe).html(v_escribir);
   }
 }

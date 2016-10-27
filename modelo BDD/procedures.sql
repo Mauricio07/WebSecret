@@ -50,8 +50,8 @@ AND IT.ID_GRADE=GR.ID_GRADE
 AND IT.ID_PROCESS=PR.ID_PROCESS
 ORDER BY SP.NAME_SPECIE, CO.NAME_COLOR,  ITY.NAME_ITYPES
 GO
-
-CREATE PROCEDURE SP_ADD_ITEM_RECIPE(@idRecip int, @quanRecip int ,@idCol int, @idCut int, @idGra int, @idType int, @idProcess int, @idSpec int)
+/*
+CREATE PROCEDURE SP_ADD_ITEM_RECIPE(@idRecip int, @quanRecip int ,@idCol int, @idCut int, @idGra int, @idType int, @idProcess int, @idSpec int, @idVariety int)
 as
 -- items receta
 declare @idItem int
@@ -61,6 +61,8 @@ set @idItem =(select count(*) from items where ID_COLOR=@idCol and ID_CUT=@idCut
 and ID_PROCESS=@idProcess and ID_SPECIE=@idSpec)
 
 if (@idItem=0)
+	--ADD ITEM SPECIE
+	update SPECIES set ID_VARIETY=@idVariety where ID_SPECIE=@idSpec;
 
 	insert into items(ID_COLOR, ID_CUT, ID_GRADE, ID_ITYPES, ID_PROCESS,ID_SPECIE, DATE_ITEM)
 	values(@idCol, @idCut, @idGra, @idType, @idProcess, @idSpec, GETDATE());
@@ -75,7 +77,7 @@ if (select count(*) from ITEMS_RECIPES where ID_RECIPE=@idRecip and ID_ITEM=@idI
 
 select @idItem as 'INDEX'
 go
-
+*/
 CREATE PROCEDURE SP_ADD_RECIPE_HEADER @idPtype INT
 AS
 DECLARE @vNum INT
@@ -189,9 +191,9 @@ AS
 SELECT (SELECT NAME_SPECIE FROM SPECIES WHERE ID_SPECIE=@idSpecie)AS'SPECIE',
 	   (SELECT NAME_COLOR FROM COLORS WHERE ID_COLOR=@idColor)AS'COLOR',
 	   (SELECT TYPE_PROCESS FROM PROCESS WHERE ID_PROCESS=@idProcess)AS'PROCESS',
-	   (SELECT NAME_ITYPES FROM ITEMS_TYPES WHERE ID_ITYPES=@idColor)AS'TYPE',
-	   (SELECT NAME_CUT FROM CUTS WHERE ID_CUT=@idColor)AS'CUTS',
+	   (SELECT NAME_ITYPES FROM ITEMS_TYPES WHERE ID_ITYPES=@type)AS'TYPE',
+	   (SELECT NAME_CUT FROM CUTS WHERE ID_CUT=@idCuts)AS'CUTS',
 	   (SELECT NAME_VARIETY FROM VARIETIES WHERE ID_VARIETY=@idVariety)AS'VARIETY',
-	   (SELECT NAME_GRADE FROM GRADES WHERE ID_GRADE=@idColor)AS'GRADE',@quantity AS 'QUANTITY'
+	   (SELECT NAME_GRADE FROM GRADES WHERE ID_GRADE=@idGrade)AS'GRADE',@quantity AS 'QUANTITY'
 
 go
