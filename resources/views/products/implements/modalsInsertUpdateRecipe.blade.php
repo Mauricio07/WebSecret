@@ -9,7 +9,7 @@
         </div>
         <div class="modal-body">
             <div class="form-group">
-              <label class="col-sm-2 control-label">Specie</label>
+              <label class="col-sm-2 control-label">Product</label>
               <div class="col-sm-4">
               <select class="form-control" id="txtSpecie" name="txtSpecie"  required="true">
                 @foreach ($datos['tblSpecie'] as $dat)
@@ -18,14 +18,14 @@
               </select>
             </div>
 
-            <label class="col-sm-2 control-label">Color</label>
-            <div class="col-sm-4">
-              <select class="form-control" id="txtColor" name="txtColor" required="true">
-                @foreach ($datos['tblColor'] as $dat)
-                  <option value="{{$dat['ID_COLOR']}}">{{$dat['NAME_COLOR']}}</option>
-                @endforeach
-              </select>
-             </div>
+              <label class="col-sm-2 control-label">Types</label>
+              <div class="col-sm-4">
+                <select class="form-control" id="txtType" name="txtType" required="true">
+                  @foreach ($datos['tblType'] as $dat)
+                    <option value="{{$dat['ID_ITYPES']}}">{{$dat['NAME_ITYPES']}}</option>
+                  @endforeach
+                </select>
+              </div>
             </div>
 
 
@@ -38,22 +38,25 @@
                    @endforeach
                  </select>
                </div>
-               <label class="col-sm-2 control-label">Types</label>
+
+               <label class="col-sm-2 control-label">Variety</label>
                <div class="col-sm-4">
-                 <select class="form-control" id="txtType" name="txtType" required="true">
-                   @foreach ($datos['tblType'] as $dat)
-                     <option value="{{$dat['ID_ITYPES']}}">{{$dat['NAME_ITYPES']}}</option>
+                 <select class="form-control" id="txtVariety" name="txtVariety"  required="true">
+                   @foreach ($datos['tblVariety'] as $dat)
+                     <option value="{{$dat['ID_VARIETY']}}">{{$dat['NAME_VARIETY']}}</option>
                    @endforeach
                  </select>
+                 <input type="text" name="txtCodeRecipe" id="txtCodeRecipe" hidden="true"/>
                </div>
+
             </div>
 
             <div class="form-group">
-              <label class="col-sm-2 control-label">Cuts</label>
+              <label class="col-sm-2 control-label">Color</label>
               <div class="col-sm-4">
-              <select class="form-control" id="txtCut" name="txtCut" required="true">
-                @foreach ($datos['tblCut'] as $dat)
-                  <option value="{{$dat['ID_CUT']}}">{{$dat['NAME_CUT']}}</option>
+              <select class="form-control" id="txtColor" name="txtColor" required="true">
+                @foreach ($datos['tblColor'] as $dat)
+                  <option value="{{$dat['ID_COLOR']}}">{{$dat['NAME_COLOR']}}</option>
                 @endforeach
               </select>
             </div>
@@ -65,20 +68,28 @@
                   <option value="{{$dat['ID_GRADE']}}">{{$dat['NAME_GRADE']}}</option>
                 @endforeach
               </select>
-              <input type="text" name="txtCodeRecipe" id="txtCodeRecipe" hidden="true"/>
             </div>
         </div>
 
         <div class="form-group">
-          <label class="col-sm-2 control-label">Quantity</label>
+          <label class="col-sm-2 control-label">Cuts</label>
           <div class="col-sm-4">
-          <input type="text" class="form-control" id="txtQuantity" name="txtQuantity" required="true" onkeypress="return soloNumeros(event)"/>
-        </div>
+            <select class="form-control" id="txtCut" name="txtCut" required="true">
+              @foreach ($datos['tblCut'] as $dat)
+                <option value="{{$dat['ID_CUT']}}">{{$dat['NAME_CUT']}}</option>
+              @endforeach
+            </select>
+           </div>
+
+           <label class="col-sm-2 control-label">Quantity</label>
+           <div class="col-sm-4">
+             <input type="text" class="form-control" id="txtQuantity" name="txtQuantity" required="true" onkeypress="return soloNumeros(event)" onblur="activarBtn('saveItemRecipe','txtQuantity')"/>
+           </div>
       </div>
 
       </div>
         <div class="modal-footer">
-          <button type="button" data-dismiss="modal" aria-label="Close" id="saveRecipe"  class="btn btn-default" onclick="setAddRecipe('setDelRecipeItems')">
+          <button type="button" data-dismiss="modal" aria-label="Close" id="saveItemRecipe"  class="btn btn-default" disabled="true" onclick="setAddItemRecipe('setDelRecipeItems')">
               <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
               Save changes
           </button>

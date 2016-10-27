@@ -28,13 +28,13 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">Quantity</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="txtQuantityMat" name="txtQuantityMat" placeholder="Quantity" autocomplete="off" onkeypress="return soloNumeros(event)"/>
+              <input type="text" class="form-control" id="txtQuantityMat" name="txtQuantityMat" placeholder="Quantity" autocomplete="off" onkeypress="return soloNumeros(event)" onblur="activarBtn('saveMaterialsProduct','txtQuantityMat')"/>
             </div>
           </div>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" arial-label="close" id='saveMaterialsProduct' onclick="saveMaterialProduct(tblMaterial,'setAddInsertMaterial','setDelMaterials')" >
+        <button type="button" class="btn btn-default" data-dismiss="modal" arial-label="close" id='saveMaterialsProduct' disabled="true" onclick="saveMaterialProduct(tblMaterial,'setAddInsertMaterial','setDelMaterials')" >
             <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
             Save changes
         </button>

@@ -12,9 +12,5 @@ class RecipeController extends Controller
   /*
   * Model recipe
   */
-  public function setInsertRecipe(Request $request){
-    $datos=[
-
-    ];
-  }
+  
 }

@@ -42,7 +42,7 @@
                   </div>
                   <div class="form-group has-feedback">
                     <label for="Code Product">Pack</label>
-                      <input type="text" name="txtPack" class="form-control" placeholder="Pack" onkeypress="return soloNumeros(event)" value="{{old('txtPack')}}" required="true" autocomplete="off"/>
+                      <input type="text" name="txtPack" id="txtPack" class="form-control" placeholder="Pack" onkeypress="return soloNumeros(event)" value="{{old('txtPack')}}" required="true" autocomplete="off" readonly="true"/>
                       @if ($errors->has('txtPack')) <span class="glyphicon glyphicon-remove form-control-feedback frm-error" aria-hidden="true"></span><p class="help-block">{{$errors->first('txtPack')}} </p>@endif
                   </div>
                 </div>
@@ -126,7 +126,7 @@
                   </div>
                   <div class="col-sm-5"><div id="ajaxRecipe"></div></div>
                   <div class="btn-group col-sm-2">
-                    <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#myRegisterRecipe" onclick="setLimpia()">Add </button>
+                    <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#myRegisterRecipe">Add </button>
                     <a href="#collapseRecipe" class="btn btn-default btn-md" data-toggle="collapse">
                       <span class="caret"></span>
                     </a>
@@ -144,6 +144,7 @@
                         <thead>
                           <th>Code</th>
                           <th>Name</th>
+                          <th>Pack Recipe</th>
                           <th></th>
                         </thead>
                         <tbody>
@@ -152,23 +153,23 @@
                     </div>
                   </div>
                 </div>
-            
+
                   <div class="collapse" id="collapseItems">
                     <div class="well">
                       <table class="table" id="tblRecipe" name='tblRecipe'>
                         <thead>
                           <th></th>
-                          <th>Specie</th>
-                          <th>Color</th>
-                          <th>Process</th>
+                          <th>Product</th>
                           <th>Types</th>
-                          <th>Cuts</th>
+                          <th>Process</th>
+                          <th>Variety</th>
+                          <th>Color</th>
                           <th>Grade</th>
+                          <th>Cuts</th>
                           <th>Quantity</th>
-                          <th>Stems</th>
                           <th></th>
                         </thead>
-                        <tbody></tbody>
+                        <tbody id="tblRecipeBody"></tbody>
                       </table>
                     </div>
                   </div>

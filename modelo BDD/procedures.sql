@@ -183,13 +183,15 @@ and b.ID_WEIGHT=wb.ID_WEIGHT
 
 go
 
-CREATE PROCEDURE ASP_ITEMS_RECIPE @idSpecie int, @idColor int, @idProcess int, @type int, @idCuts int, @idGrade int, @quantity int
+
+CREATE PROCEDURE ASP_ITEMS_RECIPE @idSpecie int, @idColor int, @idProcess int, @type int, @idCuts int, @idGrade int, @idVariety int,@quantity int
 AS
 SELECT (SELECT NAME_SPECIE FROM SPECIES WHERE ID_SPECIE=@idSpecie)AS'SPECIE',
 	   (SELECT NAME_COLOR FROM COLORS WHERE ID_COLOR=@idColor)AS'COLOR',
 	   (SELECT TYPE_PROCESS FROM PROCESS WHERE ID_PROCESS=@idProcess)AS'PROCESS',
 	   (SELECT NAME_ITYPES FROM ITEMS_TYPES WHERE ID_ITYPES=@idColor)AS'TYPE',
 	   (SELECT NAME_CUT FROM CUTS WHERE ID_CUT=@idColor)AS'CUTS',
+	   (SELECT NAME_VARIETY FROM VARIETIES WHERE ID_VARIETY=@idVariety)AS'VARIETY',
 	   (SELECT NAME_GRADE FROM GRADES WHERE ID_GRADE=@idColor)AS'GRADE',@quantity AS 'QUANTITY'
 
 go

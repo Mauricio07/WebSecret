@@ -56,13 +56,14 @@ Route::get('setInsertProduct',function(){
     'tblMaterialProduct'=>Materials::where('TYPE_MATERIALS', 'product')->get(),
     'tblMaterialItems'=>Materials::where('TYPE_MATERIALS', 'items')->get(),
     'tblVwBoxes'=>DB::select('select * from VW_BOXES'),
-    'tblType'=>Items_type::get(),
-    'tblColor'=>Color::get(),
-    'tblSpecie'=>Specie::get(),
-    'tblGrade'=>Grade::get(),
-    'tblCut'=>Cut::get(),
-    'tblProcess'=>Process::get(),
-    'tblPresentation'=>Presentation::get(),
+    'tblType'=>Items_type::orderBy('NAME_ITYPES')->get(),
+    'tblColor'=>Color::orderBy('NAME_COLOR')->get(),
+    'tblSpecie'=>Specie::orderBy('NAME_SPECIE')->get(),
+    'tblGrade'=>Grade::orderBy('NAME_GRADE')->get(),
+    'tblCut'=>Cut::orderBy('NAME_CUT')->get(),
+    'tblProcess'=>Process::orderBy('TYPE_PROCESS')->get(),
+    'tblPresentation'=>Presentation::orderBy('NAME_PTYPE')->get(),
+    'tblVariety'=>Variety::orderBy('NAME_VARIETY')->get(),
   ];
   //dd($datos);
   return view('products.insert',['post'=>'true', 'tittle'=>"Product",'datos'=>$datos]);
@@ -158,6 +159,7 @@ Route::post('setAddInsertRecipe', function(){  //Add items materials
       'IdTypes'=>Request::get('IdTypes'),
       'IdCuts'=>Request::get('IdCuts'),
       'IdGrade'=>Request::get('IdGrade'),
+      'IdVariety'=>Request::get('IdVariety'),
       'Quantity'=>Request::get('Quantity'),
     ];
 
@@ -181,8 +183,8 @@ Route::get('setDelRecipeItems',function(){ //Remove items materials
           'IdTypes'=>$product['IdTypes'],
           'IdCuts'=>$product['IdCuts'],
           'IdGrade'=>$product['IdGrade'],
+          'IdVariety'=>$product['IdVariety'],
           'Quantity'=>$product['Quantity'],
-          'Stems'=>$product['Stems'],
         ]);
       }
     }
@@ -245,7 +247,7 @@ Route::get('getItemsRecipe',function(){
     if (isset($dt)) {
       foreach ($dt as $recipeItems) {
         if ($recipeItems['Id_Recipe']==$idItemRecipe) {
-          $datos=DB::select('EXEC ASP_ITEMS_RECIPE ?,?,?,?,?,?,?',array($recipeItems['IdSpecie'], $recipeItems['IdColor'],$recipeItems['IdProcess'],$recipeItems['IdTypes'],$recipeItems['IdCuts'],$recipeItems['IdGrade'],$recipeItems['Quantity']));
+          $datos=DB::select('EXEC ASP_ITEMS_RECIPE ?,?,?,?,?,?,?,?',array($recipeItems['IdSpecie'], $recipeItems['IdColor'],$recipeItems['IdProcess'],$recipeItems['IdTypes'],$recipeItems['IdCuts'],$recipeItems['IdGrade'],$recipeItems['IdVariety'],$recipeItems['Quantity']));
           array_push($datosRecipe,$datos);
         }
       }
