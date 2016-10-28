@@ -13,8 +13,10 @@
             <th> Quantity </th>
             <th> </th>
           </thead>
-          <tbody id="tblItemsRecipesBody">
-          </tbody>
+          <form class="" action="setDelItemsMaterialsRecipe" method="get">
+            <tbody id="tblItemsRecipesBody">
+            </tbody>
+          </form>
         </table>
       </div>
       <div class="modal-footer">

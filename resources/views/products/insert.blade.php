@@ -101,15 +101,14 @@
                   @if ($errors->has('MaterialsRecipe')) <span class="glyphicon glyphicon-remove form-control-feedback frm-error" aria-hidden="true"></span><p class="help-block">{{$errors->first('MaterialsRecipe')}} </p>@endif
                 </div>
                 <div class="tbl_hidden" id="divTblMaterial">
-                  <table class="table" id="tblMaterial">
+                  <table class="table" >
                     <thead>
                       <th>Id</th>
                       <th>Name</th>
                       <th>Quantity</th>
                       <th></th>
                     </thead>
-                    <tbody>
-                    </tbody>
+                    <tbody id="tblMaterial"></tbody>
                   </table>
                 </div>
 
