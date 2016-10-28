@@ -58,18 +58,22 @@ class ProductController extends Controller
           //Add Recipe Product
 
           foreach ( $arrayProductRecipe as $pr) {
-
-                $datoIndex=DB::select('EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?',array($idRecipe,$pr['Quantity'],$pr['IdColor'], $pr['IdCuts'], $pr['IdGrade'], $pr['IdTypes'], $pr['IdProcess'], $pr['IdSpecie'], $pr['IdVariety']));
+            if ($pr['Id_Recipe']==$idRecipe) { //comparativa receta
+              $datoIndex=DB::select('EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?',array($idRecipe,$pr['Quantity'],$pr['IdColor'], $pr['IdCuts'], $pr['IdGrade'], $pr['IdTypes'], $pr['IdProcess'], $pr['IdSpecie'], $pr['IdVariety']));
 
                 //Add material recipe items
                 if (isset($arrayProductMaterialsRecipe))
                 {
+
                   foreach ($arrayProductMaterialsRecipe as $prodMatRecipe) {
-                    if ($datoIndex->INDEX == $prodMatRecipe['IdItemRecipe']) {
-                      $seguir=DB::select('EXEC SP_ADD_MATERIAL_RECIPE ?,?,?',array($idRecipe, $prodMatRecipe['IdMaterialsRecipe'], $prodMatRecipe['QuantItemMaterialsRecipe'] ));
+                    if (($prodMatRecipe['IdRecipe']==$pr['Id_Recipe'])&&($prodMatRecipe['IdItemRecipe'])==$pr['IdItemRecipeProd']) {
+                      $seguir=DB::select('EXEC SP_ADD_MATERIAL_RECIPE ?,?,?,?',array($idRecipe, $prodMatRecipe['IdMaterialsRecipe'], $datoIndex->INDEX ,$prodMatRecipe['QuantItemMaterialsRecipe'] ));
                     }
                   }
+
               }
+
+            }
           }
       }
 

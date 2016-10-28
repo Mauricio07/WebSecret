@@ -1,7 +1,7 @@
 //var globals
 var IdItemMaterialsProd=0;
 var IdItemRecipeProd=0;
-var IdItemMaterialsRecipe=0;
+var IdMaterialsProd=0;
 var indexRecipe=0;
 var packRecipe=[];
 var packTotal=0;

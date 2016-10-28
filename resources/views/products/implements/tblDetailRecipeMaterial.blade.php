@@ -13,7 +13,7 @@
             <th> Quantity </th>
             <th> </th>
           </thead>
-          <tbody>
+          <tbody id="tblItemsRecipesBody">
           </tbody>
         </table>
       </div>

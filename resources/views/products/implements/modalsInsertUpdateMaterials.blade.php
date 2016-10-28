@@ -34,7 +34,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" arial-label="close" id='saveMaterialsProduct' disabled="true" onclick="saveMaterialProduct(tblMaterial,'setAddInsertMaterial','setDelMaterials')" >
+        <button type="button" class="btn btn-default" data-dismiss="modal" arial-label="close" id='saveMaterialsProduct' disabled="true" onclick="saveMaterialProduct()" >
             <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
             Save changes
         </button>

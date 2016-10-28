@@ -8,9 +8,9 @@ $(document).ready(function(){
   );
 });
 */
-/*
+
   // add item materials
-function saveMaterialProduct(vd_table, v_MetodAdd,v_MetodDel){
+function saveMaterialProduct( v_MetodAdd,v_MetodDel){
     var v_name=$('#txtMaterial');
     var v_nameMat=$(v_name).find(':selected').html();
     var v_quanty=$('#txtQuantityMat');
@@ -24,26 +24,25 @@ function saveMaterialProduct(vd_table, v_MetodAdd,v_MetodDel){
     });
 
     //add items materials
-    $.post(v_MetodAdd,{
-      '-IdItemMaterialsProd': -IdItemMaterialsProd,// -IdItemMaterialsProd,
+    $.post('setAddMaterialProd',{
+      'IdMaterialsProd': IdMaterialsProd,
       'NomItemMaterialsProd': $(v_name).val(),
       'QuantItemMaterialsProd': $(v_quanty).val(),
     },function(data){
       $(ajaxRecipe).html(data);
-      v_contenido="<tr id=ProdMat"+-IdItemMaterialsProd+">"+
-      "<td>"+-IdItemMaterialsProd+"</td>"+
+      v_contenido="<tr id=ProdMat"+IdMaterialsProd+">"+
+      "<td>"+IdMaterialsProd+"</td>"+
       "<td>"+v_nameMat+"</td>"+
       "<td>"+$(v_quanty).val()+"</td>"+
       "<td> <div class='btn-group'>"
-          +"<a href='' class='btn delete' id='deletingMat' onclick=deleteItem("+-IdItemMaterialsProd+",'ProdMat"+-IdItemMaterialsProd+"','"+v_MetodDel+"')></a>"
+          +"<a href='' class='btn delete' id='deletingMat' onclick=deleteItem("+IdMaterialsProd+",'ProdMat"+IdMaterialsProd+"','setDeleteMaterialsProd')></a>"
           +"</div> </td>"
           +"</tr>";
-      $(vd_table).append(v_contenido);
-      -IdItemMaterialsProd++; //index table of materials
+      $("#tblMaterial").append(v_contenido);
+      IdMaterialsProd++; //index table of materials
     });
   }
 
-*/
 //deleting items materials
 function deleteItem(v_IdDel, v_IdDelTr,v_function){
   $.get(v_function,{
@@ -52,7 +51,7 @@ function deleteItem(v_IdDel, v_IdDelTr,v_function){
     console.log(v_IdDelTr);
     //$(ajaxResponse).append('delete '+data);
     $('#'+v_IdDelTr).remove();
-    alert('Deleting Success');
+    console.log(data);
   });
 }
 
@@ -117,13 +116,12 @@ function saveItemMaterialRecipe(){
   Muestra el contenido de la receta
 */
 function getItemsMaterials(v_indexRecipe, v_indexItem){
-  var vd_table=$('#tblDatosMaterialsRecipe');
+
   $.get('getItemsMaterials_',{
-    'idRecipe':v_indexItem,
-    'IdItemRecipe':v_indexRecipe
+    'IdRecipe':v_indexRecipe,
+    'IdItemRecipe':v_indexItem
   },function(data){
-    console.log(data);
-    var contenido;
+    var contenido="";
     $.each(data, function(i, item) {
       contenido+="<tr id=RecipeItemMat"+item.IdItemRecipe+"><td>"
       +item.NomItemMaterialsRecipe+"</td><td>"
@@ -132,7 +130,7 @@ function getItemsMaterials(v_indexRecipe, v_indexItem){
       +item.IdItemRecipe+",RecipeItemMat"+item.IdItemRecipe
       +",'setDelMaterialsRecipe')></a></td></tr>";
     });
-    $(vd_table).append(contenido);
+    $('#tblItemsRecipesBody').html(contenido);
   });
 }
 
@@ -199,8 +197,7 @@ function packsItems(v_valorPack, v_indexRecipe, v_op){
   var v_escribir=0;
   var bandera=false;
 
-  $.each(packRecipe,function(i,item){
-    $.each(item,function(j,item2){
+  $.each(packRecipe,function(i,item2){
       if (item2.index==v_indexRecipe) {
         if (v_op=="suma") {
           item2.total+=parseInt(v_valorPack);
@@ -208,9 +205,8 @@ function packsItems(v_valorPack, v_indexRecipe, v_op){
           item2.total-=parseInt(v_valorPack);
         }
         bandera=true;
-        v_escribir=pk.total;
+        v_escribir=packRecipe.total;
       }
-    });
   });
 
   if (!bandera) {

@@ -129,11 +129,11 @@ SET NOCOUNT ON
 	SELECT 'OK' AS 'OK'
 go
 
-CREATE PROCEDURE SP_ADD_MATERIAL_RECIPE @idRecipe int, @idMaterial int, @quantity int
+CREATE PROCEDURE SP_ADD_MATERIAL_RECIPE_ITEMS @idRecipe int, @idItem int ,@idMaterial int, @quantity int
 AS
 SET NOCOUNT ON
-INSERT INTO RECIPE_MATERIALS (ID_RECIPE, ID_MATERIAL, QUANTITY_RECIPEMAT)
-VALUES(@idRecipe, @idMaterial, @quantity);
+INSERT INTO RECIPE_ITEMS (ID_RECIPE, ID_ITEM,ID_MATERIAL, QUANTITY_RECIPEMAT)
+VALUES(@idRecipe, @idItem,@idMaterial, @quantity);
 SELECT 'OK'AS'OK';
 
 go
@@ -188,7 +188,7 @@ and b.ID_WEIGHT=wb.ID_WEIGHT
 go
 
 
-CREATE PROCEDURE ASP_ITEMS_RECIPE @idSpecie int, @idColor int, @idProcess int, @type int, @idCuts int, @idGrade int, @idVariety int,@quantity int
+CREATE PROCEDURE ASP_ITEMS_RECIPE @idSpecie int, @idColor int, @idProcess int, @type int, @idCuts int, @idGrade int, @idVariety int,@quantity int,  @indexItemRecipe int
 AS
 SELECT (SELECT NAME_SPECIE FROM SPECIES WHERE ID_SPECIE=@idSpecie)AS'SPECIE',
 	   (SELECT NAME_COLOR FROM COLORS WHERE ID_COLOR=@idColor)AS'COLOR',

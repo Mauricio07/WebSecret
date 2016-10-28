@@ -44,6 +44,7 @@ Route::get('vw_product',function(){
   Request::session()->forget('ProductRecipe');
   Request::session()->forget('ProductItemsMaterialsRecipe');
   Request::session()->forget('Recipes');
+
   $datos=[
     'tblProductos'=>DB::select('EXEC ASP_REP_PRODUCTS ?',array('1')),
   ];
@@ -53,6 +54,12 @@ Route::get('vw_product',function(){
 
 //insert productos
 Route::get('setInsertProduct',function(){
+  /*
+  Request::session()->forget('ProductMaterials');
+  Request::session()->forget('ProductRecipe');
+  Request::session()->forget('ProductItemsMaterialsRecipe');
+  Request::session()->forget('Recipes');
+  */
 
   $datos=[
     'tblMaterialProduct'=>Materials::where('TYPE_MATERIALS', 'pr')->get(),
@@ -73,16 +80,16 @@ Route::get('setInsertProduct',function(){
 
 Route::post('setAddProduct','Product\ProductController@setAddProduct');
 
-Route::get('setDelMaterials',function(){ //Remove items materials
+Route::get('setDeleteMaterialsProd',function(){ //Remove items materials
   if (Request::ajax()){
     $IdItemDel=Request::get('IdItemDel');
     $datosOk=[];
     $datosTemp=Request::session()->get('ProductMaterials');
 
     foreach ( $datosTemp as $productMaterials) {
-      if ($productMaterials['IdItemMaterialsProd']!=$IdItemDel) {
+      if ($productMaterials['IdMaterialsProd']==$IdItemDel) {
         array_push($datosOk,[
-          'IdItemMaterialsProd'=> $productMaterials['IdItemMaterialsProd'],
+          'IdMaterialsProd'=> $productMaterials['IdMaterialsProd'],
           'NomItemMaterialsProd'=> $productMaterials['NomItemMaterialsProd'],
           'QuantItemMaterialsProd'=> $productMaterials['QuantItemMaterialsProd'],
         ]);
@@ -94,11 +101,11 @@ Route::get('setDelMaterials',function(){ //Remove items materials
   }
 });
 
-Route::post('setAddInsertMaterial', function(){  //Add items materials
+Route::post('setAddMaterialProd', function(){  //Add items materials
   if(Request::ajax()){
 
     $datos=[
-      'IdItemMaterialsProd'=> Request::get('IdItemMaterialsProd'),
+      'IdMaterialsProd'=> Request::get('IdMaterialsProd'),
       'NomItemMaterialsProd'=> Request::get('NomItemMaterialsProd'),
       'QuantItemMaterialsProd'=> Request::get('QuantItemMaterialsProd'),
     ];
@@ -131,10 +138,10 @@ Route::get('setDelMaterialsRecipe',function(){ //Remove items materials
   if (Request::ajax()){
     $IdItemDel=Request::get('IdItemDel');
     $datosOk=[];
-    $datosTemp=Request::session()->get('ProductMaterialsRecipe');
+    $datosTemp=Request::session()->get('ProductMaterials');
 
     foreach ( $datosTemp as $productMaterials) {
-      if ($productMaterials['IdItemRecipe']!=$IdItemDel) {
+      if ($productMaterials['IdItemRecipe']==$IdItemDel) {
         array_push($datosOk,[
           'IdItemRecipe'=> $productMaterials['IdItemRecipe'],
           'IdMaterialsRecipe'=> $productMaterials['IdMaterialsRecipe'],
@@ -144,8 +151,10 @@ Route::get('setDelMaterialsRecipe',function(){ //Remove items materials
       }
     }
 
-    Request::session()->forget('ProductMaterialsRecipe');
-    Request::session()->set('ProductMaterialsRecipe',$datosOk);
+    Request::session()->forget('ProductMaterials');
+    Request::session()->set('ProductMaterials',$datosOk);
+
+    return Response::json($datosTemp);
   }
 });
 
@@ -200,15 +209,15 @@ Route::get('setDelRecipeItems',function(){ //Remove items materials
 
 Route::get('getItemsMaterials_',function(){
   if (Request::ajax()) {
-    $idRecipe=Request::get('idRecipe');
+    $idRecipe=Request::get('IdRecipe');
     $idIndexItem=Request::get('IdItemRecipe');
-    $dt=Request::session()->get('ProductItemsMaterialsRecipe');
+    $dt=Request::session()->get('ProductItemsMaterialsRecipe'); //array session
     $dtMat=[];
-
-    if (isset($dt)) {
+   if (isset($dt)) {
       foreach ($dt as $matRecipeItems) {
-        if (($matRecipeItems['IdItemRecipe']==$idIndexItem) && ($matRecipeItems['idRecipe']==$idRecipe)) {
-          $dataMat=[
+        if (($matRecipeItems['IdRecipe']==$idRecipe) && ($matRecipeItems['IdItemRecipe']==$idIndexItem)) {
+         $dataMat=[
+            'IdRecipe'=>$matRecipeItems['IdRecipe'],
             'IdItemRecipe'=>$matRecipeItems['IdItemRecipe'],
             'IdMaterialsRecipe'=>$matRecipeItems['IdMaterialsRecipe'],
             'NomItemMaterialsRecipe'=>$matRecipeItems['NomItemMaterialsRecipe'],
@@ -218,7 +227,6 @@ Route::get('getItemsMaterials_',function(){
         }
       }
     }
-
     return Response::json($dtMat);
   }
 });
