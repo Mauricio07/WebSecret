@@ -114,27 +114,27 @@ Route::get('setDeleteMaterialsProd',function(){ //Remove items materials
 });
 
 Route::get('setDelItemsMaterialsRecipe',function(){ //Remove items materials
-  if (Request::ajax()){
+  if (Request::isMethod('get')){
     $IdItemDel=Request::get('IdItemDel');
-    $datosOk=[];
+
     $datosTemp=Request::session()->get('ProductItemsMaterialsRecipe');
     Request::session()->forget('ProductItemsMaterialsRecipe');
 
-    foreach ( $datosTemp as $productMaterials) {
-      if ($productMaterials['IdItemRecipe']!=$IdItemDel) {
+    foreach ( $datosTemp as $itemsMaterials) {
+      if ($itemsMaterials['IdItemMatProd']!=$IdItemDel) {
         $datosOk=[
-          'IdItemMatProd'=>$productMaterials['IdItemMatProd'],
-          'IdRecipe'=> $productMaterials['IdRecipe'],
-          'IdItemRecipe'=> $productMaterials['IdItemRecipe'],
-          'IdMaterialsRecipe'=> $productMaterials['IdMaterialsRecipe'],
-          'NomItemMaterialsRecipe'=> $productMaterials['NomItemMaterialsRecipe'],
-          'QuantItemMaterialsRecipe'=> $productMaterials['QuantItemMaterialsRecipe'],
+          'IdItemMatProd'=>$itemsMaterials['IdItemMatProd'],
+          'IdRecipe'=> $itemsMaterials['IdRecipe'],
+          'IdItemRecipe'=> $itemsMaterials['IdItemRecipe'],
+          'IdMaterialsRecipe'=> $itemsMaterials['IdMaterialsRecipe'],
+          'NomItemMaterialsRecipe'=> $itemsMaterials['NomItemMaterialsRecipe'],
+          'QuantItemMaterialsRecipe'=> $itemsMaterials['QuantItemMaterialsRecipe'],
         ];
         Request::session()->push('ProductItemsMaterialsRecipe',$datosOk);
       }
     }
-    return Response::json(Request::session()->get('ProductItemsMaterialsRecipe'));
   }
+  return Response::json('Delition successful');
 });
 
 
@@ -156,6 +156,32 @@ Route::post('setAddInsertItemMaterialsRecipe', function(){  //Add items material
   }
 });
 
+
+Route::get('getItemsMaterials_',function(){
+  if (Request::ajax()) {
+    $idRecipe=Request::get('IdRecipe');
+    $idIndexItem=Request::get('IdItemRecipe');
+    $dt=Request::session()->get('ProductItemsMaterialsRecipe'); //array session
+    Request::session()->forget('ProductItemsMaterialsRecipeTemp');
+    $dtMat=[];
+   if (isset($dt)) {
+      foreach ($dt as $matRecipeItems) {
+        if (($matRecipeItems['IdRecipe']==$idRecipe) && ($matRecipeItems['IdItemRecipe']==$idIndexItem)) {
+         $dataMat=[
+            'IdRecipe'=>$matRecipeItems['IdRecipe'],
+            'IdItemMatProd'=>$matRecipeItems['IdItemMatProd'],
+            'IdItemRecipe'=>$matRecipeItems['IdItemRecipe'],
+            'IdMaterialsRecipe'=>$matRecipeItems['IdMaterialsRecipe'],
+            'NomItemMaterialsRecipe'=>$matRecipeItems['NomItemMaterialsRecipe'],
+            'QuantItemMaterialsRecipe'=>$matRecipeItems['QuantItemMaterialsRecipe'],
+          ];
+          Request::session()->push('ProductItemsMaterialsRecipeTemp',$dataMat);
+        }
+      }
+    }
+    return Response::json(Request::session()->get('ProductItemsMaterialsRecipeTemp'));
+  }
+});
 
 //Route::post('uploading','Product\ProductController@uploading');
 
@@ -230,32 +256,6 @@ Route::get('setDelRecipeItems',function(){ //Remove items materials
       }
     }
     return Response::json(Request::session()->get('ProductRecipe'));
-  }
-});
-
-
-
-Route::get('getItemsMaterials_',function(){
-  if (Request::ajax()) {
-    $idRecipe=Request::get('IdRecipe');
-    $idIndexItem=Request::get('IdItemRecipe');
-    $dt=Request::session()->get('ProductItemsMaterialsRecipe'); //array session
-    $dtMat=[];
-   if (isset($dt)) {
-      foreach ($dt as $matRecipeItems) {
-        if (($matRecipeItems['IdRecipe']==$idRecipe) && ($matRecipeItems['IdItemRecipe']==$idIndexItem)) {
-         $dataMat=[
-            'IdRecipe'=>$matRecipeItems['IdRecipe'],
-            'IdItemRecipe'=>$matRecipeItems['IdItemRecipe'],
-            'IdMaterialsRecipe'=>$matRecipeItems['IdMaterialsRecipe'],
-            'NomItemMaterialsRecipe'=>$matRecipeItems['NomItemMaterialsRecipe'],
-            'QuantItemMaterialsRecipe'=>$matRecipeItems['QuantItemMaterialsRecipe'],
-          ];
-          array_push($dtMat,$dataMat);
-        }
-      }
-    }
-    return Response::json($dtMat);
   }
 });
 

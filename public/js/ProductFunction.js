@@ -109,7 +109,7 @@ function saveItemMaterialRecipe(){
   }
 
 /*
-  Muestra el contenido de la receta
+  Muestra el contenido de los materiales de la receta
 */
 function getItemsMaterials(v_indexRecipe, v_indexItem){
 console.log("-->"+v_indexRecipe);
@@ -122,9 +122,18 @@ console.log("-->"+v_indexRecipe);
       contenido+="<tr id=RecipeItemMat"+item.IdItemRecipe+"><td>"
       +item.NomItemMaterialsRecipe+"</td><td>"
       +item.QuantItemMaterialsRecipe+"</td><td>"
-      +"<input type='text' hidden='true' id='IdItemDel' value="+item.IdMaterialsRecipe+"/><button type='submit' data-toggle='modal' data-dismiss='modal' arial-label='close' class='btn delete'></button></td></tr>";
+      +"<button type='button' data-dismiss='modal' arial-lavel='Close' class='btn delete' onclick=getDeleteItemsMaterials("+item.IdItemMatProd+")></button></td></tr>";
     });
     $('#tblItemsRecipesBody').html(contenido);
+  });
+}
+
+function getDeleteItemsMaterials(v_indexItemMaterialDel){
+  $.get('setDelItemsMaterialsRecipe',{
+    'IdItemDel':v_indexItemMaterialDel
+  },function(data){
+    //console.log(data);
+    alert(data);
   });
 }
 

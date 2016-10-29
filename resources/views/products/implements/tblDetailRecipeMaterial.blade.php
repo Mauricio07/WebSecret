@@ -7,17 +7,17 @@
         <h4 class="modal-title" id="myModalLabel">Details materials recipe</h4>
       </div>
       <div class="modal-body">
+        <form class="" action="setDelItemsMaterialsRecipe" method="get">
         <table class="table table-striped" id="tblDatosMaterialsRecipe">
           <thead>
             <th> Materials </th>
             <th> Quantity </th>
             <th> </th>
           </thead>
-          <form class="" action="setDelItemsMaterialsRecipe" method="get">
             <tbody id="tblItemsRecipesBody">
             </tbody>
-          </form>
         </table>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
