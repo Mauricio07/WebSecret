@@ -238,9 +238,13 @@ function packsItems(v_valorPack, v_indexRecipe){
 function UpdateQuantityRecipe(){
   var v_Total=0;
   $('#tblRecipes> tbody> tr').find('td:eq(2)').each(function(){
-    console.log('>>>>>'+parseInt($(this).html()));
     v_Total+=parseInt($(this).html());
   });
 
   $('#txtPack').attr('value',v_Total);
+}
+
+/* EDICION DE PRODUCTOS*/
+function setEditProduct(v_codigo){
+  $.get('setEditProduct',{'v_codeProducto':v_codigo},function(data){console.log(data);});
 }

@@ -77,7 +77,30 @@ Route::get('setInsertProduct',function(){
   //dd($datos);
   return view('products.insert',['post'=>'true', 'tittle'=>"Product",'datos'=>$datos]);
 });
+/*
+Route::get('setRegistrosEditProduct_', function(){
+  if (Request::ajax()) {
+    $v_codProd=Request::get('v_codProducto');
+    $headProduct=DB::selectOne('EXEC ASP_HEADER_PRODUCTS ?',array($v_codProd));
+    return Response::json($headProduct);
+  }
+});
+*/
 
+Route::get('setEditProduct',function(){
+  if (Request::ajax()) {
+    $v_codProd=Request::get('v_codProducto');
+    $headProduct=DB::selectOne('EXEC ASP_HEADER_PRODUCTS ?',array($v_codProd));
+    return view('products.edit',['datosHead'=>$headProduct]);
+  }
+});
+/*
+Route::get('setRegistrosEditProduct_',function(){
+  //$v_codProd=Request::get('v_codProducto');
+  //$headProduct=DB::selectOne('EXEC ASP_HEADER_PRODUCTS ?',array($v_codProd));
+  return view('products.edit',['post'=>'true', 'tittle'=>"Edit product"]);
+});
+*/
 Route::post('setAddProduct','Product\ProductController@setAddProduct');
 
 Route::post('setAddMaterialProd',function(){

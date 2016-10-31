@@ -18,9 +18,9 @@
         </div>
     </article>
     <article class="row">
+      <form class="" action="setEditProduct" method="get">
       <table class="table table-striped">
         <thead>
-          <th>Code</th>
           <th>Name</th>
           <th>Online</th>
           <th>Upc</th>
@@ -41,7 +41,7 @@
                   </button>
 
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="#" data-toggle="modal" data-target="#myRegister" onclick="setRegistrosProduct('{{$product->ID_PRODUCT}}','setModificationColor')">Edit</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setEditProduct('{{$product->ID_PRODUCT}}')">Edit</a></li>
                     <li class="divider"></li>
                     <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosDel('{{$product->ID_PRODUCT}}','{{$product->NAME_PRODUCT}}','getDeleteColor')">Delete</a></li>
                   </ul>

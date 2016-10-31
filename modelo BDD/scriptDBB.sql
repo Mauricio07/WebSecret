@@ -361,7 +361,7 @@ create table RECIPE_ITEMS (
    ID_MATERIAL          int                  not null,
    ID_ITEM              int                  not null,
    QUANTITY_RECIPEMAT   int                  null,
-   constraint PK_RECIPE_ITEMS primary key (ID_RECIPE, ID_MATERIAL, ID_ITEM)
+   constraint PK_RECIPE_ITEMS primary key (ID_ITEM, ID_MATERIAL)
 )
 go
 

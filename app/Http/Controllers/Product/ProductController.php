@@ -50,30 +50,32 @@ class ProductController extends Controller
         // Recipe
         $idRecipe=DB::selectOne('EXEC SP_ADD_RECIPE_HEADER ?', array($aPr['IndexTypeRecipe']));
 
-        if (isset($idRecipe)) {
+        if (isset($idRecipe))
+        {
           $idRecipe= $idRecipe->ID_RECIPE;
 
           //Add Recipe Product
 
           foreach ( $arrayProductRecipe as $pr) {
-            if ($pr['Id_Recipe']==$aPr['IndexRecipe']) { //comparativa receta
-              $datoIndex=DB::select('EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?',array($idRecipe,$pr['Quantity'],$pr['IdColor'], $pr['IdCuts'], $pr['IdGrade'], $pr['IdTypes'], $pr['IdProcess'], $pr['IdSpecie'], $pr['IdVariety']));
+            if ($pr['Id_Recipe']==$aPr['IndexRecipe'])  //comparativa receta
+            {
+              $datoIndex=DB::selectOne('EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?',array($idRecipe,$pr['Quantity'],$pr['IdColor'], $pr['IdCuts'], $pr['IdGrade'], $pr['IdTypes'], $pr['IdProcess'], $pr['IdSpecie'], $pr['IdVariety']));
 
                 //Add material recipe items
                 if (isset($arrayProductMaterialsRecipe))
                 {
 
-                  foreach ($arrayProductMaterialsRecipe as $prodMatRecipe) {
-                    if (($prodMatRecipe['IdRecipe']==$pr['Id_Recipe'])&&($prodMatRecipe['IdItemRecipe'])==$pr['IdItemRecipeProd']) {
-                      $seguir=DB::select('EXEC SP_ADD_MATERIAL_RECIPE ?,?,?,?',array($idRecipe, $prodMatRecipe['IdMaterialsRecipe'], $datoIndex->INDEX ,$prodMatRecipe['QuantItemMaterialsRecipe'] ));
+                  foreach ($arrayProductMaterialsRecipe as $prodMatRecipe)
+                  {
+                    if (($prodMatRecipe['IdRecipe']==$pr['Id_Recipe'])&&($prodMatRecipe['IdItemRecipe'])==$pr['IdItemRecipeProd'])
+                    {
+                      $seguir=DB::select('EXEC SP_ADD_MATERIAL_RECIPE_ITEMS ?,?,?,?',array($idRecipe, $datoIndex ->INDEX, $prodMatRecipe['IdMaterialsRecipe'],$prodMatRecipe['QuantItemMaterialsRecipe'] ));
                     }
                   }
-
-              }
-
+                }
             }
           }
-      }
+        }
 
 
         //Add boxes
@@ -86,7 +88,8 @@ class ProductController extends Controller
         $idProduct=$idProduct->ID;
 
         //Add materials Product
-        if ($idProduct>0){
+        if ($idProduct>0)
+        {
           foreach ($arrayProductMaterials as $pm) {
               $seguir=DB::select('EXEC SP_ADD_MATERIALS_PRODUCT ?,?,? ',array($idProduct,$pm['NomItemMaterialsProd'], $pm['QuantItemMaterialsProd']));
           }
@@ -95,23 +98,12 @@ class ProductController extends Controller
         return redirect('setInsertProduct')->with('message','Save');
 
       }
-
-    }
-
-    public function uploading(){
-
-      $file=Input::file('archivo');
-      $aleatorio=str_random(3);
-
-      $nombre=$aleatorio."-".$file->getClientOriginalName();
-      $file->move('uploadingFile',$nombre);
-
-      return 'ok';
     }
 
     public function setSessionClear(InsertModifyProductRequest $request){
-      $request->session()->forget('ProductMaterials');
-      $request->session()->forget('ProductRecipe');
-      $request->session()->forget('ProductMaterialsRecipe');
+      $request->session()->forget('Recipes'); //Recetas
+      $request->session()->forget('ProductRecipe'); //bonches que forman la receta
+      $request->session()->forget('ProductItemsMaterialsRecipe');
+      $request->session()->forget('ProductMaterials'); //Materiales de la receta
     }
 }
