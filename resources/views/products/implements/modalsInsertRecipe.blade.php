@@ -26,7 +26,7 @@
           </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close" onclick="setAddRecipe()">
+        <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close" id="saveRecipe" onclick="setAddRecipe()">
             <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
             Save changes
         </button>
