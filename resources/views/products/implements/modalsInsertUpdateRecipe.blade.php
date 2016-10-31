@@ -83,7 +83,7 @@
 
            <label class="col-sm-2 control-label">Quantity</label>
            <div class="col-sm-4">
-             <input type="text" class="form-control" id="txtQuantity" name="txtQuantity" required="true" onkeypress="return soloNumeros(event)" onblur="activarBtn('saveItemRecipe','txtQuantity')"/>
+             <input type="text" class="form-control" id="txtQuantity" name="txtQuantity"  autocomplete="off" onkeypress="return soloNumeros(event)" onblur="activarBtn('saveItemRecipe','txtQuantity')"/>
            </div>
       </div>
 

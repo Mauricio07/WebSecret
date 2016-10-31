@@ -44,10 +44,8 @@ function deleteItem(v_IdDel, v_IdDelTr,v_function){
   $.get(v_function,{
     'IdItemDel':v_IdDel
   },function(data){
-    //console.log(data);
-    //$(ajaxResponse).append('delete '+data);
     $('#'+v_IdDelTr).remove();
-    alert('Deletion successful');
+    $('#myMessageUser').modal('show');
   });
 }
 
@@ -72,7 +70,7 @@ function setAddItemRecipe(v_MetodDel){
     'Quantity':$('#txtQuantity').val(),
   },function(data){
     $('#ajaxRecipe').html(data);
-    packsItems($('#txtQuantity').val(),v_IndexRecipe,'suma');
+    //packsItems($('#txtQuantity').val(),v_IndexRecipe);
     IdItemRecipeProd++;
   });
 }
@@ -133,7 +131,8 @@ function getDeleteItemsMaterials(v_indexItemMaterialDel){
     'IdItemDel':v_indexItemMaterialDel
   },function(data){
     //console.log(data);
-    alert(data);
+    //alert(data);
+    $('#myMessageUser').modal('show');
   });
 }
 
@@ -159,8 +158,8 @@ function setAddRecipe(){
     +"<td><a role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseItems' aria-expanded='true' aria-controls='collapseOne' onclick=getItemsRecipe("+indexRecipe+")>"+$('#txtPresentation').find(':selected').html()+"<span class='caret'></span></a></td>"
     +"<td id=tdPackRecipes"+indexRecipe+"> - </td>"
     +"<td> <div class='btn-group'>"
-    +"<a href='#' data-toggle='modal' class='btn edit' data-target='#myRegister' onclick=getIndexRowRecipe("+indexRecipe+")></a>"
-    +"<a href='#' data-toggle='modal' class='btn delete' onclick=deleteItem("+indexRecipe+",'Recipe"+indexRecipe+"','setDelTypeRecipe')></a>"
+    +"<a href='#' id='addItemRecipe' data-toggle='modal' class='btn edit' data-target='#myRegister' onclick=getIndexRowRecipe("+indexRecipe+")></a>"
+    +"<a id='removeItemRecipe' data-toggle='modal' class='btn delete' onclick=deleteItem("+indexRecipe+",'Recipe"+indexRecipe+"','setDelTypeRecipe')></a>"
     +"</div> </td></tr>";
     $('#tblRecipes').append(v_contenido);
     indexRecipe++;
@@ -176,7 +175,7 @@ function getItemsRecipe(v_id){
     var v_contenido;
     $.each(data,function(i,item){
       $.each(item, function(j,item2){
-        v_contenido+="<tr id=RecipeItem"+IdItemRecipeProd+">"+
+        v_contenido+="<tr id=RecipeItem"+item2.INDEXITEMRECIPE+">"+
         "<td><a href='#' data-toggle='modal' data-target='#myRegisterMaterialRecipe' onclick=getItemsMaterials("+v_id+","+item2.INDEXITEMRECIPE+")>+</a></td>"+
         "<td>"+item2.SPECIE+"</td>"+
         "<td>"+item2.TYPE+"</td>"+
@@ -185,10 +184,10 @@ function getItemsRecipe(v_id){
         "<td>"+item2.COLOR+"</td>"+
         "<td>"+item2.GRADE+"</td>"+
         "<td>"+item2.CUTS+"</td>"+
-        "<td>"+item2.QUANTITY+"</td>"+
+        "<td id='colsRecipeBodyQuantity'>"+item2.QUANTITY+"</td>"+
         "<td> <div class='btn-group'>"
             +"<a href='#' data-toggle='modal' class='btn edit' data-target='#myRegisterMaterialItems' onclick=getIdRowRecipe("+v_id+","+item2.INDEXITEMRECIPE+")></a>"
-            +"<a href='#' data-toggle='modal' class='btn delete' onclick=deleteItem("+IdItemRecipeProd+",'RecipeItem"+IdItemRecipeProd+"','setDelRecipeItems')></a>"
+            +"<a data-toggle='modal' class='btn delete' id='removeItemRecipe' onclick=deleteItem("+item2.INDEXITEMRECIPE+",'RecipeItem"+item2.INDEXITEMRECIPE+"','setDelRecipeItems')></a>"
             +"</div> </td>"
             +"</tr>";
       });
@@ -198,22 +197,29 @@ function getItemsRecipe(v_id){
   });
 }
 
-function packsItems(v_valorPack, v_indexRecipe, v_op){
+  //adiciona elementos
+$(document).('ready',function(){
+  console.log('cambio');
+
+  $('#tblRecipes tbody tr').find('td:eq(2)').each(function(){
+    console.log('valor '+$(this).html());
+  });
+});
+
+/*
+
+
+
+function packsItems(v_valorPack, v_indexRecipe){
   var v_escribir=0;
   var bandera=false;
   var vTotal=0;
-
-  console.log(packRecipe);
 
   $.each(packRecipe,function(j,item2){
     if (item2.index==v_indexRecipe) {
       bandera=true;
       vTotal=parseInt(item2.total);
-      if (v_op=="suma") {
-          vTotal+=parseInt(v_valorPack);
-      }else{
-          vTotal-=parseInt(v_valorPack);
-      }
+      vTotal+=parseInt(v_valorPack);
       item2.total=vTotal;
       v_escribir=vTotal;
     }
@@ -225,14 +231,38 @@ function packsItems(v_valorPack, v_indexRecipe, v_op){
     v_escribir=v_valorPack;
   }
 
+  $('#tdPackRecipes'+v_indexRecipe).html(v_escribir);
+  packsItemsUpdate(v_escribir); //actualiza ingresa a la base
+
+}
+
+$(document).on('change','#tblRecipeBody',function(){
+    console.log('actuliza fila');
+    packsItemsUpdate(0);
+});
+
+function packsItemsUpdate(v_valFila){
+  //valor a eliminar
+  var v_elimina=0;
+
+  $('#colsRecipeBodyQuantity').each(function(){
+    console.log('elimna es '+$(this).html());
+  });
+
   //suma los totales
   var packTotal=0;
-  $.each(packRecipe,function(j,item){
-    packTotal+=parseInt(item.total);
+  $('#tblRecipeBody tr').find('td:eq(8)').each(function(){
+    packTotal+=parseInt($(this).html());
+    console.log('-->'+$(this).html());
   });
+
+  if (parseInt(v_valFila)>0) {
+    packTotal+= parseInt(v_valFila); //sumando filas
+  }else {
+    packTotal-=parseInt(v_elimina); //resta valores
+  }
 
   //Imprimo resultados
   $('#txtPack').attr('value',packTotal);
-  $('#tdPackRecipes'+v_indexRecipe).html(v_escribir);
-
 }
+*/

@@ -16,8 +16,6 @@ class ProductController extends Controller
     public function setAddProduct(InsertModifyProductRequest $request){
       //Add recipe head
 
-      dd($request->session()->get('ProductMaterials'));
-
       $file=Input::file('archivo');
       $aleatorio=str_random(3);
       $nombreArchivo=$aleatorio."-".$file->getClientOriginalName();
@@ -58,7 +56,7 @@ class ProductController extends Controller
           //Add Recipe Product
 
           foreach ( $arrayProductRecipe as $pr) {
-            if ($pr['Id_Recipe']==$idRecipe) { //comparativa receta
+            if ($pr['Id_Recipe']==$aPr['IndexRecipe']) { //comparativa receta
               $datoIndex=DB::select('EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?',array($idRecipe,$pr['Quantity'],$pr['IdColor'], $pr['IdCuts'], $pr['IdGrade'], $pr['IdTypes'], $pr['IdProcess'], $pr['IdSpecie'], $pr['IdVariety']));
 
                 //Add material recipe items

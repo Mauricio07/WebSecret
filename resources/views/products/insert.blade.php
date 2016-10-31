@@ -202,4 +202,5 @@
   @include('products.implements.tblDetailRecipeMaterial')
   @include('products.implements.modalsDeleteTools')
   @include('products.implements.modalsInsertRecipe')
+  @include('products.implements.modalMessageUser')
 @endsection

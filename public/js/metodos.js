@@ -171,8 +171,8 @@ function setAddRegisterBoxes(v_id, v_idType, v_lenght,v_width, v_height, v_weigh
 }
 
 function activarBtn(v_btnActivar, v_valida){
-  var cadena=$.trim($('#'+v_valida).val());
-  if ((cadena.length)>0) {
+  var cadena=$.trim($('#'+v_valida).val());  
+  if ((parseInt(cadena))>0) {
     $('#'+v_btnActivar).removeAttr('disabled');
   }else{
     $('#'+v_btnActivar).attr('disabled','true');
