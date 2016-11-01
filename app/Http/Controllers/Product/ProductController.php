@@ -100,10 +100,8 @@ class ProductController extends Controller
       }
     }
 
-    public function setSessionClear(InsertModifyProductRequest $request){
-      $request->session()->forget('Recipes'); //Recetas
-      $request->session()->forget('ProductRecipe'); //bonches que forman la receta
-      $request->session()->forget('ProductItemsMaterialsRecipe');
-      $request->session()->forget('ProductMaterials'); //Materiales de la receta
+    //datos
+    public function getHeaderProduct(Request $request){
+     echo 'hola';
     }
 }

@@ -1,6 +1,6 @@
 
   // add item materials
-function saveMaterialProduct( v_MetodAdd,v_MetodDel){
+function saveMaterialProduct(){
     var v_name=$('#txtMaterial');
     var v_nameMat=$(v_name).find(':selected').html();
     var v_quanty=$('#txtQuantityMat');
@@ -21,15 +21,21 @@ function saveMaterialProduct( v_MetodAdd,v_MetodDel){
     },function(data){
       //console.log(data);
       $(ajaxRecipe).html(data);
-      v_contenido="<tr id=ProdMat"+IdMaterialsProd+">"+
-      "<td>"+IdMaterialsProd+"</td>"+
-      "<td>"+v_nameMat+"</td>"+
-      "<td>"+$(v_quanty).val()+"</td>"+
-      "<td><div> <a href='#' class='btn delete' id='deletingMat' onclick=deleteItem("+IdMaterialsProd+",'ProdMat"+IdMaterialsProd+"','setDeleteMaterialsProd')></a></div></td>"
-      +"</tr>";
-      $("#tblMaterial").append(v_contenido);
+      setTblMaterialsProduct(IdMaterialsProd,v_nameMat, $(v_quanty).val());
       IdMaterialsProd++; //index table of materials
     });
+  }
+
+  //llenar informacion
+  function setTblMaterialsProduct(v_id, v_nameMat, v_quantity){
+    v_contenido="<tr id=ProdMat"+v_id+">"+
+    "<td>"+v_id+"</td>"+
+    "<td>"+v_nameMat+"</td>"+
+    "<td>"+v_quantity+"</td>"+
+    "<td><div> <a href='#' class='btn delete' id='deletingMat' onclick=deleteItem("+v_id+",'ProdMat"+v_id+"','setDeleteMaterialsProd')></a></div></td>"
+    +"</tr>";
+    $("#tblMaterial").append(v_contenido);
+
   }
 
 //deleting items materials

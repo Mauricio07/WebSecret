@@ -1,10 +1,3 @@
-//var globals
-var IdItemMaterialsProd=0;
-var IdItemRecipeProd=0;
-var IdMaterialsProd=0;
-var indexRecipe=0;
-var packRecipe=[];
-var packTotal=0;
 
   //Validacion de letras
   function soloLetras(e){
@@ -171,7 +164,7 @@ function setAddRegisterBoxes(v_id, v_idType, v_lenght,v_width, v_height, v_weigh
 }
 
 function activarBtn(v_btnActivar, v_valida){
-  var cadena=$.trim($('#'+v_valida).val());  
+  var cadena=$.trim($('#'+v_valida).val());
   if ((parseInt(cadena))>0) {
     $('#'+v_btnActivar).removeAttr('disabled');
   }else{

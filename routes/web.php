@@ -60,7 +60,6 @@ Route::get('setInsertProduct',function(){
   Request::session()->forget('ProductItemsMaterialsRecipe');
   Request::session()->forget('Recipes');
 
-
   $datos=[
     'tblMaterialProduct'=>Materials::where('TYPE_MATERIALS', 'pr')->get(),
     'tblMaterialItems'=>Materials::where('TYPE_MATERIALS', 'it')->get(),
@@ -78,6 +77,37 @@ Route::get('setInsertProduct',function(){
   return view('products.insert',['post'=>'true', 'tittle'=>"Product",'datos'=>$datos]);
 });
 
+/*
+Route::get('setEditProduct/{codProducto}',function($codProducto){
+  Request::session()->forget('ProductMaterials');
+  Request::session()->forget('ProductRecipe');
+  Request::session()->forget('ProductItemsMaterialsRecipe');
+  Request::session()->forget('Recipes');
+
+  $datos=[
+    'tblMaterialProduct'=>Materials::where('TYPE_MATERIALS', 'pr')->get(),
+    'tblMaterialItems'=>Materials::where('TYPE_MATERIALS', 'it')->get(),
+    'tblVwBoxes'=>DB::select('select * from VW_BOXES'),
+    'tblType'=>Items_type::orderBy('NAME_ITYPES')->get(),
+    'tblColor'=>Color::orderBy('NAME_COLOR')->get(),
+    'tblSpecie'=>Specie::orderBy('NAME_SPECIE')->get(),
+    'tblGrade'=>Grade::orderBy('NAME_GRADE')->get(),
+    'tblCut'=>Cut::orderBy('NAME_CUT')->get(),
+    'tblProcess'=>Process::orderBy('TYPE_PROCESS')->get(),
+    'tblPresentation'=>Presentation::orderBy('NAME_PTYPE')->get(),
+    'tblVariety'=>Variety::orderBy('NAME_VARIETY')->get(),
+  ];
+
+  return view('products.edit',['post'=>'true', 'tittle'=>"Edit product", 'datos'=>$datos]);
+});
+*/
+Route::get('getHeaderProduct','Product\ProductController@getHeaderProduct');
+
+Route::get('setEditProduct/{idProducto}',function($idProducto){
+  return view('products.edit',['idProducto'=>$idProducto]);
+});
+
+/*
 Route::get('setEditProduct/{codProducto}',function($codProducto){
   Request::session()->forget('ProductMaterials');
   Request::session()->forget('ProductRecipe');
@@ -85,6 +115,7 @@ Route::get('setEditProduct/{codProducto}',function($codProducto){
   Request::session()->forget('Recipes');
 
   //Recetas
+
   $dtRecipe=DB::select('EXEC ASP_RECIPE_PRODUCTS ?',array($codProducto));
 
   //items de la receta
@@ -92,17 +123,19 @@ Route::get('setEditProduct/{codProducto}',function($codProducto){
   $datosItemsMaterials=[];
   foreach ($dtRecipe as $recipe) {
     $dt=DB::select('EXEC ASP_RECIPES_ITEMS ?',array($recipe->ID_RECIPE));
-    array_push($datosItemsRecipe,DB::select('EXEC ASP_RECIPES_ITEMS ?',array($recipe->ID_RECIPE)));
-
+    $datosItemsRecipe=DB::select('EXEC ASP_RECIPES_ITEMS ?',array($recipe->ID_RECIPE));
+    dd($datosItemsRecipe);
     //Materiales de la Recetas
     foreach ($dt as $itemMat) {
-      array_push($datosItemsMaterials,DB::select('EXEC ASP_ITEMS_MATERIALS ?,?',array($itemMat->ID_RECIPE, $itemMat->ID_ITEM)));
+      $datosItemsMaterials=DB::select('EXEC ASP_ITEMS_MATERIALS ?,?',array($itemMat->ID_RECIPE, $itemMat->ID_ITEM));
     }
+
   }
+
+  Request::session()->push('ProductMaterials',DB::select('EXEC ASP_MATERIALS_PRODUCTS ?',array($codProducto)));
 
   $datos=[
     'headProduct'=>DB::selectOne('EXEC ASP_HEADER_PRODUCTS ?',array($codProducto)),
-    'ProductMaterials_'=>DB::select('EXEC ASP_MATERIALS_PRODUCTS ?',array($codProducto)),
 
     'Recipe_'=>$dtRecipe,
     'ProductRecipe_'=>$datosItemsRecipe,
@@ -126,6 +159,7 @@ Route::get('setEditProduct/{codProducto}',function($codProducto){
   return view('products.edit',['post'=>'true', 'tittle'=>"Edit product", 'datos'=>$datos]);
 
 });
+*/
 
 Route::post('setAddProduct','Product\ProductController@setAddProduct');
 
