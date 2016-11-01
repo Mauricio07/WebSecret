@@ -77,30 +77,56 @@ Route::get('setInsertProduct',function(){
   //dd($datos);
   return view('products.insert',['post'=>'true', 'tittle'=>"Product",'datos'=>$datos]);
 });
-/*
-Route::get('setRegistrosEditProduct_', function(){
-  if (Request::ajax()) {
-    $v_codProd=Request::get('v_codProducto');
-    $headProduct=DB::selectOne('EXEC ASP_HEADER_PRODUCTS ?',array($v_codProd));
-    return Response::json($headProduct);
-  }
-});
-*/
 
-Route::get('setEditProduct',function(){
-  if (Request::ajax()) {
-    $v_codProd=Request::get('v_codProducto');
-    $headProduct=DB::selectOne('EXEC ASP_HEADER_PRODUCTS ?',array($v_codProd));
-    return view('products.edit',['datosHead'=>$headProduct]);
+Route::get('setEditProduct/{codProducto}',function($codProducto){
+  Request::session()->forget('ProductMaterials');
+  Request::session()->forget('ProductRecipe');
+  Request::session()->forget('ProductItemsMaterialsRecipe');
+  Request::session()->forget('Recipes');
+
+  //Recetas
+  $dtRecipe=DB::select('EXEC ASP_RECIPE_PRODUCTS ?',array($codProducto));
+
+  //items de la receta
+  $datosItemsRecipe=[];
+  $datosItemsMaterials=[];
+  foreach ($dtRecipe as $recipe) {
+    $dt=DB::select('EXEC ASP_RECIPES_ITEMS ?',array($recipe->ID_RECIPE));
+    array_push($datosItemsRecipe,DB::select('EXEC ASP_RECIPES_ITEMS ?',array($recipe->ID_RECIPE)));
+
+    //Materiales de la Recetas
+    foreach ($dt as $itemMat) {
+      array_push($datosItemsMaterials,DB::select('EXEC ASP_ITEMS_MATERIALS ?,?',array($itemMat->ID_RECIPE, $itemMat->ID_ITEM)));
+    }
   }
+
+  $datos=[
+    'headProduct'=>DB::selectOne('EXEC ASP_HEADER_PRODUCTS ?',array($codProducto)),
+    'ProductMaterials_'=>DB::select('EXEC ASP_MATERIALS_PRODUCTS ?',array($codProducto)),
+
+    'Recipe_'=>$dtRecipe,
+    'ProductRecipe_'=>$datosItemsRecipe,
+    'ProductItemsMaterialsRecipe_'=>$datosItemsMaterials,
+
+    //parametros
+    'tblMaterialProduct'=>Materials::where('TYPE_MATERIALS', 'pr')->get(),
+    'tblMaterialItems'=>Materials::where('TYPE_MATERIALS', 'it')->get(),
+    'tblVwBoxes'=>DB::select('select * from VW_BOXES'),
+    'tblType'=>Items_type::orderBy('NAME_ITYPES')->get(),
+    'tblColor'=>Color::orderBy('NAME_COLOR')->get(),
+    'tblSpecie'=>Specie::orderBy('NAME_SPECIE')->get(),
+    'tblGrade'=>Grade::orderBy('NAME_GRADE')->get(),
+    'tblCut'=>Cut::orderBy('NAME_CUT')->get(),
+    'tblProcess'=>Process::orderBy('TYPE_PROCESS')->get(),
+    'tblPresentation'=>Presentation::orderBy('NAME_PTYPE')->get(),
+    'tblVariety'=>Variety::orderBy('NAME_VARIETY')->get(),
+  ];
+
+  //dd($datos);
+  return view('products.edit',['post'=>'true', 'tittle'=>"Edit product", 'datos'=>$datos]);
+
 });
-/*
-Route::get('setRegistrosEditProduct_',function(){
-  //$v_codProd=Request::get('v_codProducto');
-  //$headProduct=DB::selectOne('EXEC ASP_HEADER_PRODUCTS ?',array($v_codProd));
-  return view('products.edit',['post'=>'true', 'tittle'=>"Edit product"]);
-});
-*/
+
 Route::post('setAddProduct','Product\ProductController@setAddProduct');
 
 Route::post('setAddMaterialProd',function(){

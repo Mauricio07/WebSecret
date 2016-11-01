@@ -245,6 +245,3 @@ function UpdateQuantityRecipe(){
 }
 
 /* EDICION DE PRODUCTOS*/
-function setEditProduct(v_codigo){
-  $.get('setEditProduct',{'v_codeProducto':v_codigo},function(data){console.log(data);});
-}

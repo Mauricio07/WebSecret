@@ -41,7 +41,7 @@
                   </button>
 
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setEditProduct('{{$product->ID_PRODUCT}}')">Edit</a></li>
+                    <li><a href="setEditProduct/{{$product->ID_PRODUCT}}" >Edit</a></li>
                     <li class="divider"></li>
                     <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosDel('{{$product->ID_PRODUCT}}','{{$product->NAME_PRODUCT}}','getDeleteColor')">Delete</a></li>
                   </ul>
