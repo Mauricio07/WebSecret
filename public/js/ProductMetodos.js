@@ -6,13 +6,11 @@ var indexRecipe=0;
 var packRecipe=[];
 var packTotal=0;
 
-//Display materials Products
-
-function displayMaterials(v_index){
+//display headers product
+function datosHeaders(v_index){
   $.get('getHeaderProduct',{
-    'v_codProducto':v_index
-  },function(data){
-    //console.log(data);
-    $('#txtCodeProduct').attr('value','ok');
+    'indexProduct':v_index
+  },function(resp){
+    console.log('ok');
   });
 }

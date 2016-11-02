@@ -75,7 +75,7 @@ if (select count(*) from ITEMS_RECIPES where ID_RECIPE=@idRecip and ID_ITEM=@idI
 	insert into ITEMS_RECIPES(ID_RECIPE, ID_ITEM, QUANTITY_RECIPEITEM)
 	values(@idRecip, @idItem, @quanRecip);
 
-select @idItem as 'INDEX'
+select max(ID_ITEM) as 'INDEX' FROM ITEMS
 go
 
 CREATE PROCEDURE SP_ADD_RECIPE_HEADER @idPtype INT

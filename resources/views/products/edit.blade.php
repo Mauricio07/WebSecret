@@ -2,11 +2,8 @@
 
 @section('body')
 
-
-  <button type="button" name="button" onclick="displayMaterials('{{$idProducto}}')">ok</button>
     <!--Formulario ingreso-->
     <form id="frmProduct" method="post" action="setAddProduct" enctype="multipart/form-data">
-      <button type="button" name="button"  onclick="displayMaterials(1)">Click</button>
 
           {{csrf_field()}}
 

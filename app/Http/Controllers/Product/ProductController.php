@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\Input;
 use inbloom\Http\Controllers\Controller;
 use inbloom\Http\Requests;
 use inbloom\Http\Requests\Product\Product\InsertModifyProductRequest;
+
+use inbloom\Model\Product\Variety;
+use inbloom\Model\Product\Product;
+use inbloom\Model\Product\Specie;
+use inbloom\Model\Product\Process;
+use inbloom\Model\Product\Presentation;
+use inbloom\Model\Product\Items_type;
+use inbloom\Model\Product\Grade;
+use inbloom\Model\Product\Cut;
+use inbloom\Model\Product\Color;
+use inbloom\Model\Product\Materials;
 use Validator;
 
 class ProductController extends Controller
@@ -95,13 +106,46 @@ class ProductController extends Controller
           }
         }
 
-        return redirect('setInsertProduct')->with('message','Save');
-
+        return redirect('vw_product')->with('message','Save');
       }
     }
 
-    //datos
-    public function getHeaderProduct(Request $request){
-     echo 'hola';
+    public function setInsertProduct(InsertModifyProductRequest $request){
+      $request->session()->forget('ProductMaterials');
+      $request->session()->forget('ProductRecipe');
+      $request->session()->forget('ProductItemsMaterialsRecipe');
+      $request->session()->forget('Recipes');
+
+      $datos=[
+        'tblMaterialProduct'=>Materials::where('TYPE_MATERIALS', 'pr')->get(),
+        'tblMaterialItems'=>Materials::where('TYPE_MATERIALS', 'it')->get(),
+        'tblVwBoxes'=>DB::select('select * from VW_BOXES'),
+        'tblType'=>Items_type::orderBy('NAME_ITYPES')->get(),
+        'tblColor'=>Color::orderBy('NAME_COLOR')->get(),
+        'tblSpecie'=>Specie::orderBy('NAME_SPECIE')->get(),
+        'tblGrade'=>Grade::orderBy('NAME_GRADE')->get(),
+        'tblCut'=>Cut::orderBy('NAME_CUT')->get(),
+        'tblProcess'=>Process::orderBy('TYPE_PROCESS')->get(),
+        'tblPresentation'=>Presentation::orderBy('NAME_PTYPE')->get(),
+        'tblVariety'=>Variety::orderBy('NAME_VARIETY')->get(),
+      ];
+      //dd($datos);
+      return view('products.insert',['post'=>'true', 'tittle'=>"Product",'datos'=>$datos]);
     }
+
+    public function getDeleteProduct(Request $request){
+      Product::where('ID_PRODUCT', $request->get('txtCodeDel'))
+          ->update([
+            'DATEDELETE_PRODUCT'=>date('Ymd H:i:s'),
+            'STATUS_PRODUCT'=>'0'
+          ]);
+      return redirect('vw_product')->with('message','Delete');
+    }
+
+    public function getEditProduct(InsertModifyProductRequest $request){
+      $idProduct=$request->get('txtCodeEdit');
+      $datosProd=DB::selectOne('EXEC ASP_HEADER_PRODUCTS ?',array($idProduct));
+      dd($datosProd);
+    }
+
 }

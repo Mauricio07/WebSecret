@@ -4,17 +4,6 @@
 
     @include('products.implements.breadcrumps')
 
-    <div class="container">
-      <div class="row">
-        @if (isset($post) && (Session::get('message')))
-          <div class="alert alert-success alert-dismissible" role="alert">
-            <span> Transaction <strong>{{Session::get('message')}}</strong> success</span>
-            <a href="#" class="close" data-dismiss="alert">&times;</a>
-          </div>
-        @endif
-      </div>
-    </div>
-
     <!--Formulario ingreso-->
     <form id="frmProduct" method="post" action="setAddProduct" enctype="multipart/form-data">
 

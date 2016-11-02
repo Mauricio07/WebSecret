@@ -163,6 +163,12 @@ function setAddRegisterBoxes(v_id, v_idType, v_lenght,v_width, v_height, v_weigh
   document.getElementById('formBoxes').setAttribute('action',v_accion);
 }
 
+function setRegistrosEdit(v_codeEdit, v_nameEdit, v_accion){
+  $('#txtCodeEdit').attr('value',v_codeEdit);
+  $('#txtNameEdit').attr('value',v_nameEdit);
+  $('#formEdit').attr('action',v_accion);
+}
+
 function activarBtn(v_btnActivar, v_valida){
   var cadena=$.trim($('#'+v_valida).val());
   if ((parseInt(cadena))>0) {

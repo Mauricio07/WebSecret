@@ -2,6 +2,18 @@
 
 @section('body')
   @include('products.implements.breadcrumps')
+
+  <div class="container">
+    <div class="row">
+      @if (isset($post) && (Session::get('message')))
+        <div class="alert alert-success alert-dismissible" role="alert">
+          <span> Transaction <strong>{{Session::get('message')}}</strong> success</span>
+          <a href="#" class="close" data-dismiss="alert">&times;</a>
+        </div>
+      @endif
+    </div>
+  </div>
+
   <section class="container">
     <article class="row">
         <div class="form-horizontal">
@@ -18,9 +30,9 @@
         </div>
     </article>
     <article class="row">
-      <form class="" action="setEditProduct" method="get">
       <table class="table table-striped">
         <thead>
+          <th>Code</th>
           <th>Name</th>
           <th>Online</th>
           <th>Upc</th>
@@ -41,9 +53,9 @@
                   </button>
 
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="setEditProduct/{{$product->ID_PRODUCT}}" >Edit</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#myRegisterEdit" onclick="setRegistrosEdit('{{$product->ID_PRODUCT}}','{{$product->NAME_PRODUCT}}','getEditProduct')">Edit</a></li>
                     <li class="divider"></li>
-                    <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosDel('{{$product->ID_PRODUCT}}','{{$product->NAME_PRODUCT}}','getDeleteColor')">Delete</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosDel('{{$product->ID_PRODUCT}}','{{$product->NAME_PRODUCT}}','getDeleteProduct')">Delete</a></li>
                   </ul>
                 </div>
               </td>
@@ -53,4 +65,9 @@
       </table>
     </article>
   </section>
+@endsection
+
+@section('modals')
+    @include('products.implements.modalsDeleteTools')
+    @include('products.implements.modalsEditTools')
 @endsection
