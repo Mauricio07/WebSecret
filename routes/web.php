@@ -61,6 +61,7 @@ Route::post('setAddProduct','Product\ProductController@setAddProduct');
 
 Route::get('getDeleteProduct','Product\ProductController@getDeleteProduct');
 
+
 Route::post('setAddMaterialProd',function(){
   $datos=[
     'IdMaterialsProd'=> Request::get('IdMaterialsProd'),
@@ -73,13 +74,21 @@ Route::post('setAddMaterialProd',function(){
   return Response::json('Success Transaction');
 });
 
+Route::get('getSessionMaterials','Product\ProductController@loadMaterials');
+
+Route::get('getSessionRecipes','Product\ProductController@loadRecipes');
+
+Route::get('getSessionItemRecipe','Product\ProductController@loadItemRecipe');
+
+Route::get('getSessionItemsMaterials', 'Product\ProductController@loadItemsMaterials');
+
 Route::get('setDeleteMaterialsProd',function(){ //Remove items materials
   if (Request::ajax()){
     $IdItemDel=Request::get('IdItemDel');
 
     $datosTemp=Request::session()->get('ProductMaterials');
     Request::session()->forget('ProductMaterials');
-
+    dd($datosTemp);
     foreach ( $datosTemp as $productMaterials) {
       if ($productMaterials['IdMaterialsProd']!=$IdItemDel) {
         $datosOk=[

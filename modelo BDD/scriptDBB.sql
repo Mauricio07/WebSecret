@@ -1,8 +1,7 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     28/10/2016 5:21:19                           */
+/* Created on:     02/11/2016 16:48:13                          */
 /*==============================================================*/
-
 use inbloomOk
 
 /*==============================================================*/
@@ -166,10 +165,11 @@ go
 /* Table: ITEMS_RECIPES                                         */
 /*==============================================================*/
 create table ITEMS_RECIPES (
+   ID_INDEXIR           int                  identity,
    ID_RECIPE            int                  not null,
    ID_ITEM              int                  not null,
    QUANTITY_RECIPEITEM  int                  null,
-   constraint PK_ITEMS_RECIPES primary key (ID_RECIPE, ID_ITEM)
+   constraint PK_ITEMS_RECIPES primary key (ID_INDEXIR, ID_RECIPE, ID_ITEM)
 )
 go
 
@@ -220,10 +220,11 @@ go
 /* Table: MATERIALS_PRODUCTS                                    */
 /*==============================================================*/
 create table MATERIALS_PRODUCTS (
+   ID_INDEXMP           int                  identity,
    ID_PRODUCT           int                  not null,
    ID_MATERIAL          int                  not null,
    QUANTITY_PRODMAT     int                  null,
-   constraint PK_MATERIALS_PRODUCTS primary key (ID_PRODUCT, ID_MATERIAL)
+   constraint PK_MATERIALS_PRODUCTS primary key (ID_INDEXMP, ID_PRODUCT, ID_MATERIAL)
 )
 go
 
@@ -307,10 +308,11 @@ go
 /* Table: PRODUCT_RECIPIES                                      */
 /*==============================================================*/
 create table PRODUCT_RECIPIES (
+   ID_INDEXPR           numeric              identity,
    ID_PRODUCT           int                  not null,
    ID_RECIPE            int                  not null,
    PACK                 int                  null,
-   constraint PK_PRODUCT_RECIPIES primary key (ID_PRODUCT, ID_RECIPE)
+   constraint PK_PRODUCT_RECIPIES primary key (ID_INDEXPR, ID_PRODUCT, ID_RECIPE)
 )
 go
 
@@ -357,11 +359,12 @@ go
 /* Table: RECIPE_ITEMS                                          */
 /*==============================================================*/
 create table RECIPE_ITEMS (
+   ID_INDEXRI           int                  identity,
    ID_RECIPE            int                  not null,
    ID_MATERIAL          int                  not null,
    ID_ITEM              int                  not null,
    QUANTITY_RECIPEMAT   int                  null,
-   constraint PK_RECIPE_ITEMS primary key (ID_ITEM, ID_MATERIAL)
+   constraint PK_RECIPE_ITEMS primary key (ID_INDEXRI, ID_RECIPE, ID_MATERIAL, ID_ITEM)
 )
 go
 

@@ -83,22 +83,24 @@
                   </div>
                   <div class="btn-group col-sm-2">
                     <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#myRegisterMaterial">Add </button>
-                    <button type="button" class="btn btn-default dropdown-toggle btn-md" onclick="displayTbl('divTblMaterial')">
+                    <button type="button" class="btn btn-default btn-md" data-toggle="collapse" data-target="#collapseMaterials" aria-expanded="false" aria-controls="collapseMaterials">
                       <span class="caret"></span>
                     </button>
                   </div>
                   @if ($errors->has('MaterialsRecipe')) <span class="glyphicon glyphicon-remove form-control-feedback frm-error" aria-hidden="true"></span><p class="help-block">{{$errors->first('MaterialsRecipe')}} </p>@endif
                 </div>
-                <div class="tbl_hidden" id="divTblMaterial">
-                  <table class="table" >
-                    <thead>
-                      <th>Id</th>
-                      <th>Name</th>
-                      <th>Quantity</th>
-                      <th></th>
-                    </thead>
-                    <tbody id="tblMaterial"></tbody>
-                  </table>
+                <div class="container">
+                  <div class="collapse" id="collapseMaterials">
+                    <table class="table" >
+                      <thead>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th></th>
+                      </thead>
+                      <tbody id="tblMaterial"></tbody>
+                    </table>
+                  </div>                  
                 </div>
 
               </div>
