@@ -1,8 +1,8 @@
 
   // add item materials
 function saveMaterialProduct(){
-    var v_name=$('#txtMaterial');
-    var v_nameMat=$(v_name).find(':selected').html();
+    var v_idMaterials=$('#txtMaterial');
+    var v_nameMat=$('#txtMaterial').find(':selected').html();
     var v_quanty=$('#txtQuantityMat');
     var ajaxRecipe=$('#ajaxResponse');
 
@@ -15,27 +15,17 @@ function saveMaterialProduct(){
 
     //add items materials
     $.post('setAddMaterialProd',{
-      'IdMaterialsProd': IdMaterialsProd,
-      'NomItemMaterialsProd': $(v_name).val(),
-      'QuantItemMaterialsProd': $(v_quanty).val(),
-    },function(data){
-      //console.log(data);
-      $(ajaxRecipe).html(data);
-      setTblMaterialsProduct(IdMaterialsProd,v_nameMat, $(v_quanty).val());
-      IdMaterialsProd++; //index table of materials
+      //'IdMaterialsProd': IdMaterialsProd,
+      'IdMaterialsProd': $(v_idMaterials).val(),
+      'NomMaterialsProd': v_nameMat,
+      'QuantMaterialsProd': $(v_quanty).val(),
+    },function(dataMaterials){
+      console.log(dataMaterials.length);
+      if (dataMaterials.length) {
+        $(ajaxRecipe).html(dataMaterials);
+        getDataMaterials();
+      }
     });
-  }
-
-  //llenar informacion
-  function setTblMaterialsProduct(v_id, v_nameMat, v_quantity){
-    v_contenido="<tr id=ProdMat"+v_id+">"+
-    "<td>"+v_id+"</td>"+
-    "<td>"+v_nameMat+"</td>"+
-    "<td>"+v_quantity+"</td>"+
-    "<td><div> <a href='#' class='btn delete' id='deletingMat' onclick=deleteItem("+v_id+",'ProdMat"+v_id+"','setDeleteMaterialsProd')></a></div></td>"
-    +"</tr>";
-    $("#tblMaterial").append(v_contenido);
-
   }
 
 //deleting items materials
@@ -50,16 +40,12 @@ function deleteItem(v_IdDel, v_IdDelTr,v_function, v_indexRecipe){
   $.get(v_function,{
     'IdItemDel':v_IdDel
   },function(data){
-    //console.log(data);
-    //$(ajaxResponse).append('delete '+data);
     $('#'+v_IdDelTr).remove();
-    //alert('Deletion successful');
     $('#myMessageUser').modal('show');
 
     //sumar items recetas
     var v_total=0;
     $('#tblRecipeBody tr').find('td:eq(8)').each(function(){
-      console.log('>>'+parseInt($(this).html()));
       v_total+=parseInt($(this).html());
     });
     console.log('->'+v_IdDel+' - '+v_total);
@@ -72,7 +58,7 @@ function deleteItem(v_IdDel, v_IdDelTr,v_function, v_indexRecipe){
 
 function setAddItemRecipe(v_MetodDel){
   //insert with ajax
-  var v_IndexRecipe=$('#txtCodeRecipe').val()
+  var v_IndexRecipe=$('#txtCodeRecipe').val();
   $.ajaxSetup({
     headers:{
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -91,6 +77,7 @@ function setAddItemRecipe(v_MetodDel){
     'Quantity':$('#txtQuantity').val(),
   },function(data){
     $('#ajaxRecipe').html(data);
+    getDataItemRecipe(0,v_IndexRecipe);
     packsItems($('#txtQuantity').val(),v_IndexRecipe);
     IdItemRecipeProd++;
   });
@@ -128,7 +115,7 @@ function saveItemMaterialRecipe(){
 
 /*
   Muestra el contenido de los materiales de la receta
-*/
+
 function getItemsMaterials(v_indexRecipe, v_indexItem){
 console.log("-->"+v_indexRecipe);
   $.get('getItemsMaterials_',{
@@ -145,6 +132,7 @@ console.log("-->"+v_indexRecipe);
     $('#tblItemsRecipesBody').html(contenido);
   });
 }
+*/
 
 function getDeleteItemsMaterials(v_indexItemMaterialDel){
   $.get('setDelItemsMaterialsRecipe',{
@@ -165,23 +153,12 @@ function setAddRecipe(){
   });
 
   $.post('setAddTypeRecipe',{
-    'IndexRecipe': indexRecipe,
+    //'IndexRecipe': indexRecipe,
     'IndexTypeRecipe':$('#txtPresentation').val(),
     'NameTypeRecipe':$('#txtPresentation').find(':selected').html(),
-  },function(data){
-    //console.log(data);
-    $('#ajaxResponse').html(data);
-    //add tabla
-    v_contenido="<tr id=Recipe"+indexRecipe+">"
-    +"<td>"+indexRecipe+"</td>"
-    +"<td><a role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseItems' aria-expanded='true' aria-controls='collapseOne' onclick=getItemsRecipe("+indexRecipe+")>"+$('#txtPresentation').find(':selected').html()+"<span class='caret'></span></a></td>"
-    +"<td id=tdPackRecipes"+indexRecipe+"> 0 </td>"
-    +"<td> <div class='btn-group'>"
-    +"<a href='#' data-toggle='modal' class='btn edit' data-target='#myRegister' onclick=getIndexRowRecipe("+indexRecipe+")></a>"
-    +"<a data-toggle='modal' class='btn delete' onclick=deleteItem("+indexRecipe+",'Recipe"+indexRecipe+"','setDelTypeRecipe',-1)></a>"
-    +"</div> </td></tr>";
-    $('#tblRecipes').append(v_contenido);
-    indexRecipe++;
+  },function(dataRecipe){
+    $('#ajaxRecipe').html(dataRecipe);
+    getDataRecipes();
   });
 }
 
@@ -205,11 +182,9 @@ function getItemsRecipe(v_id){
         "<td>"+item2.GRADE+"</td>"+
         "<td>"+item2.CUTS+"</td>"+
         "<td>"+item2.QUANTITY+"</td>"+
-        "<td> <div class='btn-group'>"
-            +"<a href='#' data-toggle='modal' class='btn edit' data-target='#myRegisterMaterialItems' onclick=getIdRowRecipe("+v_id+","+item2.INDEXITEMRECIPE+")></a>"
-            +"<a data-toggle='modal' class='btn delete' onclick=deleteItem("+item2.INDEXITEMRECIPE+",'RecipeItem"+item2.INDEXITEMRECIPE+"','setDelRecipeItems',"+v_id+")></a>"
-            +"</div> </td>"
-            +"</tr>";
+        "<td> <div class='btn-group'><a href='#' data-toggle='modal' class='btn edit' data-target='#myRegisterMaterialItems' onclick=getIdRowRecipe("+v_id+","+item2.INDEXITEMRECIPE+
+            ")></a><a data-toggle='modal' class='btn delete' onclick=deleteItem("+item2.INDEXITEMRECIPE+",'RecipeItem"+item2.INDEXITEMRECIPE+"','setDelRecipeItems',"+v_id+
+            ")></a></div> </td></tr>";
       });
     });
     $('#tblRecipeBody').html(v_contenido);
@@ -217,6 +192,7 @@ function getItemsRecipe(v_id){
 }
 
 function packsItems(v_valorPack, v_indexRecipe){
+  console.log("--->"+v_valorPack+" - "+ v_indexRecipe);
   var bandera=false;
   var v_Total=0;
   $.each(packRecipe,function(i,item){

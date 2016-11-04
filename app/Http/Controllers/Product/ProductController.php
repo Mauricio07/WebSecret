@@ -102,7 +102,7 @@ class ProductController extends Controller
         if ($idProduct>0)
         {
           foreach ($arrayProductMaterials as $pm) {
-              $seguir=DB::select('EXEC SP_ADD_MATERIALS_PRODUCT ?,?,? ',array($idProduct,$pm['NomItemMaterialsProd'], $pm['QuantItemMaterialsProd']));
+              $seguir=DB::select('EXEC SP_ADD_MATERIALS_PRODUCT ?,?,? ',array($idProduct,$pm['IdMaterialsProd'], $pm['QuantMaterialsProd']));
           }
         }
 
@@ -138,30 +138,60 @@ class ProductController extends Controller
       return view('products.edit',['post'=>'true','tittle'=>'Edit Products','datos'=>$datos, 'dtInformacion'=>$dtInformacion]);
     }
 
-    //Limpieza de informacion en la session
-    private function limpiezaSession(Request $request){
-      $request->session()->forget('ProductMaterials');
-      $request->session()->forget('ProductRecipe');
-      $request->session()->forget('ProductItemsMaterialsRecipe');
-      $request->session()->forget('Recipes');
+
+/*
+* ===============================================================================================
+                             Metodos Materials Products
+* ===============================================================================================
+*/
+
+  //add new materials product
+  public function setAddMaterialProd(Request $request){
+    //Validation
+    $datosMat=$request->session()->get('ProductMaterials');
+    $realizar=true;
+
+    if(isset($datosMat)) {
+      foreach ($datosMat as $dt) {
+        if ($dt['IdMaterialsProd']==$request->get('IdMaterialsProd')) {
+          $realizar=false;
+          break;
+        }
+      }
     }
 
-    //carga de tablas parametricas
-    private function loadParameter(){
+    if ($realizar) {
       $datos=[
-        'tblMaterialProduct'=>Materials::where('TYPE_MATERIALS', 'pr')->get(),
-        'tblMaterialItems'=>Materials::where('TYPE_MATERIALS', 'it')->get(),
-        'tblVwBoxes'=>DB::select('select * from VW_BOXES'),
-        'tblType'=>Items_type::orderBy('NAME_ITYPES')->get(),
-        'tblColor'=>Color::orderBy('NAME_COLOR')->get(),
-        'tblSpecie'=>Specie::orderBy('NAME_SPECIE')->get(),
-        'tblGrade'=>Grade::orderBy('NAME_GRADE')->get(),
-        'tblCut'=>Cut::orderBy('NAME_CUT')->get(),
-        'tblProcess'=>Process::orderBy('TYPE_PROCESS')->get(),
-        'tblPresentation'=>Presentation::orderBy('NAME_PTYPE')->get(),
-        'tblVariety'=>Variety::orderBy('NAME_VARIETY')->get(),
+        'IdMaterialsProd'=> $request->get('IdMaterialsProd'),
+        'NomMaterialsProd'=> $request->get('NomMaterialsProd'),
+        'QuantMaterialsProd'=> $request->get('QuantMaterialsProd'),
       ];
-        return $datos;
+      $messages='Success Transaction';
+      $request->session()->push('ProductMaterials',$datos);
+    }else{
+      $messages='';
+    }
+    return $messages;
+  }
+
+  //Deleting session
+  public function setDeleteMaterialsProd(Request $request){
+
+      $IdItemDel=$request->get('IdItemDel');
+
+      $datosTemp=$request->session()->get('ProductMaterials');
+      $request->session()->forget('ProductMaterials');
+
+      foreach ( $datosTemp as $productMaterials) {
+        if ($productMaterials['IdMaterialsProd']!=$IdItemDel) {
+          $datosOk=[
+            'IdMaterialsProd'=> $productMaterials['IdMaterialsProd'],
+            'NomMaterialsProd'=> $productMaterials['NomMaterialsProd'],
+            'QuantMaterialsProd'=> $productMaterials['QuantMaterialsProd'],
+          ];
+          $request->session()->push('ProductMaterials',$datosOk);
+        }
+      }
     }
 
     //barrido de procedimientos para almacenar
@@ -171,21 +201,71 @@ class ProductController extends Controller
 
       if (!isset($arrayDt)) {
         $request->session()->forget('ProductMaterials');
-
         $dato=DB::select('EXEC ASP_MATERIALS_PRODUCTS ?',array($idProduct));
-        $arrayDt=[];
 
         foreach ($dato as $dt) {
           $arrayDt=[
             'IdMaterialsProd'=> $dt->ID_MATERIAL,
-            'NomItemMaterialsProd'=> $dt->NAME_MATERIALS,
-            'QuantItemMaterialsProd'=> $dt->QUANTITY_PRODMAT,
+            'NomMaterialsProd'=> $dt->NAME_MATERIALS,
+            'QuantMaterialsProd'=> $dt->QUANTITY_PRODMAT,
           ];
           $request->session()->push('ProductMaterials',$arrayDt);
         }
       }
       return $request->session()->get('ProductMaterials');
     }
+
+/*
+* ===============================================================================================
+                             Metodos Recipe
+* ===============================================================================================
+*/
+
+  //Add new register Recipe
+  public function setAddTypeRecipe(Request $request){
+    $datosRecipe=$request->session()->get('Recipes');
+    $realizar=true;
+    if (isset($datosRecipe)) {
+      foreach ($datosRecipe as $dt) {
+        if ($dt['IndexTypeRecipe']==$request->get('IndexTypeRecipe')) {
+          $realizar=false;
+          break;
+        }
+      }
+    }
+
+    if ($realizar) {
+      $datos=[
+        'IndexTypeRecipe'=>$request->get('IndexTypeRecipe'),
+        'NameTypeRecipe'=>$request->get('NameTypeRecipe'),
+        'QuantityRecipe'=>$request->get('QuantityRecipe'),
+      ];
+      $request->session()->push('Recipes',$datos);
+      $messages='Success Transaction';
+    }else{
+      $messages='';
+    }
+      return $messages;
+  }
+
+  public function setDelTypeRecipe(Request $request){
+
+    $IdItemDel=$request->get('IdItemDel');
+    $datosRecipe=$request->session()->get('Recipes');
+    $request->session()->forget('Recipes'); //clear session
+    if(isset($datosRecipe)){
+        foreach ($datosRecipe as $dt) {
+          if ($dt['IndexTypeRecipe']!=$IdItemDel) {
+            $arrayDatosOk=[
+              'IndexTypeRecipe'=>$dt['IndexTypeRecipe'],
+              'NameTypeRecipe'=>$dt['NameTypeRecipe'],
+              'QuantityRecipe'=>$dt['QuantityRecipe'],
+            ];
+            $request->session()->push('Recipes',$arrayDatosOk);
+          }
+        }
+    }
+  }
 
     //load Recipes
     public function loadRecipes(Request $request){
@@ -198,9 +278,10 @@ class ProductController extends Controller
         foreach ($datoR as $dt) {
           //'IndexRecipe'=>$dt['IndexRecipe'],
           $arrayDt=[
-            'IndexRecipe'=>$dt->ID_RECIPE,
+            //'IndexRecipe'=>$dt->ID_RECIPE,
             'IndexTypeRecipe'=>$dt->ID_PTYPE,
             'NameTypeRecipe'=>$dt->NAME_PTYPE,
+            'QuantityRecipe'=>$dt->QUANTITY_RECIPEITEM,
           ];
           $request->session()->push('Recipes',$arrayDt);
         }
@@ -208,14 +289,41 @@ class ProductController extends Controller
       return $request->session()->get('Recipes');
     }
 
+
+/*
+* ===============================================================================================
+                           Metodos Items Recipe
+* ===============================================================================================
+*/
+
+  //add new register items Recipes
+  public function setAddItemRecipe(Request $request){
+    $datosRecipe=[
+      'Id_Recipe'=>$request->get('Id_Recipe'),
+      'IdItemRecipeProd'=>$request->get('IdItemRecipeProd'),
+      'IdSpecie'=>$request->get('IdSpecie'),
+      'IdColor'=>$request->get('IdColor'),
+      'IdProcess'=>$request->get('IdProcess'),
+      'IdTypes'=>$request->get('IdTypes'),
+      'IdCuts'=>$request->get('IdCuts'),
+      'IdGrade'=>$request->get('IdGrade'),
+      'IdVariety'=>$request->get('IdVariety'),
+      'Quantity'=>$request->get('Quantity'),
+    ];
+
+    $request->session()->push('ProductRecipe',$datosRecipe);
+    return 'Success Transaction';
+  }
     //load items
     public function loadItemRecipe(Request $request){
       $idRecipe=$request->get('idRecipe');
+      $idProduct=$request->get('idProduct');
+
       $arrayDt=$request->session()->get('ProductRecipe');
       if (!isset($arrayDt)) {
         $request->session()->forget('ProductRecipe');
         $arrayDt=[];
-        $datoI=DB::select('EXEC ASP_RECIPES_ITEMS ?',array($idRecipe));
+        $datoI=DB::select('EXEC ASP_RECIPES_ITEMS ?,?',array($idProduct, $idRecipe));
         foreach ($datoI as $dt) {
           $arrayDt=[
           'Id_Recipe'=>$idRecipe,
@@ -234,6 +342,28 @@ class ProductController extends Controller
       }
       return $request->session()->get('ProductRecipe');
     }
+
+public function getItemsRecipes(Request $request){
+
+  $request->session()->forget('ReporteProductRecipe'); //session temporal reporte
+
+  $idItemRecipe=$request->get('idBusca');
+
+  $dt=$request->session()->get('ProductRecipe');
+
+  if (isset($dt)) {
+    foreach ($dt as $recipeItems) {
+      if ($recipeItems['Id_Recipe']==$idItemRecipe) {
+        $datos=DB::select('EXEC ASP_ITEMS_RECIPE ?,?,?,?,?,?,?,?,?,?',array($recipeItems['IdSpecie'], $recipeItems['IdColor'],$recipeItems['IdProcess'],$recipeItems['IdTypes'],$recipeItems['IdCuts'],$recipeItems['IdGrade'],$recipeItems['IdVariety'],$recipeItems['Quantity'], $recipeItems['IdItemRecipeProd'], $recipeItems['Id_Recipe']));
+        //array_push($datosRecipe,$datos);
+        $request->session()->push('ReporteProductRecipe',$datos);
+      }
+    }
+  }
+
+  return $request->session()->get('ReporteProductRecipe');
+
+}
 
     //load materilas items
     public function loadItemsMaterials(Request $request){
@@ -259,5 +389,35 @@ class ProductController extends Controller
 
     }
 
+/*
+* ===============================================================================================
+                             Metodos Varios
+* ===============================================================================================
+*/
+    //Limpieza de informacion en la session
+    private function limpiezaSession(Request $request){
+      $request->session()->forget('ProductMaterials');
+      $request->session()->forget('ProductRecipe');
+      $request->session()->forget('ProductItemsMaterialsRecipe');
+      $request->session()->forget('Recipes');
+    }
+
+    //carga de tablas parametricas
+    private function loadParameter(){
+      $datos=[
+        'tblMaterialProduct'=>Materials::where('TYPE_MATERIALS', 'pr')->get(),
+        'tblMaterialItems'=>Materials::where('TYPE_MATERIALS', 'it')->get(),
+        'tblVwBoxes'=>DB::select('select * from VW_BOXES'),
+        'tblType'=>Items_type::orderBy('NAME_ITYPES')->get(),
+        'tblColor'=>Color::orderBy('NAME_COLOR')->get(),
+        'tblSpecie'=>Specie::orderBy('NAME_SPECIE')->get(),
+        'tblGrade'=>Grade::orderBy('NAME_GRADE')->get(),
+        'tblCut'=>Cut::orderBy('NAME_CUT')->get(),
+        'tblProcess'=>Process::orderBy('TYPE_PROCESS')->get(),
+        'tblPresentation'=>Presentation::orderBy('NAME_PTYPE')->get(),
+        'tblVariety'=>Variety::orderBy('NAME_VARIETY')->get(),
+      ];
+        return $datos;
+    }
 
 }

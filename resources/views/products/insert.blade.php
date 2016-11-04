@@ -64,8 +64,8 @@
 
                 <div class="col-xs-3">
                   <div class="drag-drop">
-                    <input type="file" name="archivo" id="archivo" accept="image/jpeg" required="true"/>
-                    <span class="glyphicon glyphicon-cloud-upload glyphicon-lg"></span>
+                    <img src="{{URL::asset('imgs/uploadImg.png')}}" id="imgLoad"/>
+                    <input type="file" name="archivo" id="archivo" accept="image/jpeg" required="true" onchange="loadImage()"/>
                   </div>
                 </div>
               </div>
@@ -83,7 +83,7 @@
                   </div>
                   <div class="btn-group col-sm-2">
                     <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#myRegisterMaterial">Add </button>
-                    <button type="button" class="btn btn-default btn-md" data-toggle="collapse" data-target="#collapseMaterials" aria-expanded="false" aria-controls="collapseMaterials">
+                    <button type="button" class="btn btn-default btn-md" data-toggle="collapse" data-target="#collapseMaterials" aria-expanded="false" aria-controls="collapseMaterials" onclick="getDataMaterials(0)">
                       <span class="caret"></span>
                     </button>
                   </div>
@@ -100,7 +100,7 @@
                       </thead>
                       <tbody id="tblMaterial"></tbody>
                     </table>
-                  </div>                  
+                  </div>
                 </div>
 
               </div>
@@ -117,7 +117,7 @@
                   <div class="col-sm-5"><div id="ajaxRecipe"></div></div>
                   <div class="btn-group col-sm-2">
                     <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#myRegisterRecipe">Add </button>
-                    <a href="#collapseRecipe" class="btn btn-default btn-md" data-toggle="collapse">
+                    <a href="#collapseRecipe" class="btn btn-default btn-md" data-toggle="collapse" onclick="getDataRecipes()">
                       <span class="caret"></span>
                     </a>
                   </div>
@@ -137,7 +137,7 @@
                           <th>Pack Recipe</th>
                           <th></th>
                         </thead>
-                        <tbody>
+                        <tbody id="tblRecipesBody">
                         </tbody>
                       </table>
                     </div>

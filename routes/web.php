@@ -29,7 +29,6 @@ use Illuminate\Support\Facades\Input;
 
 Route::get('/',function(){
   return view('Logins\login');
-
 });
 
 //Modulo de inicio
@@ -39,12 +38,6 @@ Route::get('products','Login\LoginController@getProducts');
 
 //Ingreso de modulos
 Route::get('vw_product',function(){
-  //remove storage product
-  Request::session()->forget('ProductMaterials');
-  Request::session()->forget('ProductRecipe');
-  Request::session()->forget('ProductItemsMaterialsRecipe');
-  Request::session()->forget('Recipes');
-
   $datos=[
     'tblProductos'=>DB::select('EXEC ASP_REP_PRODUCTS ?',array('1')),
   ];
@@ -61,47 +54,44 @@ Route::post('setAddProduct','Product\ProductController@setAddProduct');
 
 Route::get('getDeleteProduct','Product\ProductController@getDeleteProduct');
 
+/*
+* ===============================================================================================
+                             Metodos Materials
+* ===============================================================================================
+*/
 
-Route::post('setAddMaterialProd',function(){
-  $datos=[
-    'IdMaterialsProd'=> Request::get('IdMaterialsProd'),
-    'NomItemMaterialsProd'=> Request::get('NomItemMaterialsProd'),
-    'QuantItemMaterialsProd'=> Request::get('QuantItemMaterialsProd'),
-  ];
+Route::post('setAddMaterialProd','Product\ProductController@setAddMaterialProd');
 
-  Request::session()->push('ProductMaterials',$datos);
-
-  return Response::json('Success Transaction');
-});
+Route::get('setDeleteMaterialsProd','Product\ProductController@setDeleteMaterialsProd');
 
 Route::get('getSessionMaterials','Product\ProductController@loadMaterials');
 
+/*
+* ===============================================================================================
+                             Metodos Recipe
+* ===============================================================================================
+*/
+
+Route::post('setAddTypeRecipe','Product\ProductController@setAddTypeRecipe');
+
 Route::get('getSessionRecipes','Product\ProductController@loadRecipes');
+
+Route::get('setDelTypeRecipe','Product\ProductController@setDelTypeRecipe');
+
+/*
+* ===============================================================================================
+                             Metodos Items Recipe
+* ===============================================================================================
+*/
+
+Route::post('setAddItemRecipe', 'Product\ProductController@setAddItemRecipe');
 
 Route::get('getSessionItemRecipe','Product\ProductController@loadItemRecipe');
 
 Route::get('getSessionItemsMaterials', 'Product\ProductController@loadItemsMaterials');
 
-Route::get('setDeleteMaterialsProd',function(){ //Remove items materials
-  if (Request::ajax()){
-    $IdItemDel=Request::get('IdItemDel');
+Route::get('getItemsRecipes','Product\ProductController@getItemsRecipes');
 
-    $datosTemp=Request::session()->get('ProductMaterials');
-    Request::session()->forget('ProductMaterials');
-    dd($datosTemp);
-    foreach ( $datosTemp as $productMaterials) {
-      if ($productMaterials['IdMaterialsProd']!=$IdItemDel) {
-        $datosOk=[
-          'IdMaterialsProd'=> $productMaterials['IdMaterialsProd'],
-          'NomItemMaterialsProd'=> $productMaterials['NomItemMaterialsProd'],
-          'QuantItemMaterialsProd'=> $productMaterials['QuantItemMaterialsProd'],
-        ];
-        Request::session()->push('ProductMaterials',$datosOk);
-      }
-    }
-    return Response::json('Eliminado');
-  }
-});
 
 Route::get('setDelItemsMaterialsRecipe',function(){ //Remove items materials
   if (Request::isMethod('get')){
@@ -126,6 +116,7 @@ Route::get('setDelItemsMaterialsRecipe',function(){ //Remove items materials
   }
   return Response::json('Delition successful');
 });
+
 
 
 Route::post('setAddInsertItemMaterialsRecipe', function(){  //Add items materials recipe -----
@@ -173,53 +164,7 @@ Route::get('getItemsMaterials_',function(){
   }
 });
 
-//Route::post('uploading','Product\ProductController@uploading');
 
-Route::post('setAddItemRecipe', function(){  //Add items materials
-  if(Request::ajax()){
-
-    $datosRecipe=[
-      'Id_Recipe'=>Request::get('Id_Recipe'),
-      'IdItemRecipeProd'=>Request::get('IdItemRecipeProd'),
-      'IdSpecie'=>Request::get('IdSpecie'),
-      'IdColor'=>Request::get('IdColor'),
-      'IdProcess'=>Request::get('IdProcess'),
-      'IdTypes'=>Request::get('IdTypes'),
-      'IdCuts'=>Request::get('IdCuts'),
-      'IdGrade'=>Request::get('IdGrade'),
-      'IdVariety'=>Request::get('IdVariety'),
-      'Quantity'=>Request::get('Quantity'),
-    ];
-
-    Request::session()->push('ProductRecipe',$datosRecipe);
-
-    return Response::json('Success Transaction');
-  }
-});
-
-Route::get('getItemsRecipes',function(){
-  if (Request::ajax()) {
-
-    Request::session()->forget('ReporteProductRecipe'); //session temporal reporte
-
-    $idItemRecipe=Request::get('idBusca');
-
-    $dt=Request::session()->get('ProductRecipe');
-    $datosRecipe=[];
-
-    if (isset($dt)) {
-      foreach ($dt as $recipeItems) {
-        if ($recipeItems['Id_Recipe']==$idItemRecipe) {
-          $datos=DB::select('EXEC ASP_ITEMS_RECIPE ?,?,?,?,?,?,?,?,?',array($recipeItems['IdSpecie'], $recipeItems['IdColor'],$recipeItems['IdProcess'],$recipeItems['IdTypes'],$recipeItems['IdCuts'],$recipeItems['IdGrade'],$recipeItems['IdVariety'],$recipeItems['Quantity'], $recipeItems['IdItemRecipeProd']));
-          //array_push($datosRecipe,$datos);
-          Request::session()->push('ReporteProductRecipe',$datos);
-        }
-      }
-    }
-
-    return Response::json(Request::session()->get('ReporteProductRecipe'));
-  }
-});
 
 Route::get('setDelRecipeItems',function(){ //Remove items materials
   if (Request::ajax()){
@@ -260,39 +205,6 @@ Route::post('setInsertTaxe','Product\Taxe\TaxeController@setInsertTaxe'); // Eje
 Route::post('setModificationTaxe','Product\Taxe\TaxeController@setModificationTaxe'); //Ejecuta modificacion taxes
 
 Route::get('getDeleteTaxe','Product\Taxe\TaxeController@getDeleteTaxe'); //Ejecuta modificacion Product taxes
-
-Route::post('setAddTypeRecipe',function(){
-    if (Request::ajax()) {
-      $datos=[
-        'IndexRecipe'=>Request::get('IndexRecipe'),
-        'IndexTypeRecipe'=>Request::get('IndexTypeRecipe'),
-      ];
-      Request::session()->push('Recipes',$datos);
-      return Response::json(Request::session()->get('Recipes'));
-    }
-});
-
-Route::get('setDelTypeRecipe',function(){
-  if (Request::ajax()) {
-    $IdItemDel=Request::get('IdItemDel');
-    $datos=Request::session()->get('Recipes');
-    Request::session()->forget('Recipes'); //clear session
-    if(isset($datos)){
-        foreach ($datos as $dt) {
-          if ($dt['IndexRecipe']!=$IdItemDel) {
-            $arrayDatosOk=[
-              'IndexRecipe'=>$dt['IndexRecipe'],
-              'IndexTypeRecipe'=>$dt['IndexTypeRecipe'],
-            ];
-            Request::session()->push('Recipes',$arrayDatosOk);
-          }
-        }
-    }
-    return Response::json(Request::session()->get('Recipes'));
-  }
-
-});
-
 
 
 // Acceso al menu productos varieties

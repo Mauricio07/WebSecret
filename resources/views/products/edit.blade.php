@@ -64,8 +64,8 @@
 
                 <div class="col-xs-3">
                   <div class="drag-drop">
-                    <input type="file" name="archivo" id="archivo" accept="image/jpeg"/>
-                    <span class="glyphicon glyphicon-cloud-upload glyphicon-lg"></span>
+                    <img src="{{URL::asset('{{$dtInformacion['infoProducto']->IMAGE_PRODUCT}}')}}" id="imgLoad"/>
+                    <input type="file" name="archivo" id="archivo" accept="image/jpeg" required="true" onchange="loadImage()"/>
                   </div>
                 </div>
               </div>
@@ -83,7 +83,7 @@
                   </div>
                   <div class="btn-group col-sm-2">
                     <button type="button" class="btn btn-default btn-md" data-toggle="modal" data-target="#myRegisterMaterial">Add </button>
-                    <button type="button" class="btn btn-default btn-md" data-toggle="collapse" data-target="#collapseMaterials" aria-expanded="false" aria-controls="collapseMaterials" onclick="getDataMaterils({{$dtInformacion['infoProducto']->ID_PRODUCT}})">
+                    <button type="button" class="btn btn-default btn-md" data-toggle="collapse" data-target="#collapseMaterials" aria-expanded="false" aria-controls="collapseMaterials" onclick="getDataMaterials({{$dtInformacion['infoProducto']->ID_PRODUCT}})">
                       <span class="caret"></span>
                     </button>
                   </div>
