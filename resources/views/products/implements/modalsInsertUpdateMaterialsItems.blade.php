@@ -11,8 +11,8 @@
           <div class="form-group" hidden="true">
             <label class="col-sm-2 control-label">Id</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="txtIdRowItem" name="txtIdRowItem" hidden="true"/>
-              <input type="text" class="form-control" id="txtIdRowRecipe" name="txtIdRowRecipe" hidden="true"/>
+              <input type="hidden" class="form-control" id="txtIdRowItem" name="txtIdRowItem"/>
+              <input type="hidden" class="form-control" id="txtIdRowRecipe" name="txtIdRowRecipe"/>
               <input type="text" class="form-control" id="txtCode" name="txtCode" placeholder="Code"/>
             </div>
           </div>

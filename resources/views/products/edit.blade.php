@@ -64,7 +64,7 @@
 
                 <div class="col-xs-3">
                   <div class="drag-drop">
-                    <img src="{{URL::asset('{{$dtInformacion['infoProducto']->IMAGE_PRODUCT}}')}}" id="imgLoad"/>
+                    <img src="{{URL::asset($dtInformacion['infoProducto']->IMAGE_PRODUCT)}}" id="imgLoad"/>
                     <input type="file" name="archivo" id="archivo" accept="image/jpeg" required="true" onchange="loadImage()"/>
                   </div>
                 </div>
