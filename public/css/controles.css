@@ -109,6 +109,14 @@
   opacity: 0.9;
 }
 
+.img-inbloom-Box{
+  display: block;
+  background-image: url('../imgs/box.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;   
+}
+
 input[type="file"]{
   height: 220px;
   opacity: 0;

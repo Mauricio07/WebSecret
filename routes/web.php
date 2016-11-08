@@ -74,7 +74,7 @@ Route::get('getSessionMaterials','Product\ProductController@loadMaterials');
 
 Route::post('setAddTypeRecipe','Product\ProductController@setAddTypeRecipe');
 
-Route::get('getSessionRecipes','Product\ProductController@loadRecipes');
+Route::get('getSessionRecipes','Product\ProductController@getSessionRecipes');
 
 Route::get('setDelTypeRecipe','Product\ProductController@setDelTypeRecipe');
 
@@ -86,9 +86,9 @@ Route::get('setDelTypeRecipe','Product\ProductController@setDelTypeRecipe');
 
 Route::post('setAddItemRecipe', 'Product\ProductController@setAddItemRecipe');
 
-Route::get('getSessionItemRecipe','Product\ProductController@loadItemRecipe');
+Route::get('getSessionItemRecipe','Product\ProductController@getSessionItemRecipe');
 
-Route::get('getSessionItemsMaterials', 'Product\ProductController@loadItemsMaterials');
+Route::get('getSessionItemsMaterials', 'Product\ProductController@getSessionItemsMaterials');
 
 Route::get('getItemsRecipes','Product\ProductController@getItemsRecipes');
 

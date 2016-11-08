@@ -1,8 +1,8 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     02/11/2016 16:48:13                          */
+/* Created on:     08/11/2016 16:30:18                          */
 /*==============================================================*/
-use inbloomOk
+
 
 /*==============================================================*/
 /* Table: BOXES                                                 */
@@ -165,27 +165,25 @@ go
 /* Table: ITEMS_RECIPES                                         */
 /*==============================================================*/
 create table ITEMS_RECIPES (
-   ID_INDEXIR           int                  identity,
-   ID_RECIPE            int                  not null,
-   ID_ITEM              int                  not null,
-   QUANTITY_RECIPEITEM  int                  null,
-   constraint PK_ITEMS_RECIPES primary key (ID_INDEXIR, ID_RECIPE, ID_ITEM)
+   ID_ITEM              int                  null,
+   ID_RECIPE            int                  null,
+   QUANTITY_RECIPEITEM  int                  null
 )
 go
 
 /*==============================================================*/
-/* Index: ITEMS_RECIPES_FK                                      */
+/* Index: RELATIONSHIP_19_FK                                    */
 /*==============================================================*/
-create index ITEMS_RECIPES_FK on ITEMS_RECIPES (
-ID_RECIPE ASC
-)
-go
-
-/*==============================================================*/
-/* Index: ITEMS_RECIPES2_FK                                     */
-/*==============================================================*/
-create index ITEMS_RECIPES2_FK on ITEMS_RECIPES (
+create index RELATIONSHIP_19_FK on ITEMS_RECIPES (
 ID_ITEM ASC
+)
+go
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_20_FK                                    */
+/*==============================================================*/
+create index RELATIONSHIP_20_FK on ITEMS_RECIPES (
+ID_RECIPE ASC
 )
 go
 
@@ -220,27 +218,25 @@ go
 /* Table: MATERIALS_PRODUCTS                                    */
 /*==============================================================*/
 create table MATERIALS_PRODUCTS (
-   ID_INDEXMP           int                  identity,
-   ID_PRODUCT           int                  not null,
-   ID_MATERIAL          int                  not null,
-   QUANTITY_PRODMAT     int                  null,
-   constraint PK_MATERIALS_PRODUCTS primary key (ID_INDEXMP, ID_PRODUCT, ID_MATERIAL)
+   ID_MATERIAL          int                  null,
+   ID_PRODUCT           int                  null,
+   QUANTITY_PRODMAT     int                  null
 )
 go
 
 /*==============================================================*/
-/* Index: MATERIALS_PRODUCTS_FK                                 */
+/* Index: RELATIONSHIP_25_FK                                    */
 /*==============================================================*/
-create index MATERIALS_PRODUCTS_FK on MATERIALS_PRODUCTS (
-ID_PRODUCT ASC
-)
-go
-
-/*==============================================================*/
-/* Index: MATERIALS_PRODUCTS2_FK                                */
-/*==============================================================*/
-create index MATERIALS_PRODUCTS2_FK on MATERIALS_PRODUCTS (
+create index RELATIONSHIP_25_FK on MATERIALS_PRODUCTS (
 ID_MATERIAL ASC
+)
+go
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_26_FK                                    */
+/*==============================================================*/
+create index RELATIONSHIP_26_FK on MATERIALS_PRODUCTS (
+ID_PRODUCT ASC
 )
 go
 
@@ -272,7 +268,6 @@ go
 create table PRODUCTS (
    ID_PRODUCT           int                  identity,
    ID_BOX               int                  null,
-   PRO_ID_PRODUCT       int                  null,
    CODE_PRODUCT         varchar(20)          null,
    NAME_PRODUCT         varchar(100)         null,
    DATECREATE_PRODUCT   datetime             null,
@@ -284,6 +279,7 @@ create table PRODUCTS (
    ONLINENAME_PRODUCT   varchar(50)          null,
    DATEDELETE_PRODUCT   datetime             null,
    ID_USERPROD          int                  null,
+   CODIGOCADENA         text                 null,
    constraint PK_PRODUCTS primary key nonclustered (ID_PRODUCT)
 )
 go
@@ -297,38 +293,28 @@ ID_BOX ASC
 go
 
 /*==============================================================*/
-/* Index: PROD_FK                                               */
-/*==============================================================*/
-create index PROD_FK on PRODUCTS (
-PRO_ID_PRODUCT ASC
-)
-go
-
-/*==============================================================*/
 /* Table: PRODUCT_RECIPIES                                      */
 /*==============================================================*/
 create table PRODUCT_RECIPIES (
-   ID_INDEXPR           numeric              identity,
-   ID_PRODUCT           int                  not null,
-   ID_RECIPE            int                  not null,
-   PACK                 int                  null,
-   constraint PK_PRODUCT_RECIPIES primary key (ID_INDEXPR, ID_PRODUCT, ID_RECIPE)
+   ID_RECIPE            int                  null,
+   ID_PRODUCT           int                  null,
+   PACK                 int                  null
 )
 go
 
 /*==============================================================*/
-/* Index: PRODUCT_RECIPIES_FK                                   */
+/* Index: RELATIONSHIP_23_FK                                    */
 /*==============================================================*/
-create index PRODUCT_RECIPIES_FK on PRODUCT_RECIPIES (
-ID_PRODUCT ASC
-)
-go
-
-/*==============================================================*/
-/* Index: PRODUCT_RECIPIES2_FK                                  */
-/*==============================================================*/
-create index PRODUCT_RECIPIES2_FK on PRODUCT_RECIPIES (
+create index RELATIONSHIP_23_FK on PRODUCT_RECIPIES (
 ID_RECIPE ASC
+)
+go
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_24_FK                                    */
+/*==============================================================*/
+create index RELATIONSHIP_24_FK on PRODUCT_RECIPIES (
+ID_PRODUCT ASC
 )
 go
 
@@ -359,27 +345,24 @@ go
 /* Table: RECIPE_ITEMS                                          */
 /*==============================================================*/
 create table RECIPE_ITEMS (
-   ID_INDEXRI           int                  identity,
-   ID_RECIPE            int                  not null,
-   ID_MATERIAL          int                  not null,
-   ID_ITEM              int                  not null,
-   QUANTITY_RECIPEMAT   int                  null,
-   constraint PK_RECIPE_ITEMS primary key (ID_INDEXRI, ID_RECIPE, ID_MATERIAL, ID_ITEM)
+   ID_RECIPE            int                  null,
+   ID_MATERIAL          int                  null,
+   QUANTITY_RECIPEMAT   int                  null
 )
 go
 
 /*==============================================================*/
-/* Index: RECIPE_MATERIALS_FK                                   */
+/* Index: RELATIONSHIP_21_FK                                    */
 /*==============================================================*/
-create index RECIPE_MATERIALS_FK on RECIPE_ITEMS (
-ID_ITEM ASC
+create index RELATIONSHIP_21_FK on RECIPE_ITEMS (
+ID_RECIPE ASC
 )
 go
 
 /*==============================================================*/
-/* Index: RECIPE_MATERIALS2_FK                                  */
+/* Index: RELATIONSHIP_22_FK                                    */
 /*==============================================================*/
-create index RECIPE_MATERIALS2_FK on RECIPE_ITEMS (
+create index RELATIONSHIP_22_FK on RECIPE_ITEMS (
 ID_MATERIAL ASC
 )
 go
@@ -460,7 +443,7 @@ go
 /*==============================================================*/
 create table VARIETIES (
    ID_VARIETY           int                  identity,
-   ID_SPECIE            int                  null,
+   ID_ITEM              int                  null,
    NAME_VARIETY         varchar(80)          null,
    DATE_VARIETY         datetime             null,
    constraint PK_VARIETIES primary key nonclustered (ID_VARIETY)
@@ -471,7 +454,7 @@ go
 /* Index: ITEM_VARIETYS_FK                                      */
 /*==============================================================*/
 create index ITEM_VARIETYS_FK on VARIETIES (
-ID_SPECIE ASC
+ID_ITEM ASC
 )
 go
 
@@ -527,27 +510,22 @@ alter table ITEMS
 go
 
 alter table ITEMS_RECIPES
-   add constraint FK_ITEMS_RE_ITEMS_REC_RECIPES foreign key (ID_RECIPE)
-      references RECIPES (ID_RECIPE)
-go
-
-alter table ITEMS_RECIPES
-   add constraint FK_ITEMS_RE_ITEMS_REC_ITEMS foreign key (ID_ITEM)
+   add constraint FK_ITEMS_RE_RELATIONS_ITEMS foreign key (ID_ITEM)
       references ITEMS (ID_ITEM)
 go
 
-alter table MATERIALS_PRODUCTS
-   add constraint FK_MATERIAL_MATERIALS_PRODUCTS foreign key (ID_PRODUCT)
-      references PRODUCTS (ID_PRODUCT)
+alter table ITEMS_RECIPES
+   add constraint FK_ITEMS_RE_RELATIONS_RECIPES foreign key (ID_RECIPE)
+      references RECIPES (ID_RECIPE)
 go
 
 alter table MATERIALS_PRODUCTS
-   add constraint FK_MATERIAL_MATERIALS_MATERIAL foreign key (ID_MATERIAL)
+   add constraint FK_MATERIAL_RELATIONS_MATERIAL foreign key (ID_MATERIAL)
       references MATERIALS_ITEMS (ID_MATERIAL)
 go
 
-alter table PRODUCTS
-   add constraint FK_PRODUCTS_PROD_PRODUCTS foreign key (PRO_ID_PRODUCT)
+alter table MATERIALS_PRODUCTS
+   add constraint FK_MATERIAL_RELATIONS_PRODUCTS foreign key (ID_PRODUCT)
       references PRODUCTS (ID_PRODUCT)
 go
 
@@ -557,13 +535,13 @@ alter table PRODUCTS
 go
 
 alter table PRODUCT_RECIPIES
-   add constraint FK_PRODUCT__PRODUCT_R_PRODUCTS foreign key (ID_PRODUCT)
-      references PRODUCTS (ID_PRODUCT)
+   add constraint FK_PRODUCT__RELATIONS_RECIPES foreign key (ID_RECIPE)
+      references RECIPES (ID_RECIPE)
 go
 
 alter table PRODUCT_RECIPIES
-   add constraint FK_PRODUCT__PRODUCT_R_RECIPES foreign key (ID_RECIPE)
-      references RECIPES (ID_RECIPE)
+   add constraint FK_PRODUCT__RELATIONS_PRODUCTS foreign key (ID_PRODUCT)
+      references PRODUCTS (ID_PRODUCT)
 go
 
 alter table RECIPES
@@ -572,12 +550,12 @@ alter table RECIPES
 go
 
 alter table RECIPE_ITEMS
-   add constraint FK_RECIPE_I_RECIPE_MA_ITEMS foreign key (ID_ITEM)
-      references ITEMS (ID_ITEM)
+   add constraint FK_RECIPE_I_RELATIONS_RECIPES foreign key (ID_RECIPE)
+      references RECIPES (ID_RECIPE)
 go
 
 alter table RECIPE_ITEMS
-   add constraint FK_RECIPE_I_RECIPE_MA_MATERIAL foreign key (ID_MATERIAL)
+   add constraint FK_RECIPE_I_RELATIONS_MATERIAL foreign key (ID_MATERIAL)
       references MATERIALS_ITEMS (ID_MATERIAL)
 go
 
@@ -592,7 +570,7 @@ alter table USER_PASSWORDS
 go
 
 alter table VARIETIES
-   add constraint FK_VARIETIE_ITEM_VARI_SPECIES foreign key (ID_SPECIE)
-      references SPECIES (ID_SPECIE)
+   add constraint FK_VARIETIE_ITEM_VARI_ITEMS foreign key (ID_ITEM)
+      references ITEMS (ID_ITEM)
 go
 

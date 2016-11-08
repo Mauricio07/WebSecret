@@ -5,7 +5,7 @@
      tecla = String.fromCharCode(key).toLowerCase();
      letras = " áéíóúabcdefghijklmnñopqrstuvwxyz"; //solo se acepta
      especiales = "8-37-39-46"; //teclas especiales
-     tecla_especial = false
+     tecla_especial = false;
      for(var i in especiales){
           if(key == especiales[i]){
               tecla_especial = true;
@@ -24,7 +24,7 @@
      tecla = String.fromCharCode(key).toLowerCase();
      letras = " 0123456789."; //solo se acepta
      especiales = "8-37-39-46"; //teclas especiales
-     tecla_especial = false
+     tecla_especial = false;
      for(var i in especiales){
           if(key == especiales[i]){
               tecla_especial = true;
@@ -110,7 +110,7 @@ function setRegistroSpecie(v_cod, v_nam, v_var, v_tax, v_accion){
   document.getElementById('txtName').setAttribute('value',v_nam);
   option=document.getElementById('txtVariety');
   $(option).val(v_var).change();
-  option=document.getElementById('txtTaxe')
+  option=document.getElementById('txtTaxe');
   $(option).val(v_tax).change();
   document.getElementById('form').setAttribute('action',v_accion);
 }

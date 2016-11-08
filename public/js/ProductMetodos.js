@@ -47,6 +47,7 @@ function getDataRecipes(v_indexProduct){
   //display items recipe
   function getDataItemRecipe(v_indexProduct, v_indexRecipe){
     $.get('getSessionItemRecipe',{
+      'idProduct':v_indexProduct,
       'idRecipe':v_indexRecipe
     },function(datos_){
       $.get('getItemsRecipes',{
@@ -94,8 +95,27 @@ function getDataRecipes(v_indexProduct){
   }
 
   function loadImage(){
-    if ($('#archivo').val().length) {
+    if (validationImageLoad($('#archivo'))) {
       var pathImg=URL.createObjectURL(event.target.files[0]);
       $('#imgLoad').fadeIn('slow').attr('src',pathImg);
+    }else{
+      menssageUser('Error en tipo de archivo');
     }
+  }
+
+  //validation ext image
+  function validationImageLoad(v_fileImg){
+    var permitida=false;
+    var vfile=$(v_fileImg).val();
+    if (vfile.length>0){
+      extensiones_permitidas = new Array(".jpg", ".jpeg", ".png");
+      extension = (vfile.substring(vfile.lastIndexOf("."))).toLowerCase();
+      for (var i = 0; i < extensiones_permitidas.length; i++) {
+         if (extensiones_permitidas[i] == extension) {
+         permitida = true;
+         break;
+         }
+      }
+    }
+    return permitida;
   }

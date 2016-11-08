@@ -27,6 +27,7 @@ class ProductController extends Controller
   var $arrayProductRecipe; //bonches que forman la receta
   var $arrayProductMaterialsRecipe; //materials items recipes
   var $arrayProductMaterials; //Materiales de la receta
+  var $errors;
 
 
   public function setInsertProduct(InsertModifyProductRequest $request){
@@ -59,9 +60,15 @@ class ProductController extends Controller
     $sintaxisProducts='EXEC SP_ADD_PRODUCTS ?,?,?,?,?,?,?,?,?,? ';
     $sintaxisMaterialProducts='EXEC SP_ADD_MATERIALS_PRODUCT ?,?,? ';
 
-    $this->setInsertUpdateItemsMaterials($request, $sintaxisHeaderRecipe, $sintaxisRecipeItems, $sintaxisMaterialsItemsRecipe, $sintaxisProducts, $sintaxisMaterialProducts);
+    //Validation Session
+    if ($this->ValidationSession($request)) {
+      $this->setInsertUpdateItemsMaterials($request, $sintaxisHeaderRecipe, $sintaxisRecipeItems, $sintaxisMaterialsItemsRecipe, $sintaxisProducts, $sintaxisMaterialProducts);
+      return redirect('vw_product')->with('message','Save');
+    }else{
+      return redirect('setInsertProduct')->withErrors($this->errors);
+    }
 
-    return redirect('vw_product')->with('message','Save');
+
   }
 
     //Cambio de estado BDD
@@ -209,7 +216,7 @@ class ProductController extends Controller
   }
 
   //load Recipes
-  public function loadRecipes(Request $request){
+  public function getSessionRecipes(Request $request){
       $idProduct=$request->get('idProduct');
       $arrayDt=$request->session()->get('Recipes');
       if (!isset($arrayDt)) {
@@ -222,7 +229,7 @@ class ProductController extends Controller
             //'IndexRecipe'=>$dt->ID_RECIPE,
             'IndexTypeRecipe'=>$dt->ID_PTYPE,
             'NameTypeRecipe'=>$dt->NAME_PTYPE,
-            'QuantityRecipe'=>$dt->QUANTITY_RECIPEITEM,
+            'QuantityRecipe'=>$dt->PACK,
           ];
           $request->session()->push('Recipes',$arrayDt);
         }
@@ -256,18 +263,18 @@ class ProductController extends Controller
     return 'Success Transaction';
   }
     //load items
-  public function loadItemRecipe(Request $request){
+  public function getSessionItemRecipe(Request $request){
       $idProduct=$request->get('idProduct');
       $idRecipe=$request->get('idRecipe');
 
       $arrayDt=$request->session()->get('ProductRecipe');
       if (!isset($arrayDt)) {
         $request->session()->forget('ProductRecipe');
-        $arrayDt=[];
         $datoI=DB::select('EXEC ASP_RECIPES_ITEMS ?,?',array($idProduct, $idRecipe));
+
         foreach ($datoI as $dt) {
           $arrayDt=[
-          'Id_Recipe'=>$idRecipe,
+          'Id_Recipe'=>$dt->ID_RECIPE,
           'IdItemRecipeProd'=>$dt->ID_ITEM,
           'IdSpecie'=>$dt->ID_SPECIE,
           'IdColor'=>$dt->ID_COLOR,
@@ -288,16 +295,15 @@ class ProductController extends Controller
       $request->session()->forget('ReporteProductRecipe'); //session temporal reporte
 
       $idItemRecipe=$request->get('idBusca');
-
       $dt=$request->session()->get('ProductRecipe');
 
       if (isset($dt)) {
         foreach ($dt as $recipeItems) {
-          if ($recipeItems['Id_Recipe']==$idItemRecipe) {
+          //if ($recipeItems['Id_Recipe']==$idItemRecipe) {
             $datos=DB::select('EXEC ASP_ITEMS_RECIPE ?,?,?,?,?,?,?,?,?,?',array($recipeItems['IdSpecie'], $recipeItems['IdColor'],$recipeItems['IdProcess'],$recipeItems['IdTypes'],$recipeItems['IdCuts'],$recipeItems['IdGrade'],$recipeItems['IdVariety'],$recipeItems['Quantity'], $recipeItems['IdItemRecipeProd'], $recipeItems['Id_Recipe']));
             //array_push($datosRecipe,$datos);
             $request->session()->push('ReporteProductRecipe',$datos);
-          }
+          //}
         }
       }
 
@@ -306,7 +312,7 @@ class ProductController extends Controller
     }
 
   //load materilas items
-  public function loadItemsMaterials(Request $request){
+  public function getSessionItemsMaterials(Request $request){
       $idRecipe=$request->get('indexRecipe');
       $idItems=$request->get('indexItem');
       $arrayDt=$request->session()->get('ProductItemsMaterialsRecipe');
@@ -362,29 +368,33 @@ class ProductController extends Controller
 
     //Validation session
   private function ValidationSession($request){
-
+    $correcto=true;
       $this->arrayRecipe = $request->session()->get('Recipes'); //Recetas
       $this->arrayProductRecipe = $request->session()->get('ProductRecipe'); //bonches que forman la receta
       $this->arrayProductMaterialsRecipe=$request->session()->get('ProductItemsMaterialsRecipe');
       $this->arrayProductMaterials= $request->session()->get('ProductMaterials'); //Materiales de la receta
 
       if (!isset($this->arrayProductMaterials)) {
-        $this->setSessionClear($request);
-        $errors=['MaterialsRecipe'=>'It has not been entered recipe materials'];
-        return redirect('setInsertProduct')->withErrors($errors);
+        //$this->setSessionClear($request);
+        $this->errors=['MaterialsRecipe'=>'It has not been entered recipe materials'];
+        $correcto=false;
+
       }
 
       if (!isset($this->arrayProductRecipe)) {
-        $this->setSessionClear($request);
-        $errors=['ItemsMaterialsRecipe'=>'It has not been entered recipe ingredients'];
-        return redirect('setInsertProduct')->withErrors($errors);
+        //$this->setSessionClear($request);
+        $this->errors=['ItemsMaterialsRecipe'=>'It has not been entered recipe ingredients'];
+        $correcto=false;
+        //return redirect('setInsertProduct')->withErrors($errors);
       }
 
       if (!isset($this->arrayProductMaterialsRecipe)) {
-        $this->setSessionClear($request);
-        $errors=['ItemRecipe'=>'It has not been entered materials ingredients'];
-        return redirect('setInsertProduct')->withErrors($errors);
+        //$this->setSessionClear($request);
+        $this->errors=['ItemRecipe'=>'It has not been entered materials ingredients'];
+        $correcto=false;
+        //return redirect('setInsertProduct')->withErrors($errors);
       }
+      return $correcto;
     }
 
   private function setUploadImage($request){
@@ -401,9 +411,6 @@ class ProductController extends Controller
 
     //Add recipe head
     $nomArchivoRuta=$this->setUploadImage($request);
-
-    //Validation Session
-    $this->ValidationSession($request);
 
     //dd($this->arrayRecipe);
     foreach ($this->arrayRecipe as $aPr) {
@@ -441,7 +448,7 @@ class ProductController extends Controller
         $idBoxes=$request->get('txtBoxes');
 
         //Add products
-        $idProduct=DB::selectOne($sintaxisProducts,array($idRecipe, $request->get('txtPack'),$idBoxes, $request->get('txtCodeProduct'), $request->get('txtNameProduct'),$nomArchivoRuta, $request->get('txtDescription'),$request->get('txtCodeUpc'),$request->get('txtOnlineName'),$idUsuario));
+        $idProduct=DB::selectOne($sintaxisProducts,array($idRecipe,trim($request->get('txtPack')),$idBoxes, trim($request->get('txtCodeProduct')), trim($request->get('txtNameProduct')),$nomArchivoRuta, trim($request->get('txtDescription')),trim($request->get('txtCodeUpc')),trim($request->get('txtOnlineName')),$idUsuario));
 
         $idProduct=$idProduct->ID;
 

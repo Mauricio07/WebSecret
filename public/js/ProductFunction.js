@@ -41,14 +41,14 @@ function deleteItem(v_IdDel, v_IdDelTr,v_function, v_indexRecipe){
     'IdItemDel':v_IdDel
   },function(data){
     $('#'+v_IdDelTr).remove();
-    $('#myMessageUser').modal('show');
+    menssageUser('Deletion successful');
 
     //sumar items recetas
     var v_total=0;
     $('#tblRecipeBody tr').find('td:eq(8)').each(function(){
       v_total+=parseInt($(this).html());
     });
-    console.log('->'+v_IdDel+' - '+v_total);
+
     $('#tdPackRecipes'+v_indexRecipe).html(v_total); //actualiza cabecera de recetas
     //suma las recetas
     UpdateQuantityRecipe();
@@ -138,8 +138,7 @@ function getDeleteItemsMaterials(v_indexItemMaterialDel){
   $.get('setDelItemsMaterialsRecipe',{
     'IdItemDel':v_indexItemMaterialDel
   },function(data){
-    //console.log(data);
-    alert(data);
+    menssageUser(data);
   });
 }
 
@@ -192,7 +191,6 @@ function getItemsRecipe(v_id){
 }
 
 function packsItems(v_valorPack, v_indexRecipe){
-  console.log("--->"+v_valorPack+" - "+ v_indexRecipe);
   var bandera=false;
   var v_Total=0;
   $.each(packRecipe,function(i,item){
@@ -212,7 +210,6 @@ function packsItems(v_valorPack, v_indexRecipe){
 
    //revisar suma packs
     $('#tdPackRecipes'+v_indexRecipe).html(v_Total);
-
     //sumar totales recetas
     UpdateQuantityRecipe();
 }
@@ -226,4 +223,7 @@ function UpdateQuantityRecipe(){
   $('#txtPack').attr('value',v_Total);
 }
 
-/* EDICION DE PRODUCTOS*/
+function menssageUser(v_menssage){
+  $('#messageUser').html(v_menssage);
+  $('#myMessageUser').modal('show');
+}
