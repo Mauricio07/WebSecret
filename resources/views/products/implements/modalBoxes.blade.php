@@ -27,26 +27,26 @@
 
             <label class="col-sm-2 control-label">Length</label>
             <div class="col-sm-4">
-              <input type="text" class="form-control" id="txtLength" name="txtLength" placeholder="Length" onkeypress="return soloNumeros(event)" required="true"/>
+              <input type="text" class="form-control" id="txtLength" name="txtLength" placeholder="Length" onkeypress="return soloNumeros(event)"  maxlength="4" required="true"/>
             </div>
         </div>
 
         <div class="form-group">
           <label class="col-sm-2 control-label">Width</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" id="txtWidth" name="txtWidth" placeholder="Width" onkeypress="return soloNumeros(event)" required="true"/>
+            <input type="text" class="form-control" id="txtWidth" name="txtWidth" placeholder="Width" onkeypress="return soloNumeros(event)" required="true" maxlength="4"/>
           </div>
 
         <label class="col-sm-2 control-label">Height</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" id="txtHeight" name="txtHeight" placeholder="Height" onkeypress="return soloNumeros(event)" required="true"/>
+          <input type="text" class="form-control" id="txtHeight" name="txtHeight" placeholder="Height" onkeypress="return soloNumeros(event)" required="true" maxlength="4"/>
         </div>
       </div>
 
       <div class="form-group">
         <label class="col-sm-2 control-label">Weigth(Lb)</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" id="txtWeigth" name="txtWeigth" placeholder="Weigth" onkeypress="return soloNumeros(event)" required="true"/>
+          <input type="text" class="form-control" id="txtWeigth" name="txtWeigth" placeholder="Weigth" onkeypress="return soloNumeros(event)" required="true" maxlength="4"/>
         </div>
       </div>
 

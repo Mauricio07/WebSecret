@@ -138,6 +138,7 @@
                           <th>Code</th>
                           <th>Name</th>
                           <th>Pack Recipe</th>
+                          <th>Materials</th>
                           <th></th>
                         </thead>
                         <tbody id="tblRecipesBody">

@@ -181,8 +181,7 @@ function getItemsRecipe(v_id){
         "<td>"+item2.GRADE+"</td>"+
         "<td>"+item2.CUTS+"</td>"+
         "<td>"+item2.QUANTITY+"</td>"+
-        "<td> <div class='btn-group'><a href='#' data-toggle='modal' class='btn edit' data-target='#myRegisterMaterialItems' onclick=getIdRowRecipe("+v_id+","+item2.INDEXITEMRECIPE+
-            ")></a><a data-toggle='modal' class='btn delete' onclick=deleteItem("+item2.INDEXITEMRECIPE+",'RecipeItem"+item2.INDEXITEMRECIPE+"','setDelRecipeItems',"+v_id+
+        "<td> <div class='btn-group'><a data-toggle='modal' class='btn delete' onclick=deleteItem("+item2.INDEXITEMRECIPE+",'RecipeItem"+item2.INDEXITEMRECIPE+"','setDelRecipeItems',"+v_id+
             ")></a></div> </td></tr>";
       });
     });

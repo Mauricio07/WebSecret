@@ -36,8 +36,8 @@ function getDataRecipes(v_indexProduct){
       "<td>"+items.IndexTypeRecipe+"</td>"+
       "<td><a role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseItems' aria-expanded='true' aria-controls='collapseOne' onclick=getDataItemRecipe("+v_indexProduct+","+items.IndexTypeRecipe+")>"+items.NameTypeRecipe+"<span class='caret'></span></a></td>"+
       "<td id=tdPackRecipes"+items.IndexTypeRecipe+"> "+parseInt(items.QuantMaterialsProd)+" </td>"+
-      "<td> <div class='btn-group'>"+
-      "<a href='#' data-toggle='modal' class='btn edit' data-target='#myRegister' onclick=getIndexRowRecipe("+items.IndexTypeRecipe+")></a>"+
+      "<td><a href='#' data-toggle='modal' class='btn edit' data-target='#myRegisterMaterialItems' onclick=getIdRowRecipe("+items.IndexTypeRecipe+")></a></td>"+
+      "<td> <div class='btn-group'><a href='#' data-toggle='modal' class='btn edit' data-target='#myRegister' onclick=getIndexRowRecipe("+items.IndexTypeRecipe+")></a>"+
       "<a data-toggle='modal' class='btn delete' onclick=deleteItem("+items.IndexTypeRecipe+",'Recipe"+items.IndexTypeRecipe+"','setDelTypeRecipe')></a></div> </td></tr>";
     });
 
