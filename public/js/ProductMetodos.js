@@ -67,8 +67,7 @@ function getDataRecipes(v_indexProduct){
             "<td>"+item2.GRADE+"</td>"+
             "<td>"+item2.CUTS+"</td>"+
             "<td>"+item2.QUANTITY+"</td>"+
-            "<td> <div class='btn-group'>"+
-                "<a href='#' data-toggle='modal' class='btn edit' data-target='#myRegisterMaterialItems' onclick=getIdRowRecipe("+v_indexRecipe+","+item2.INDEXITEMRECIPE+")></a>"+
+            "<td> <div class='btn-group'>"+                
                 "<a data-toggle='modal' class='btn delete' onclick=deleteItem("+item2.INDEXITEMRECIPE+",'RecipeItem"+item2.INDEXITEMRECIPE+"','setDelRecipeItems',"+v_indexRecipe+")></a></div> </td></tr>";
           });
         });
@@ -80,7 +79,7 @@ function getDataRecipes(v_indexProduct){
   //display materials recipes
   function getDataItemsMaterials(v_indexRecipe){
     $.get('getSessionItemsMaterials',{
-      'indexRecipe':v_indexRecipe,      
+      'indexRecipe':v_indexRecipe,
     },function(dataItemMaterials){
       var v_contenido="";
       $.each(dataItemMaterials, function(i, item) {

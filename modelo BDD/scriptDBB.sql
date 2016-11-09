@@ -1,9 +1,9 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     09/11/2016 3:21:38                           */
+/* Created on:     09/11/2016 15:05:52                          */
 /*==============================================================*/
 
-use inbloomOk
+use inbloom
 
 /*==============================================================*/
 /* Table: BOXES                                                 */
@@ -282,6 +282,7 @@ create table PRODUCTS (
    DATEDELETE_PRODUCT   datetime             null,
    ID_USERPROD          int                  null,
    CODIGOCADENA         text                 null,
+   ITEM_NUMBER          varchar(20)          null,
    constraint PK_PRODUCTS primary key nonclustered (ID_PRODUCT)
 )
 go

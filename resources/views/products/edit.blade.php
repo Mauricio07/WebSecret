@@ -33,7 +33,7 @@
                   </div>
                   <div class="form-group has-feedback">
                     <label for="Code Product">Pack</label>
-                      <input type="text" name="txtPack" id="txtPack" class="form-control" placeholder="Pack" onkeypress="return soloNumeros(event)" maxlength="100" value="" required="true" autocomplete="off" readonly="true"/>
+                      <input type="text" name="txtPack" id="txtPack" class="form-control" placeholder="Pack" onkeypress="return soloNumeros(event)" maxlength="100" value="0" readonly="true"/>
                       @if ($errors->has('txtPack')) <span class="glyphicon glyphicon-remove form-control-feedback frm-error" aria-hidden="true"></span><p class="help-block">{{$errors->first('txtPack')}} </p>@endif
                   </div>
                 </div>
