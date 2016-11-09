@@ -39,7 +39,7 @@ class ProductController extends Controller
   public function getEditProduct(InsertModifyProductRequest $request){
     $this->limpiezaSession($request);
 
-    $idProduct=$request->get('txtCodeEdit');
+    $idProduct=$request->get('txtidEdit');
 
     $datos=$this->loadParameter();
 
@@ -54,20 +54,24 @@ class ProductController extends Controller
   public function setAddProduct(InsertModifyProductRequest $request){
     //Add recipe head
 
-    $sintaxisHeaderRecipe='EXEC SP_ADD_RECIPE_HEADER ?';
+    $sintaxisHeaderRecipe='EXEC SP_ADD_UPDATE_RECIPE_HEADER ?,?';
     $sintaxisRecipeItems='EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?';
-    $sintaxisMaterialsItemsRecipe='EXEC SP_ADD_MATERIAL_RECIPE_ITEMS ?,?,?,?';
-    $sintaxisProducts='EXEC SP_ADD_PRODUCTS ?,?,?,?,?,?,?,?,?,? ';
+    $sintaxisMaterialsRecipe='EXEC SP_ADD_MATERIAL_RECIPE ?,?,?';
+    $sintaxisProducts='EXEC SP_ADD_UPDATE_PRODUCTS ?,?,?,?,?,?,?,?,?,? ';
     $sintaxisMaterialProducts='EXEC SP_ADD_MATERIALS_PRODUCT ?,?,? ';
 
     //Validation Session
-    if ($this->ValidationSession($request)) {
-      $this->setInsertUpdateItemsMaterials($request, $sintaxisHeaderRecipe, $sintaxisRecipeItems, $sintaxisMaterialsItemsRecipe, $sintaxisProducts, $sintaxisMaterialProducts);
+
+    $validaCode=DB::selectOne('select CODE_PRODUCT from products where CODE_PRODUCT='.trim($request->get('txtCodeProduct')));
+
+    if (!isset($validaCode)) {
+      $idUpdateProduct=0;
+      $this->setInsertUpdateItemsMaterials($idUpdateProduct, $request, $sintaxisHeaderRecipe, $sintaxisRecipeItems, $sintaxisMaterialsRecipe, $sintaxisProducts, $sintaxisMaterialProducts);
       return redirect('vw_product')->with('message','Save');
     }else{
+      $this->errors=['ProductExisting'=>'It has existing code product'];
       return redirect('setInsertProduct')->withErrors($this->errors);
     }
-
 
   }
 
@@ -82,8 +86,19 @@ class ProductController extends Controller
     }
 
     //Save edit product en BDD
-  public function setEditProducts(InsertModifyProductRequest $request){
 
+  public function setEditProduct(InsertModifyProductRequest $request){
+
+    $sintaxisHeaderRecipe='EXEC SP_ADD_UPDATE_RECIPE_HEADER ?,?';
+    $sintaxisRecipeItems='EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?';
+    $sintaxisMaterialsRecipe='EXEC SP_ADD_MATERIAL_RECIPE ?,?,?';
+    $sintaxisProducts='EXEC SP_ADD_UPDATE_PRODUCTS ?,?,?,?,?,?,?,?,?,? ';
+    $sintaxisMaterialProducts='EXEC SP_ADD_MATERIALS_PRODUCT ?,?,? ';
+
+    $idUpdateProduct=$request->get('txtIdProduct');
+
+    $this->setInsertUpdateItemsMaterials($idUpdateProduct, $request, $sintaxisHeaderRecipe, $sintaxisRecipeItems, $sintaxisMaterialsRecipe, $sintaxisProducts, $sintaxisMaterialProducts);
+    return redirect('vw_product')->with('message','Edit');
   }
 
 /*
@@ -264,13 +279,10 @@ class ProductController extends Controller
   }
     //load items
   public function getSessionItemRecipe(Request $request){
-      $idProduct=$request->get('idProduct');
-      $idRecipe=$request->get('idRecipe');
-
       $arrayDt=$request->session()->get('ProductRecipe');
       if (!isset($arrayDt)) {
         $request->session()->forget('ProductRecipe');
-        $datoI=DB::select('EXEC ASP_RECIPES_ITEMS ?,?',array($idProduct, $idRecipe));
+        $datoI=DB::select('EXEC ASP_RECIPES_ITEMS ?,?',array($request->get('idProduct'), $request->get('idRecipe')));
 
         foreach ($datoI as $dt) {
           $arrayDt=[
@@ -294,10 +306,10 @@ class ProductController extends Controller
   public function getItemsRecipes(Request $request){
       $request->session()->forget('ReporteProductRecipe'); //session temporal reporte
 
-      $idItemRecipe=$request->get('idBusca');
       $dt=$request->session()->get('ProductRecipe');
 
       if (isset($dt)) {
+        $idItemRecipe=$request->get('idBusca');
         foreach ($dt as $recipeItems) {
           //if ($recipeItems['Id_Recipe']==$idItemRecipe) {
             $datos=DB::select('EXEC ASP_ITEMS_RECIPE ?,?,?,?,?,?,?,?,?,?',array($recipeItems['IdSpecie'], $recipeItems['IdColor'],$recipeItems['IdProcess'],$recipeItems['IdTypes'],$recipeItems['IdCuts'],$recipeItems['IdGrade'],$recipeItems['IdVariety'],$recipeItems['Quantity'], $recipeItems['IdItemRecipeProd'], $recipeItems['Id_Recipe']));
@@ -311,29 +323,79 @@ class ProductController extends Controller
 
     }
 
+  /*
+  * ===============================================================================================
+                             Metodos materials Recipe
+  * ===============================================================================================
+  */
+
+public function setAddInsertMaterialsRecipe(Request $request){
+
+  $datos=$request->session()->get('ProductMaterialsRecipe');
+  $bandera=true;
+
+  if (isset($datos)) {
+    foreach ($datos as $dt) {
+        if ($request->get('IdMaterialsRecipe')==$dt['IdMaterialsRecipe']) {
+          $bandera=false;
+        }
+    }
+  }
+
+  if ($bandera) {
+    $datos=[
+      'IdRecipe'=> $request->get('IdRecipe'),
+      'IdMaterialsRecipe'=> $request->get('IdMaterialsRecipe'),
+      'NomItemMaterialsRecipe'=> $request->get('NomItemMaterialsRecipe'),
+      'QuantItemMaterialsRecipe'=> $request->get('QuantItemMaterialsRecipe'),
+    ];
+    $request->session()->push('ProductMaterialsRecipe',$datos);
+  }
+
+  return $request->session()->get('ProductMaterialsRecipe');
+}
+
   //load materilas items
   public function getSessionItemsMaterials(Request $request){
       $idRecipe=$request->get('indexRecipe');
-      $idItems=$request->get('indexItem');
-      $arrayDt=$request->session()->get('ProductItemsMaterialsRecipe');
-      $datoIM=DB::select('EXEC ASP_ITEMS_MATERIALS ?,?',array($idRecipe, $idItems));
+      $arrayDt=$request->session()->get('ProductMaterialsRecipe');
+      $datoIM=DB::select('EXEC ASP_RECIPE_MATERIALS ?',array($idRecipe));
       if (!isset($arrayDt)) {
-        $request->session()->forget('ProductItemsMaterialsRecipe');
+        $request->session()->forget('ProductMaterialsRecipe');
         foreach ($datoIM as $dt) {
           $arratDt=[
-            'IdItemMatProd'=>$dt->ID_INDEXRI,
             'IdRecipe'=> $idRecipe,
-            'IdItemRecipe'=> $idItems,
             'IdMaterialsRecipe'=> $dt->ID_MATERIAL,
             'NomItemMaterialsRecipe'=> $dt->NAME_MATERIALS,
             'QuantItemMaterialsRecipe'=> $dt->QUANTITY_RECIPEMAT,
           ];
-          $request->session()->push('ProductItemsMaterialsRecipe',$arratDt);
+          $request->session()->push('ProductMaterialsRecipe',$arratDt);
         }
       }
-      return $request->session()->get('ProductItemsMaterialsRecipe');
+      return $request->session()->get('ProductMaterialsRecipe');
 
     }
+
+public function setDelMaterialsRecipe(Request $request){
+  $IdItemDel=$request->get('IdItemDel');
+
+  $datosTemp=$request->session()->get('ProductMaterialsRecipe');
+  $request->session()->forget('ProductMaterialsRecipe');
+
+  foreach ( $datosTemp as $itemsMaterials) {
+    if ($itemsMaterials['IdItemMatProd']!=$IdItemDel) {
+      $datosOk=[
+        'IdItemMatProd'=>$itemsMaterials['IdItemMatProd'],
+        'IdRecipe'=> $itemsMaterials['IdRecipe'],
+        'IdItemRecipe'=> $itemsMaterials['IdItemRecipe'],
+        'IdMaterialsRecipe'=> $itemsMaterials['IdMaterialsRecipe'],
+        'NomItemMaterialsRecipe'=> $itemsMaterials['NomItemMaterialsRecipe'],
+        'QuantItemMaterialsRecipe'=> $itemsMaterials['QuantItemMaterialsRecipe'],
+      ];
+      return $request->session()->push('ProductMaterialsRecipe',$datosOk);
+    }
+  }
+}
 
 /*
 * ===============================================================================================
@@ -344,7 +406,7 @@ class ProductController extends Controller
   private function limpiezaSession(Request $request){
       $request->session()->forget('ProductMaterials');
       $request->session()->forget('ProductRecipe');
-      $request->session()->forget('ProductItemsMaterialsRecipe');
+      $request->session()->forget('ProductMaterialsRecipe');
       $request->session()->forget('Recipes');
     }
 
@@ -367,11 +429,12 @@ class ProductController extends Controller
     }
 
     //Validation session
+
   private function ValidationSession($request){
     $correcto=true;
       $this->arrayRecipe = $request->session()->get('Recipes'); //Recetas
       $this->arrayProductRecipe = $request->session()->get('ProductRecipe'); //bonches que forman la receta
-      $this->arrayProductMaterialsRecipe=$request->session()->get('ProductItemsMaterialsRecipe');
+      $this->arrayProductMaterialsRecipe=$request->session()->get('ProductMaterialsRecipe');
       $this->arrayProductMaterials= $request->session()->get('ProductMaterials'); //Materiales de la receta
 
       if (!isset($this->arrayProductMaterials)) {
@@ -399,66 +462,83 @@ class ProductController extends Controller
 
   private function setUploadImage($request){
       $file=Input::file('archivo');
-      $aleatorio=str_random(3);
-      $nombreArchivo=$aleatorio."_".$file->getClientOriginalName();
-      $nombreArchivoRuta="uploadingFile\\".$nombreArchivo;
-      $file->move('uploadingFile',$nombreArchivo);
+      $nombreArchivoRuta='';
+      if (isset($file)) {
+        $aleatorio=str_random(3);
+        $nombreArchivo=$aleatorio."_".$file->getClientOriginalName();
+        $nombreArchivoRuta="uploadingFile\\".$nombreArchivo;
+        $file->move('uploadingFile',$nombreArchivo);
+      }
       return $nombreArchivoRuta;
     }
 
   //ejecuta procedimientos insert y update
-  private function setInsertUpdateItemsMaterials($request, $sintaxisHeaderRecipe, $sintaxisRecipeItems, $sintaxisMaterialsItemsRecipe, $sintaxisProducts, $sintaxisMaterialProducts){
+  private function setInsertUpdateItemsMaterials($idUpdateProduct, $request, $sintaxisHeaderRecipe, $sintaxisRecipeItems, $sintaxisMaterialsItemsRecipe, $sintaxisProducts, $sintaxisMaterialProducts){
 
     //Add recipe head
     $nomArchivoRuta=$this->setUploadImage($request);
 
-    //dd($this->arrayRecipe);
-    foreach ($this->arrayRecipe as $aPr) {
-      // Recipe
-      $idRecipe=DB::selectOne($sintaxisHeaderRecipe, array($aPr['IndexTypeRecipe']));
+    //Add boxes
+    $idUsuario=1;
+    $idBoxes=$request->get('txtBoxes');
 
-      if (isset($idRecipe))
+    //Add products
+    $idProduct=DB::selectOne($sintaxisProducts,array($idUpdateProduct,trim($request->get('txtPack')),$idBoxes, trim($request->get('txtCodeProduct')), trim($request->get('txtNameProduct')),$nomArchivoRuta, trim($request->get('txtDescription')),trim($request->get('txtCodeUpc')),trim($request->get('txtOnlineName')),$idUsuario));
+
+    $idProduct=$idProduct->ID;
+
+    dd($this->arrayRecipe);
+
+    if (isset($this->arrayRecipe))
+    {
+      foreach ($this->arrayRecipe as $aPr)
       {
-        $idRecipe= $idRecipe->ID_RECIPE;
+        // Recipe
+        $idRecipeUpdate=DB::selectOne('select ID_RECIPE from PRODUCT_RECIPIES where ID_RECIPE=?',array($aPr['IndexTypeRecipe']));
 
-        //Add Recipe Product
-          foreach ( $this->arrayProductRecipe as $pr) {
-            if ($pr['Id_Recipe']==$aPr['IndexTypeRecipe'])  //comparativa receta
+        $idRecipeUpdate=isset($idRecipeUpdate)?$idRecipeUpdate:0;
+
+        dd($idRecipeUpdate);
+
+        $idRecipe=DB::selectOne($sintaxisHeaderRecipe, array($idRecipeUpdate,$aPr['IndexTypeRecipe']));
+
+        if (isset($idRecipe))
+        {
+          $idRecipe= $idRecipe->ID_RECIPE;
+          //Add material recipe
+          if (isset($this->arrayProductMaterialsRecipe))
+          {
+            foreach ($this->arrayProductMaterialsRecipe as $prodMatRecipe)
             {
-              $datoIndex=DB::selectOne($sintaxisRecipeItems,array($idRecipe,$pr['Quantity'],$pr['IdColor'], $pr['IdCuts'], $pr['IdGrade'], $pr['IdTypes'], $pr['IdProcess'], $pr['IdSpecie'], $pr['IdVariety']));
-
-                //Add material recipe items
-                if (isset($this->arrayProductMaterialsRecipe))
-                {
-
-                  foreach ($this->arrayProductMaterialsRecipe as $prodMatRecipe)
-                  {
-                    if (($prodMatRecipe['IdRecipe']==$pr['Id_Recipe'])&&($prodMatRecipe['IdItemRecipe'])==$pr['IdItemRecipeProd'])
-                    {
-                      $seguir=DB::select($sintaxisMaterialsItemsRecipe,array($idRecipe, $datoIndex ->INDEX, $prodMatRecipe['IdMaterialsRecipe'],$prodMatRecipe['QuantItemMaterialsRecipe'] ));
-                    }
-                  }
-                }
+              if (($prodMatRecipe['IdRecipe']==$pr['Id_Recipe']))
+              {
+                DB::raw($sintaxisMaterialsRecipe,array($idRecipe, $prodMatRecipe['IdMaterialsRecipe'],$prodMatRecipe['QuantItemMaterialsRecipe'] ));
               }
             }
           }
 
-        //Add boxes
-        $idUsuario=1;
-        $idBoxes=$request->get('txtBoxes');
-
-        //Add products
-        $idProduct=DB::selectOne($sintaxisProducts,array($idRecipe,trim($request->get('txtPack')),$idBoxes, trim($request->get('txtCodeProduct')), trim($request->get('txtNameProduct')),$nomArchivoRuta, trim($request->get('txtDescription')),trim($request->get('txtCodeUpc')),trim($request->get('txtOnlineName')),$idUsuario));
-
-        $idProduct=$idProduct->ID;
-
-        //Add materials Product
-        if ($idProduct>0)
-        {
-          foreach ($this->arrayProductMaterials as $pm) {
-              $seguir=DB::select($sintaxisMaterialProducts,array($idProduct,$pm['IdMaterialsProd'], $pm['QuantMaterialsProd']));
+          //Add Recipe Product
+          if (isset($this->arrayProductRecipe))
+          {
+            foreach ( $this->arrayProductRecipe as $pr)
+            {
+              if ($pr['Id_Recipe']==$aPr['IndexTypeRecipe'])  //comparativa receta
+              {
+                DB::raw($sintaxisRecipeItems,array($idRecipe,$pr['Quantity'],$pr['IdColor'], $pr['IdCuts'], $pr['IdGrade'], $pr['IdTypes'], $pr['IdProcess'], $pr['IdSpecie'], $pr['IdVariety']));
+              }
+            }
           }
         }
-     }
-   }
+      }
+    }
+
+      //Add materials Product
+      if ($idProduct>0)
+      {
+        foreach ($this->arrayProductMaterials as $pm)
+        {
+            DB::raw($sintaxisMaterialProducts,array($idProduct,$pm['IdMaterialsProd'], $pm['QuantMaterialsProd']));
+        }
+      }
+  }
 }

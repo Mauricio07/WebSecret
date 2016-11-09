@@ -33,20 +33,16 @@
         <tbody>
           @foreach ($tblProducts['tblProductos'] as $product)
             <tr>
-              <td>{{$product->CODE_PRODUCT}}</td><td>{{$product->NAME_PRODUCT}}</td><td>{{$product->ONLINENAME_PRODUCT}}</td>
+              <td>
+                <a href="#" data-toggle="modal" data-target="#myRegisterEdit" onclick="setRegistrosEdit('{{$product->ID_PRODUCT}}','{{$product->CODE_PRODUCT}}','{{$product->NAME_PRODUCT}}','getEditProduct')">
+                  {{$product->CODE_PRODUCT}}
+                </a>
+              </td>
+              <td>{{$product->NAME_PRODUCT}}</td><td>{{$product->ONLINENAME_PRODUCT}}</td>
               <td>{{$product->UPC_PRODUCT}}</td><td>{{$product->TYPEBOXE_BTYPE}}</td><td><img class="img-circle img-product-inbloom" src="{{URL::asset($product->IMAGE_PRODUCT)}}"/></td><td></td>
               <td>
                 <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-xs">Action </button>
-                  <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
-                    <span class="caret"></span>
-                  </button>
-
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="#" data-toggle="modal" data-target="#myRegisterEdit" onclick="setRegistrosEdit('{{$product->ID_PRODUCT}}','{{$product->NAME_PRODUCT}}','getEditProduct')">Edit</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosDel('{{$product->ID_PRODUCT}}','{{$product->NAME_PRODUCT}}','getDeleteProduct')">Delete</a></li>
-                  </ul>
+                  <button class="btn delete" data-toggle="modal" data-target="#myRegisterDel" onclick="setRegistrosDel('{{$product->ID_PRODUCT}}','{{$product->NAME_PRODUCT}}','getDeleteProduct')"></button>
                 </div>
               </td>
             </tr>

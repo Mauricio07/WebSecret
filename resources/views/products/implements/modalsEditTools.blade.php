@@ -12,6 +12,7 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">Code</label>
             <div class="col-sm-9">
+              <input type="hidden" class="form-control" id="txtidEdit" name="txtidEdit"/>
               <input type="text" class="form-control" id="txtCodeEdit" name="txtCodeEdit" readonly="true"/>
             </div>
           </div>

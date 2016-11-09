@@ -85,13 +85,11 @@ function setAddItemRecipe(v_MetodDel){
 /*
   Almacena los items en la session
 */
-function saveItemMaterialRecipe(){
+function saveMaterialRecipe(){
     var v_name=$('#txtIMaterialItem');
     var v_nameMat=$(v_name).find(':selected').html();
     var v_quanty=$('#txtQuantityMatRecipe');
-    var IdItemMat=$('#txtIdRowItem').val();
     var IdItemRecipe=$('#txtIdRowRecipe').val();
-    var ajaxResponse=document.getElementById('ajaxResponse');
     //insert with ajax
     $.ajaxSetup({
       headers:{
@@ -100,16 +98,16 @@ function saveItemMaterialRecipe(){
     });
 
     //add items materials
-    $.post('setAddInsertItemMaterialsRecipe',{
-      'IdItemMatProd':IdItemMaterialsProd,
+    $.post('setAddInsertMaterialsRecipe',{
       'IdRecipe':$('#txtIdRowRecipe').val(),
-      'IdItemRecipe': $('#txtIdRowItem').val(),
       'IdMaterialsRecipe': $(v_name).val(),
       'NomItemMaterialsRecipe': v_nameMat,
       'QuantItemMaterialsRecipe': $(v_quanty).val(),
     },function(data){
       console.log(data);
       IdItemMaterialsProd++; //index table of materials
+      $('#imgSearch'+IdItemRecipe).removeClass('imgConsultar');
+      $('#imgSearch'+IdItemRecipe).addClass('imgConsultar-after');
     });
   }
 

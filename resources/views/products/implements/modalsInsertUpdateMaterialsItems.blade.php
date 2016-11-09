@@ -1,3 +1,4 @@
+
 <div class="modal fade" id="myRegisterMaterialItems" tabindex="-1" role="dialog" aria-labelledby="myRegisterMaterialItems">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -36,7 +37,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" arial-label="close" id='saveMaterialsProductItems' disabled="true" onclick="saveItemMaterialRecipe()">
+        <button type="button" class="btn btn-default" data-dismiss="modal" arial-label="close" id='saveMaterialsProductItems' disabled="true" onclick="saveMaterialRecipe()">
             <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
             Save changes
         </button>

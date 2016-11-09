@@ -39,7 +39,7 @@ Route::get('products','Login\LoginController@getProducts');
 //Ingreso de modulos
 Route::get('vw_product',function(){
   $datos=[
-    'tblProductos'=>DB::select('EXEC ASP_REP_PRODUCTS ?',array('1')),
+    'tblProductos'=>DB::select('select * from VW_REP_PRODUCTS'),
   ];
 
   return view('products.main',['post'=>'true', 'tittle'=>'List of products','tblProducts'=>$datos]);
@@ -48,7 +48,9 @@ Route::get('vw_product',function(){
 //insert productos
 Route::get('setInsertProduct','Product\ProductController@setInsertProduct');
 
-Route::post('getEditProduct','Product\ProductController@getEditProduct');
+Route::post('getEditProduct','Product\ProductController@getEditProduct'); //muestra la vista
+
+Route::post('setEditProduct','Product\ProductController@setEditProduct'); //graba el update
 
 Route::post('setAddProduct','Product\ProductController@setAddProduct');
 
@@ -93,56 +95,15 @@ Route::get('getSessionItemsMaterials', 'Product\ProductController@getSessionItem
 Route::get('getItemsRecipes','Product\ProductController@getItemsRecipes');
 
 
-Route::get('setDelItemsMaterialsRecipe',function(){ //Remove items materials
-  if (Request::isMethod('get')){
-    $IdItemDel=Request::get('IdItemDel');
-
-    $datosTemp=Request::session()->get('ProductItemsMaterialsRecipe');
-    Request::session()->forget('ProductItemsMaterialsRecipe');
-
-    foreach ( $datosTemp as $itemsMaterials) {
-      if ($itemsMaterials['IdItemMatProd']!=$IdItemDel) {
-        $datosOk=[
-          'IdItemMatProd'=>$itemsMaterials['IdItemMatProd'],
-          'IdRecipe'=> $itemsMaterials['IdRecipe'],
-          'IdItemRecipe'=> $itemsMaterials['IdItemRecipe'],
-          'IdMaterialsRecipe'=> $itemsMaterials['IdMaterialsRecipe'],
-          'NomItemMaterialsRecipe'=> $itemsMaterials['NomItemMaterialsRecipe'],
-          'QuantItemMaterialsRecipe'=> $itemsMaterials['QuantItemMaterialsRecipe'],
-        ];
-        Request::session()->push('ProductItemsMaterialsRecipe',$datosOk);
-      }
-    }
-  }
-  return Response::json('Delition successful');
-});
+Route::get('setDelMaterialsRecipe','Product\ProductController@setDelMaterialsRecipe');
 
 
-
-Route::post('setAddInsertItemMaterialsRecipe', function(){  //Add items materials recipe -----
-  if(Request::ajax()){
-
-    $datos=[
-      'IdItemMatProd'=>Request::get('IdItemMatProd'),
-      'IdRecipe'=> Request::get('IdRecipe'),
-      'IdItemRecipe'=> Request::get('IdItemRecipe'),
-      'IdMaterialsRecipe'=> Request::get('IdMaterialsRecipe'),
-      'NomItemMaterialsRecipe'=> Request::get('NomItemMaterialsRecipe'),
-      'QuantItemMaterialsRecipe'=> Request::get('QuantItemMaterialsRecipe'),
-    ];
-
-    Request::session()->push('ProductItemsMaterialsRecipe',$datos);
-
-    return Response::json(Request::session()->get('ProductItemsMaterialsRecipe'));
-  }
-});
-
+Route::post('setAddInsertMaterialsRecipe','Product\ProductController@setAddInsertMaterialsRecipe');
 
 Route::get('getItemsMaterials_',function(){
   if (Request::ajax()) {
     $idRecipe=Request::get('IdRecipe');
-    $idIndexItem=Request::get('IdItemRecipe');
-    $dt=Request::session()->get('ProductItemsMaterialsRecipe'); //array session
+    $dt=Request::session()->get('ProductMaterialsRecipe'); //array session
     Request::session()->forget('ProductItemsMaterialsRecipeTemp');
     $dtMat=[];
    if (isset($dt)) {
@@ -150,8 +111,6 @@ Route::get('getItemsMaterials_',function(){
         if (($matRecipeItems['IdRecipe']==$idRecipe) && ($matRecipeItems['IdItemRecipe']==$idIndexItem)) {
          $dataMat=[
             'IdRecipe'=>$matRecipeItems['IdRecipe'],
-            'IdItemMatProd'=>$matRecipeItems['IdItemMatProd'],
-            'IdItemRecipe'=>$matRecipeItems['IdItemRecipe'],
             'IdMaterialsRecipe'=>$matRecipeItems['IdMaterialsRecipe'],
             'NomItemMaterialsRecipe'=>$matRecipeItems['NomItemMaterialsRecipe'],
             'QuantItemMaterialsRecipe'=>$matRecipeItems['QuantItemMaterialsRecipe'],

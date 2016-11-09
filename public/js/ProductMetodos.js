@@ -33,10 +33,11 @@ function getDataRecipes(v_indexProduct){
     var v_contenido="";
     $.each(valores,function(j, items){
       v_contenido+="<tr id=Recipe"+items.IndexTypeRecipe+">"+
+      "<td><a href='#' data-toggle='modal' data-target='#myRegisterMaterialRecipe' onclick=getDataItemsMaterials("+items.IndexTypeRecipe+")><span class='imgConsultar' id='imgSearch"+items.IndexTypeRecipe+"'></span></a></td>"+
       "<td>"+items.IndexTypeRecipe+"</td>"+
       "<td><a role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseItems' aria-expanded='true' aria-controls='collapseOne' onclick=getDataItemRecipe("+v_indexProduct+","+items.IndexTypeRecipe+")>"+items.NameTypeRecipe+"<span class='caret'></span></a></td>"+
       "<td id=tdPackRecipes"+items.IndexTypeRecipe+"> "+parseInt(items.QuantMaterialsProd)+" </td>"+
-      "<td><a href='#' data-toggle='modal' class='btn edit' data-target='#myRegisterMaterialItems' onclick=getIdRowRecipe("+items.IndexTypeRecipe+")></a></td>"+
+      "<td><a href='#' data-toggle='modal' class='btn materials_' data-target='#myRegisterMaterialItems' onclick=getIdRowRecipe("+items.IndexTypeRecipe+")></a></td>"+
       "<td> <div class='btn-group'><a href='#' data-toggle='modal' class='btn edit' data-target='#myRegister' onclick=getIndexRowRecipe("+items.IndexTypeRecipe+")></a>"+
       "<a data-toggle='modal' class='btn delete' onclick=deleteItem("+items.IndexTypeRecipe+",'Recipe"+items.IndexTypeRecipe+"','setDelTypeRecipe')></a></div> </td></tr>";
     });
@@ -58,7 +59,6 @@ function getDataRecipes(v_indexProduct){
         $.each(data2,function(i,item){
           $.each(item, function(j,item2){
             v_contenido+="<tr id=RecipeItem"+item2.INDEXITEMRECIPE+">"+
-            "<td><a href='#' data-toggle='modal' data-target='#myRegisterMaterialRecipe' onclick=getDataItemsMaterials("+v_indexRecipe+","+item2.INDEXITEMRECIPE+")>+</a></td>"+
             "<td>"+item2.SPECIE+"</td>"+
             "<td>"+item2.TYPE+"</td>"+
             "<td>"+item2.PROCESS+"</td>"+
@@ -78,10 +78,9 @@ function getDataRecipes(v_indexProduct){
   }
 
   //display materials recipes
-  function getDataItemsMaterials(v_indexRecipe, v_indexItem){
+  function getDataItemsMaterials(v_indexRecipe){
     $.get('getSessionItemsMaterials',{
-      'indexRecipe':v_indexRecipe,
-      'indexItem':v_indexItem,
+      'indexRecipe':v_indexRecipe,      
     },function(dataItemMaterials){
       var v_contenido="";
       $.each(dataItemMaterials, function(i, item) {

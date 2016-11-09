@@ -135,6 +135,7 @@
                     <div class="well2">
                       <table class="table table-striped" id="tblRecipes">
                         <thead>
+                          <th></th>
                           <th>Code</th>
                           <th>Name</th>
                           <th>Pack Recipe</th>

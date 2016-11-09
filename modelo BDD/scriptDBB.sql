@@ -1,8 +1,9 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     08/11/2016 16:30:18                          */
+/* Created on:     09/11/2016 3:21:38                           */
 /*==============================================================*/
 
+use inbloomOk
 
 /*==============================================================*/
 /* Table: BOXES                                                 */
@@ -105,6 +106,7 @@ create table ITEMS (
    ID_SPECIE            int                  null,
    ID_GRADE             int                  null,
    ID_CUT               int                  null,
+   ID_VARIETY           int                  null,
    DATE_ITEM            datetime             null,
    MODIFY_ITEM          datetime             null,
    DELETE_ITEM          datetime             null,
@@ -443,7 +445,6 @@ go
 /*==============================================================*/
 create table VARIETIES (
    ID_VARIETY           int                  identity,
-   ID_ITEM              int                  null,
    NAME_VARIETY         varchar(80)          null,
    DATE_VARIETY         datetime             null,
    constraint PK_VARIETIES primary key nonclustered (ID_VARIETY)
@@ -454,7 +455,7 @@ go
 /* Index: ITEM_VARIETYS_FK                                      */
 /*==============================================================*/
 create index ITEM_VARIETYS_FK on VARIETIES (
-ID_ITEM ASC
+ID_VARIETY ASC
 )
 go
 
@@ -507,6 +508,11 @@ go
 alter table ITEMS
    add constraint FK_ITEMS_ITEM_TYPE_ITEMS_TY foreign key (ID_ITYPES)
       references ITEMS_TYPES (ID_ITYPES)
+go
+
+alter table ITEMS
+   add constraint FK_ITEMS_ITEM_VARI_VARIETIE foreign key (ID_VARIETY)
+      references VARIETIES (ID_VARIETY)
 go
 
 alter table ITEMS_RECIPES
@@ -567,10 +573,5 @@ go
 alter table USER_PASSWORDS
    add constraint FK_USER_PAS_USERS_PAS_USERS foreign key (ID_USERS)
       references USERS (ID_USERS)
-go
-
-alter table VARIETIES
-   add constraint FK_VARIETIE_ITEM_VARI_ITEMS foreign key (ID_ITEM)
-      references ITEMS (ID_ITEM)
 go
 

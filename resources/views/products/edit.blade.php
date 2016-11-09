@@ -6,7 +6,7 @@
     @include('products.implements.messageTools')
 
     <!--Formulario ingreso-->
-    <form id="frmProduct" method="post" action="setAddProduct" enctype="multipart/form-data">
+    <form id="frmProduct" method="post" action="setEditProduct" enctype="multipart/form-data">
 
           {{csrf_field()}}
 
@@ -16,6 +16,7 @@
                 <div class="col-xs-3">
                   <div class="form-group has-feedback">
                     <label for="Code Product">SKU</label>
+                      <input type="hidden" name="txtIdProduct" class="form-control" value="{{$dtInformacion['infoProducto']->ID_PRODUCT}}"/>
                       <input type="text" name="txtCodeProduct" class="form-control" placeholder="SKU"  value="{{$dtInformacion['infoProducto']->CODE_PRODUCT}}" maxlength="20" required="true" autocomplete="off"/>
                       @if ($errors->has('txtCodeProduct')) <span class="glyphicon glyphicon-remove form-control-feedback frm-error" aria-hidden="true"></span><p class="help-block">{{$errors->first('txtCodeProduct')}} </p>@endif
                   </div>
@@ -133,9 +134,11 @@
                     <div class="well2">
                       <table class="table table-striped">
                         <thead>
+                          <th></th>
                           <th>Code</th>
                           <th>Name</th>
                           <th>Pack Recipe</th>
+                          <th>Materials</th>
                           <th></th>
                         </thead>
                         <tbody id="tblRecipesBody">

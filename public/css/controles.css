@@ -8,7 +8,7 @@
 
 .panel-inbloom{
   border-radius: 4px;
-  border:1px solid #ddd;
+  border: 1px solid #ddd;
   height: 45px;
   padding: 5px 10px;
   margin: 0 auto;
@@ -22,6 +22,24 @@
 .imgs-prod-inbloom{
   height: 200px;
   margin: 10px auto;
+}
+
+.imgConsultar{
+    display: block;
+    background-image: url('../imgs/before_search.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    height: 25px;
+}
+
+.imgConsultar-after{
+  display: block;
+  background-image: url('../imgs/consulta.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  height: 25px;
 }
 
 .btn-inbloom{
@@ -78,6 +96,15 @@
   height: 20px;
 }
 
+.materials_{
+  background: URL('../imgs/materials_.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: block;
+  height: 20px;
+}
+
 .frm-error{
   color: red;
 }
@@ -114,7 +141,7 @@
   background-image: url('../imgs/box.png');
   background-size: contain;
   background-position: center;
-  background-repeat: no-repeat;   
+  background-repeat: no-repeat;
 }
 
 input[type="file"]{

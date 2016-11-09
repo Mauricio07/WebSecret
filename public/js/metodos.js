@@ -163,7 +163,8 @@ function setAddRegisterBoxes(v_id, v_idType, v_lenght,v_width, v_height, v_weigh
   document.getElementById('formBoxes').setAttribute('action',v_accion);
 }
 
-function setRegistrosEdit(v_codeEdit, v_nameEdit, v_accion){
+function setRegistrosEdit(v_idEdit, v_codeEdit, v_nameEdit, v_accion){
+  $('#txtidEdit').attr('value',v_idEdit);
   $('#txtCodeEdit').attr('value',v_codeEdit);
   $('#txtNameEdit').attr('value',v_nameEdit);
   $('#formEdit').attr('action',v_accion);
