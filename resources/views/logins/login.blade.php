@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Secret of flower</title>
+    <title>Inbloom Group</title>
       <!--Bootstrap stilos-->
       <link rel="stylesheet" href="{{URL::asset('css/bootstrap.min.css')}}">
       <!--default stilos-->

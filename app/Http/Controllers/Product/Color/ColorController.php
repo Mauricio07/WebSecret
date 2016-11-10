@@ -41,7 +41,7 @@ class ColorController extends Controller
       public function getDeleteColor(Request $request){
         $nom=$request->get('txtNameDel');
         Color::destroy($request->get('txtCodeDel'));
-        return redirect('vw_Color')->with('message',"Deleteting");
+        return redirect('vw_Color')->with('message',"Deleted");
       }
 
 }

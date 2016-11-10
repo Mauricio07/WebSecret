@@ -9,10 +9,9 @@
       <div class="modal-body">
         <h4>Are you sure you want to delete??</h4>
           {{csrf_field()}}
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Code</label>
+          <div class="form-group">            
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="txtCodeDel" name="txtCodeDel" readonly="true"/>
+              <input type="hidden" class="form-control" id="txtCodeDel" name="txtCodeDel" readonly="true"/>
             </div>
           </div>
           <div class="form-group">

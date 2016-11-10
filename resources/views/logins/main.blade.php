@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Inbloom Group S.A.</title>
+    <title>Inbloom Group</title>
     <link rel="stylesheet" href="{{URL::asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/default.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/inicio.css')}}">
@@ -51,12 +51,9 @@
 
           <!-- productos -->
           <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-              <div class="hovereffect">
-                  <img class="img-responsive" src="../imgs/rainbow.png" id="imgModulo">
-                  <div class="overlay">
-                     <h2>Products</h2>
-                     <a class="info" href="vw_product">link here</a>
-                  </div>
+              <div class="hovereffect_">
+
+                  <a class="info" href="vw_product"><img class="img-responsive" src="../imgs/rainbow.png" id="imgModulo"></a>
               </div>
           </div>
 

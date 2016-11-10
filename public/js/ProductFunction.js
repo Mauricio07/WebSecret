@@ -213,8 +213,8 @@ function packsItems(v_valorPack, v_indexRecipe){
 
 function UpdateQuantityRecipe(){
   var v_Total=0;
-  $('#tblRecipes> tbody> tr').find('td:eq(3)').each(function(){
-    v_Total+=parseInt($(this).html());
+  $('#tblRecipes> tbody> tr').find('td:eq(3)').each(function(){    
+    v_Total+= parseInt($(this).html());
   });
 
   $('#txtPack').attr('value',v_Total);

@@ -32,11 +32,15 @@ function getDataRecipes(v_indexProduct){
   },function(valores){
     var v_contenido="";
     $.each(valores,function(j, items){
+      var v_cant=0;
+      if ((items.QuantityRecipe)!==null){
+        v_cant=parseInt(items.QuantityRecipe);
+      }
       v_contenido+="<tr id=Recipe"+items.IndexTypeRecipe+">"+
-      "<td><a href='#' data-toggle='modal' data-target='#myRegisterMaterialRecipe' onclick=getDataItemsMaterials("+items.IndexTypeRecipe+")><span class='imgConsultar' id='imgSearch"+items.IndexTypeRecipe+"'></span></a></td>"+
+      "<td><a href='#' data-toggle='modal' data-target='#myRegisterMaterialRecipe' onclick=getDataItemsMaterials("+items.IndexTypeRecipe+")><span class='btn-group imgConsultar' id='imgSearch"+items.IndexTypeRecipe+"'></span></a></td>"+
       "<td>"+items.IndexTypeRecipe+"</td>"+
       "<td><a role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseItems' aria-expanded='true' aria-controls='collapseOne' onclick=getDataItemRecipe("+v_indexProduct+","+items.IndexTypeRecipe+")>"+items.NameTypeRecipe+"<span class='caret'></span></a></td>"+
-      "<td id=tdPackRecipes"+items.IndexTypeRecipe+"> "+parseInt(items.QuantityRecipe)+" </td>"+
+      "<td id=tdPackRecipes"+items.IndexTypeRecipe+"> "+v_cant+" </td>"+
       "<td><a href='#' data-toggle='modal' class='btn materials_' data-target='#myRegisterMaterialItems' onclick=getIdRowRecipe("+items.IndexTypeRecipe+")></a></td>"+
       "<td> <div class='btn-group'><a href='#' data-toggle='modal' class='btn edit' data-target='#myRegister' onclick=getIndexRowRecipe("+items.IndexTypeRecipe+")></a>"+
       "<a data-toggle='modal' class='btn delete' onclick=deleteItem("+items.IndexTypeRecipe+",'Recipe"+items.IndexTypeRecipe+"','setDelTypeRecipe')></a></div> </td></tr>";

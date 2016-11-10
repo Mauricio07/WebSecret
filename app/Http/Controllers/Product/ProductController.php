@@ -55,10 +55,10 @@ class ProductController extends Controller
     //Add recipe head
     $this->getSession($request);
 
-    $sintaxisHeaderRecipe='EXEC SP_ADD_RECIPE_HEADER ?';
+    $sintaxisHeaderRecipe='EXEC SP_ADD_RECIPE_HEADER ?,?';
     $sintaxisRecipeItems='EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?';
     $sintaxisMaterialsRecipe='EXEC SP_ADD_MATERIAL_RECIPE ?,?,?';
-    $sintaxisProducts='EXEC SP_ADD_UPDATE_PRODUCTS ?,?,?,?,?,?,?,?,?,? ';
+    $sintaxisProducts='EXEC SP_ADD_UPDATE_PRODUCTS ?,?,?,?,?,?,?,?,?,?,? ';
     $sintaxisMaterialProducts='EXEC SP_ADD_MATERIALS_PRODUCT ?,?,? ';
 
     //Validation Session
@@ -83,7 +83,7 @@ class ProductController extends Controller
             'DATEDELETE_PRODUCT'=>date('Ymd H:i:s'),
             'STATUS_PRODUCT'=>'-1'
           ]);
-      return redirect('vw_product')->with('message','Delete');
+      return redirect('vw_product')->with('message','Deleted');
     }
 
     //Save edit product en BDD
@@ -91,10 +91,10 @@ class ProductController extends Controller
   public function setEditProduct(InsertModifyProductRequest $request){
     $this->getSession($request);
 
-    $sintaxisHeaderRecipe='EXEC SP_UPDATE_RECIPE_HEADER ?';
+    $sintaxisHeaderRecipe='EXEC SP_UPDATE_RECIPE_HEADER ?,?';
     $sintaxisRecipeItems='EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?';
     $sintaxisMaterialsRecipe='EXEC SP_ADD_MATERIAL_RECIPE ?,?,?';
-    $sintaxisProducts='EXEC SP_ADD_UPDATE_PRODUCTS ?,?,?,?,?,?,?,?,?,? ';
+    $sintaxisProducts='EXEC SP_ADD_UPDATE_PRODUCTS ?,?,?,?,?,?,?,?,?,?,? ';
     $sintaxisMaterialProducts='EXEC SP_ADD_MATERIALS_PRODUCT ?,?,? ';
 
     $idUpdateProduct=$request->get('txtIdProduct');
@@ -483,6 +483,7 @@ private function getSession($request){
   private function setInsertUpdateItemsMaterials($idUpdateProduct, $request, $sintaxisHeaderRecipe, $sintaxisRecipeItems, $sintaxisMaterialsRecipe, $sintaxisProducts, $sintaxisMaterialProducts){
 
     //Add recipe head
+
     $nomArchivoRuta=$this->setUploadImage($request);
 
     //Add boxes
@@ -497,13 +498,14 @@ private function getSession($request){
     if (isset($this->arrayRecipe))
     {
       foreach ($this->arrayRecipe as $aPr)
+      //dd($this->arrayRecipe);
       {
         // Recipe
 //        $idRecipeUpdate=DB::selectOne('select ID_RECIPE from RECIPES where ID_RECIPE=?',array($aPr['IndexTypeRecipe']));
 
 //        $idRecipeUpdate=isset($idRecipeUpdate)?$idRecipeUpdate->ID_RECIPE:0;
 //        dd($idRecipeUpdate);
-        $idRecipe=DB::selectOne($sintaxisHeaderRecipe, array($aPr['IndexTypeRecipe']));
+        $idRecipe=DB::selectOne($sintaxisHeaderRecipe, array($idUpdateProduct,$aPr['IndexTypeRecipe']));
 
         if (isset($idRecipe))
         {
@@ -517,7 +519,9 @@ private function getSession($request){
           {
             foreach ($this->arrayProductMaterialsRecipe as $prodMatRecipe)
             {
-                $seguir=DB::selectOne($sintaxisMaterialsRecipe,array($idRecipe, $prodMatRecipe['IdMaterialsRecipe'],$prodMatRecipe['QuantItemMaterialsRecipe'] ));
+                $quantyRecipe=isset($prodMatRecipe['QuantItemMaterialsRecipe'])?$prodMatRecipe['QuantItemMaterialsRecipe']:0;
+
+                $seguir=DB::selectOne($sintaxisMaterialsRecipe,array($idRecipe, $prodMatRecipe['IdMaterialsRecipe'],$quantyRecipe));
             }
           }
 

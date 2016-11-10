@@ -80,7 +80,7 @@ end
 select @idItem as 'INDEX';
 go
 
-CREATE PROCEDURE SP_ADD_RECIPE_HEADER @idPtype INT
+CREATE PROCEDURE SP_ADD_RECIPE_HEADER @idProduct int, @idPtype INT
 AS
 DECLARE @vNum INT
 
@@ -94,6 +94,25 @@ VALUES(@idPtype, GETDATE(),1, CONCAT('RECIPE_',@vNum));
 SELECT MAX(ID_RECIPE)as'ID_RECIPE' FROM RECIPES
 go
 
+CREATE PROCEDURE SP_UPDATE_RECIPE_HEADER @IdproductUpdate int, @idPtype int 
+AS
+DECLARE @IdRecipe int
+SET NOCOUNT ON
+SET @IdRecipe=(SELECT ID_RECIPE FROM RECIPES 
+				WHERE ID_PTYPE=@idPtype 
+				AND ID_RECIPE=(SELECT ID_RECIPE FROM PRODUCT_RECIPIES WHERE ID_PRODUCT=@IdproductUpdate))
+
+IF @IdRecipe>0
+	BEGIN
+		UPDATE RECIPES SET ID_PTYPE=@idPtype, MODIFY_RECIPE=GETDATE() 
+		where ID_RECIPE=@IdRecipe
+	END
+ELSE
+	BEGIN
+		EXEC SP_ADD_RECIPE_HEADER 0, @idPtype
+	END
+SELECT @IdRecipe AS'OK'
+GO
 
 CREATE PROCEDURE SP_ADD_UPDATE_PRODUCTS @id_ProdUpdate int, @pack int, @idBox int, @codProd varchar(20),
 	@nameProd varchar(100), @path varchar(200), @desc varchar(100), @codUpc varchar(20), @onlineName varchar(100),@itemNum int ,@iduser int

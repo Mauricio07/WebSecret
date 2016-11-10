@@ -7,7 +7,7 @@
         <h4 class="modal-title" id="myModalLabel">Manager {{$tittle}}</h4>
       </div>
       <div class="modal-body">
-        <h4>Are you sure you want to edition??</h4>
+        <h4>Are you sure you want to edit??</h4>
           {{csrf_field()}}
           <div class="form-group">
             <label class="col-sm-2 control-label">Code</label>

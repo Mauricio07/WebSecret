@@ -42,7 +42,7 @@ Route::get('vw_product',function(){
     'tblProductos'=>DB::select('select * from VW_REP_PRODUCTS'),
   ];
 
-  return view('products.main',['post'=>'true', 'tittle'=>'List of products','tblProducts'=>$datos]);
+  return view('products.main',['post'=>'true', 'tittle'=>'Products ','tblProducts'=>$datos]);
 });
 
 //insert productos
@@ -156,7 +156,7 @@ Route::get('setDelRecipeItems',function(){ //Remove items materials
 // Acceso al menu productos taxes
 Route::get('vw_Taxes',function(){
   $datos=Taxe::get();
-  return view('products.tools.taxe',['post'=>true,'tittle'=>" Taxe",'tblDatos'=>$datos]);
+  return view('products.tools.taxe',['post'=>true,'tittle'=>" Taxes",'tblDatos'=>$datos]);
 });
 
 Route::post('setInsertTaxe','Product\Taxe\TaxeController@setInsertTaxe'); // Ejecuta insertar taxes
@@ -169,7 +169,7 @@ Route::get('getDeleteTaxe','Product\Taxe\TaxeController@getDeleteTaxe'); //Ejecu
 // Acceso al menu productos varieties
 Route::get('vw_Variety',function(){
   $datos=Variety::get();
-  return view('products.tools.varieties',['post'=>true,'tittle'=>" Variety",'tblDatos'=>$datos]);
+  return view('products.tools.varieties',['post'=>true,'tittle'=>" Variety Types",'tblDatos'=>$datos]);
 });
 Route::post('setInsertVariety','Product\Variety\VarietyController@setInsertVariety'); // Ejecuta insertar varieties
 Route::post('setModificationVariety','Product\Variety\VarietyController@setModificationVariety'); //Ejecuta modificacion varieties
@@ -183,7 +183,7 @@ Route::get('vw_Specie',function(){
     'tblTaxe'=>Taxe::orderBy('COD_TAX','NAME_TAX')->get(),
     'tblVariety'=>Variety::orderBy('NAME_VARIETY')->get(),
   ];
-  return view('products.tools.species',['post'=>true,'tittle'=>" Specie",'tblDatos'=>$datos]);
+  return view('products.tools.species',['post'=>true,'tittle'=>" Species",'tblDatos'=>$datos]);
 });
 Route::post('setInsertSpecies','Product\Species\SpeciesController@setInsertSpecies'); //Ejecuta insertar specie
 Route::post('setModificationSpecies','Product\Species\SpeciesController@setModificationSpecies'); //Ejecuta modificacion specie
@@ -193,7 +193,7 @@ Route::get('getDeleteSpecies','Product\Species\SpeciesController@getDeleteSpecie
 // Acceso al menu productos process
 Route::get('vw_Process',function(){
   $datos=Process::get();
-  return view('products.tools.process',['post'=>true,'tittle'=>" Process",'tblDatos'=>$datos]);
+  return view('products.tools.process',['post'=>true,'tittle'=>" Process Types",'tblDatos'=>$datos]);
 });
 Route::post('setInsertProcess','Product\Process\ProcessController@setInsertProcess'); // Ejecuta insertar process
 Route::post('setModificationProcess','Product\Process\ProcessController@setModificationProcess'); //Ejecuta modificacion process
@@ -203,7 +203,7 @@ Route::get('getDeleteProcess','Product\Process\ProcessController@getDeleteProces
 // Acceso al menu productos presentation
 Route::get('vw_Presentation',function(){
   $datos=Presentation::get();
-  return view('products.tools.presentation',['post'=>true,'tittle'=>" Presentation",'tblDatos'=>$datos]);
+  return view('products.tools.presentation',['post'=>true,'tittle'=>" Presentation Types",'tblDatos'=>$datos]);
 });
 Route::post('setInsertPresentation','Product\Presentation\PresentationController@setInsertPresentation'); // Ejecuta insertar presentation
 Route::post('setModificationPresentation','Product\Presentation\PresentationController@setModificationPresentation'); //Ejecuta modificacion presentation
@@ -213,7 +213,7 @@ Route::get('getDeletePresentation','Product\Presentation\PresentationController@
 // Acceso al menu productos item type
 Route::get('vw_ItemTypes',function(){
   $datos=Items_type::get();
-  return view('products.tools.itemTypes',['post'=>true,'tittle'=>" Item type",'tblDatos'=>$datos]);
+  return view('products.tools.itemTypes',['post'=>true,'tittle'=>" Item Types",'tblDatos'=>$datos]);
 });
 Route::post('setInsertItemTypes','Product\ItemType\ItemTypeController@setInsertItemTypes'); // Ejecuta insertar items types
 Route::post('setModificationItemType','Product\ItemType\ItemTypeController@setModificationItemType'); //Ejecuta modificacion items types
@@ -222,7 +222,7 @@ Route::get('getDeleteItemsTypes','Product\ItemType\ItemTypeController@getDeleteI
 // Acceso al menu productos boxes type
 Route::get('vw_BoxeTypes',function(){
   $datos=Boxe_type::get();
-  return view('products.tools.boxeTypes',['post'=>true,'tittle'=>" Boxe type",'tblDatos'=>$datos]);
+  return view('products.tools.boxeTypes',['post'=>true,'tittle'=>" Box Types",'tblDatos'=>$datos]);
 });
 Route::post('setInsertBoxType','Product\BoxeType\BoxTypeController@setInsertBoxType'); // Ejecuta insertar items types
 Route::post('setModificationBoxType','Product\BoxeType\BoxTypeController@setModificationBoxType'); //Ejecuta modificacion items types
@@ -242,7 +242,7 @@ Route::get('getDeleteGrade','Product\Grade\GradeController@getDeleteGrade'); //E
 // Acceso al menu productos cut
 Route::get('vw_Cut',function(){
   $datos=Cut::get();
-  return view('products.tools.cut',['post'=>true,'tittle'=>" Cut",'tblDatos'=>$datos]);
+  return view('products.tools.cut',['post'=>true,'tittle'=>" Cut Types",'tblDatos'=>$datos]);
 });
 Route::post('setInsertCut','Product\Cut\CutController@setInsertCut'); // Ejecuta insertar cut
 Route::post('setModificationCut','Product\Cut\CutController@setModificationCut'); //Ejecuta modificacion cut
@@ -300,6 +300,6 @@ Route::get('vw_boxes',function(){
     'tblTypes'=>DB::select('select ID_BTYPE, TYPEBOXE_BTYPE from BOX_TYPES'),
     'tblBoxes'=>DB::select('select * from VW_REP_BOXES'),
   ];
-  return view('products.recipes.boxes',['post'=>'true','tittle'=>'Boxes','datos'=>$datos]);
+  return view('products.recipes.boxes',['post'=>'true','tittle'=>'Box Types','datos'=>$datos]);
 });
 Route::post('setAddBoxes','Product\Boxes\BoxesController@setAddBoxes');

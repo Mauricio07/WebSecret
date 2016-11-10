@@ -4,7 +4,7 @@
       <form class="form-horizontal" method="post" id="formBoxes">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Manager {{$tittle}}</h4>
+        <h4 class="modal-title" id="myModalLabel">{{$tittle}} Manager</h4>
       </div>
       <div class="modal-body">
           {{csrf_field()}}
@@ -16,7 +16,7 @@
           </div>
 
           <div class="form-group">
-            <label class="col-sm-2 control-label">Type</label>
+            <label class="col-sm-2 control-label">Types</label>
             <div class="col-sm-4">
               <select class="form-control" id="txtType" name="txtType" required="true">
                 @foreach ($datos['tblTypes'] as $dat)

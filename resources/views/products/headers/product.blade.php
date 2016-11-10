@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" charset="iso-8859-1" Content-type: "text/html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Inbloom Group S.A.</title>
+    <title>Inbloom Group</title>
     <link rel="stylesheet" href="{{URL::asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/efectos.css')}}">
     <link rel="stylesheet" href="{{URL::asset('css/controles.css')}}">

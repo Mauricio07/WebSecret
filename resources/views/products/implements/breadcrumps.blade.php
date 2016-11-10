@@ -10,7 +10,7 @@
 <div class="container">
   <article class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <h3>Manager {{$tittle}}</h3>
+      <h3>{{$tittle}} Manager</h3>
     </div>
   </article>
 </div>

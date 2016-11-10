@@ -37,7 +37,7 @@ class BoxTypeController extends Controller
     public function getDeleteBoxType(Request $request){
       $nom=$request->get('txtNameDel');
       Boxe_type::destroy($request->get('txtCodeDel'));
-      return redirect('vw_BoxeTypes')->with('message',"Deleteting");
+      return redirect('vw_BoxeTypes')->with('message',"Deleted");
     }
 
 }

@@ -15,7 +15,7 @@
                   <input type="text" class="form-control" name="varietySearch" placeholder="Enter your search"/>
               </div>
               <div class="inner-addon left-addon col-xs-2 col-sm-2">
-                <button type="button" class="btn btn-inbloom" data-toggle="modal" data-target="#myRegister" onclick="setRegistroSpecie('','','1','1','setInsertSpecies')">New register</button>
+                <button type="button" class="btn btn-inbloom" data-toggle="modal" data-target="#myRegister" onclick="setRegistroSpecie('','','1','1','setInsertSpecies')">Add</button>
               </div>
             </div>
         </div>
@@ -98,7 +98,7 @@
             </div>
 
             <div class="form-group">
-              <label class="col-sm-2 control-label">Taxe</label>
+              <label class="col-sm-2 control-label">Taxes</label>
               <div class="col-sm-9">
                 <select class="form-control" id="txtTaxe" name="txtTaxe">
                   @foreach ($tblDatos['tblTaxe'] as $datos)
