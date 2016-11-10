@@ -21,14 +21,13 @@
                   </div>
                   <div class="form-group has-feedback">
                     <label for="Code Upc">UPC</label>
-                    <input type="text" name="txtCodeUpc"class="form-control" placeholder="UPC" value="{{old('txtCodeUpc')}}" required="true" autocomplete="off" maxlength="100"/>
+                    <input type="text" name="txtCodeUpc"class="form-control" placeholder="UPC" value="{{old('txtCodeUpc')}}" required="true" autocomplete="off" maxlength="20"/>
                     @if ($errors->has('txtCodeUpc')) <span class="glyphicon glyphicon-remove form-control-feedback frm-error" aria-hidden="true"></span><p class="help-block">{{$errors->first('txtCodeUpc')}} </p>@endif
                   </div>
                   <div class="form-group has-feedback">
-                    <label for="State">State</label>
-                      <select class="form-control" name="txtState">
-                          <option>Enable</option>
-                      </select>
+                    <label for="item number">item number</label>
+                    <input type="text" name="txtItemNumber"class="form-control" placeholder="item number" value="{{old('txtItemNumber')}}" required="true" autocomplete="off" maxlength="20" onkeypress="return soloNumeros(event)"/>
+                    @if ($errors->has('txtItemNumber')) <span class="glyphicon glyphicon-remove form-control-feedback frm-error" aria-hidden="true"></span><p class="help-block">{{$errors->first('txtItemNumber')}} </p>@endif
                   </div>
                   <div class="form-group has-feedback">
                     <label for="Code Product">Pack</label>

@@ -55,7 +55,7 @@ class ProductController extends Controller
     //Add recipe head
     $this->getSession($request);
 
-    $sintaxisHeaderRecipe='EXEC SP_ADD_UPDATE_RECIPE_HEADER ?,?';
+    $sintaxisHeaderRecipe='EXEC SP_ADD_RECIPE_HEADER ?';
     $sintaxisRecipeItems='EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?';
     $sintaxisMaterialsRecipe='EXEC SP_ADD_MATERIAL_RECIPE ?,?,?';
     $sintaxisProducts='EXEC SP_ADD_UPDATE_PRODUCTS ?,?,?,?,?,?,?,?,?,? ';
@@ -91,7 +91,7 @@ class ProductController extends Controller
   public function setEditProduct(InsertModifyProductRequest $request){
     $this->getSession($request);
 
-    $sintaxisHeaderRecipe='EXEC SP_ADD_UPDATE_RECIPE_HEADER ?,?';
+    $sintaxisHeaderRecipe='EXEC SP_UPDATE_RECIPE_HEADER ?';
     $sintaxisRecipeItems='EXEC SP_ADD_ITEM_RECIPE ?,?,?,?,?,?,?,?,?';
     $sintaxisMaterialsRecipe='EXEC SP_ADD_MATERIAL_RECIPE ?,?,?';
     $sintaxisProducts='EXEC SP_ADD_UPDATE_PRODUCTS ?,?,?,?,?,?,?,?,?,? ';
@@ -205,7 +205,7 @@ class ProductController extends Controller
       $datos=[
         'IndexTypeRecipe'=>$request->get('IndexTypeRecipe'),
         'NameTypeRecipe'=>$request->get('NameTypeRecipe'),
-        //'QuantityRecipe'=>$request->get('QuantityRecipe'),
+        'QuantityRecipe'=>$request->get('QuantityRecipe'),
       ];
       $request->session()->push('Recipes',$datos);
       $messages='Success Transaction';
@@ -226,7 +226,7 @@ class ProductController extends Controller
             $arrayDatosOk=[
               'IndexTypeRecipe'=>$dt['IndexTypeRecipe'],
               'NameTypeRecipe'=>$dt['NameTypeRecipe'],
-              //'QuantityRecipe'=>$dt['QuantityRecipe'],
+              'QuantityRecipe'=>$dt['QuantityRecipe'],
             ];
             $request->session()->push('Recipes',$arrayDatosOk);
           }
@@ -248,7 +248,7 @@ class ProductController extends Controller
             //'IndexRecipe'=>$dt->ID_RECIPE,
             'IndexTypeRecipe'=>$dt->ID_PTYPE,
             'NameTypeRecipe'=>$dt->NAME_PTYPE,
-            //'QuantityRecipe'=>$dt->PACK,
+            'QuantityRecipe'=>$dt->PACK,
           ];
           $request->session()->push('Recipes',$arrayDt);
         }
@@ -470,8 +470,9 @@ private function getSession($request){
       $file=Input::file('archivo');
       $nombreArchivoRuta='';
       if (isset($file)) {
-        $aleatorio=str_random(3);
-        $nombreArchivo=$aleatorio."_".$file->getClientOriginalName();
+        //$aleatorio=str_random(3);
+        //$nombreArchivo=$aleatorio."_".$file->getClientOriginalName();
+        $nombreArchivo=$file->getClientOriginalName();
         $nombreArchivoRuta="uploadingFile\\".$nombreArchivo;
         $file->move('uploadingFile',$nombreArchivo);
       }
@@ -489,7 +490,7 @@ private function getSession($request){
     $idBoxes=$request->get('txtBoxes');
 
     //Add products
-    $idProduct=DB::selectOne($sintaxisProducts,array($idUpdateProduct,trim($request->get('txtPack')),$idBoxes, trim($request->get('txtCodeProduct')), trim($request->get('txtNameProduct')),$nomArchivoRuta, trim($request->get('txtDescription')),trim($request->get('txtCodeUpc')),trim($request->get('txtOnlineName')),$idUsuario));
+    $idProduct=DB::selectOne($sintaxisProducts,array($idUpdateProduct,trim($request->get('txtPack')),$idBoxes, trim($request->get('txtCodeProduct')), trim($request->get('txtNameProduct')),$nomArchivoRuta, trim($request->get('txtDescription')),trim($request->get('txtCodeUpc')),trim($request->get('txtOnlineName')),trim($request->get('txtItemNumber')), $idUsuario));
 
     $idProduct=$idProduct->ID;
 
@@ -498,11 +499,11 @@ private function getSession($request){
       foreach ($this->arrayRecipe as $aPr)
       {
         // Recipe
-        $idRecipeUpdate=DB::selectOne('select ID_RECIPE from RECIPES where ID_RECIPE=?',array($aPr['IndexTypeRecipe']));
+//        $idRecipeUpdate=DB::selectOne('select ID_RECIPE from RECIPES where ID_RECIPE=?',array($aPr['IndexTypeRecipe']));
 
-        $idRecipeUpdate=isset($idRecipeUpdate)?$idRecipeUpdate->ID_RECIPE:0;
-        dd($idRecipeUpdate);
-        $idRecipe=DB::selectOne($sintaxisHeaderRecipe, array($idRecipeUpdate,$aPr['IndexTypeRecipe']));
+//        $idRecipeUpdate=isset($idRecipeUpdate)?$idRecipeUpdate->ID_RECIPE:0;
+//        dd($idRecipeUpdate);
+        $idRecipe=DB::selectOne($sintaxisHeaderRecipe, array($aPr['IndexTypeRecipe']));
 
         if (isset($idRecipe))
         {

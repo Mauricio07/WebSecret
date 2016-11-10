@@ -36,13 +36,14 @@ function getDataRecipes(v_indexProduct){
       "<td><a href='#' data-toggle='modal' data-target='#myRegisterMaterialRecipe' onclick=getDataItemsMaterials("+items.IndexTypeRecipe+")><span class='imgConsultar' id='imgSearch"+items.IndexTypeRecipe+"'></span></a></td>"+
       "<td>"+items.IndexTypeRecipe+"</td>"+
       "<td><a role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseItems' aria-expanded='true' aria-controls='collapseOne' onclick=getDataItemRecipe("+v_indexProduct+","+items.IndexTypeRecipe+")>"+items.NameTypeRecipe+"<span class='caret'></span></a></td>"+
-      "<td id=tdPackRecipes"+items.IndexTypeRecipe+"> "+parseInt(items.QuantMaterialsProd)+" </td>"+
+      "<td id=tdPackRecipes"+items.IndexTypeRecipe+"> "+parseInt(items.QuantityRecipe)+" </td>"+
       "<td><a href='#' data-toggle='modal' class='btn materials_' data-target='#myRegisterMaterialItems' onclick=getIdRowRecipe("+items.IndexTypeRecipe+")></a></td>"+
       "<td> <div class='btn-group'><a href='#' data-toggle='modal' class='btn edit' data-target='#myRegister' onclick=getIndexRowRecipe("+items.IndexTypeRecipe+")></a>"+
       "<a data-toggle='modal' class='btn delete' onclick=deleteItem("+items.IndexTypeRecipe+",'Recipe"+items.IndexTypeRecipe+"','setDelTypeRecipe')></a></div> </td></tr>";
     });
 
     $('#tblRecipesBody').html(v_contenido);
+
   });
 }
   //display items recipe
@@ -67,11 +68,12 @@ function getDataRecipes(v_indexProduct){
             "<td>"+item2.GRADE+"</td>"+
             "<td>"+item2.CUTS+"</td>"+
             "<td>"+item2.QUANTITY+"</td>"+
-            "<td> <div class='btn-group'>"+                
+            "<td> <div class='btn-group'>"+
                 "<a data-toggle='modal' class='btn delete' onclick=deleteItem("+item2.INDEXITEMRECIPE+",'RecipeItem"+item2.INDEXITEMRECIPE+"','setDelRecipeItems',"+v_indexRecipe+")></a></div> </td></tr>";
           });
         });
         $('#tblRecipeBody').html(v_contenido);
+
       });
     });
   }
