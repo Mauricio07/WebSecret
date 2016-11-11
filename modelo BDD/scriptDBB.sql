@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     09/11/2016 15:05:52                          */
+/* Created on:     11/11/2016 3:53:26                           */
 /*==============================================================*/
 
 use inbloomOk
@@ -103,10 +103,10 @@ create table ITEMS (
    ID_ITYPES            int                  null,
    ID_PROCESS           int                  null,
    ID_COLOR             int                  null,
+   ID_VARIETY           int                  null,
    ID_SPECIE            int                  null,
    ID_GRADE             int                  null,
    ID_CUT               int                  null,
-   ID_VARIETY           int                  null,
    DATE_ITEM            datetime             null,
    MODIFY_ITEM          datetime             null,
    DELETE_ITEM          datetime             null,
@@ -156,6 +156,14 @@ ID_CUT ASC
 go
 
 /*==============================================================*/
+/* Index: ITEM_VARIETYS_FK                                      */
+/*==============================================================*/
+create index ITEM_VARIETYS_FK on ITEMS (
+ID_VARIETY ASC
+)
+go
+
+/*==============================================================*/
 /* Index: ITEM_SPECIE_FK                                        */
 /*==============================================================*/
 create index ITEM_SPECIE_FK on ITEMS (
@@ -167,7 +175,7 @@ go
 /* Table: ITEMS_RECIPES                                         */
 /*==============================================================*/
 create table ITEMS_RECIPES (
-   ID_ITEM              int                  null,
+   ID_ITEM              int                  identity,
    ID_RECIPE            int                  null,
    QUANTITY_RECIPEITEM  int                  null
 )
@@ -268,17 +276,19 @@ go
 /* Table: PRODUCTS                                              */
 /*==============================================================*/
 create table PRODUCTS (
-   ID_PRODUCT           int                  identity,
+   ID_PRODUCT           int                  not null,
    ID_BOX               int                  null,
+   ID_SEASON            int                  null,
    CODE_PRODUCT         varchar(20)          null,
    NAME_PRODUCT         varchar(100)         null,
+   NAME_FINCA           varchar(100)         null,
    DATECREATE_PRODUCT   datetime             null,
    IMAGE_PRODUCT        text                 null,
    DESCRIPTION_PRODUCT  varchar(100)         null,
    STATUS_PRODUCT       smallint             null,
    UPC_PRODUCT          varchar(20)          null,
    MODIFYDATE_PRODU     datetime             null,
-   ONLINENAME_PRODUCT   varchar(50)          null,
+   ONLINENAME_PRODUCT   varchar(100)         null,
    DATEDELETE_PRODUCT   datetime             null,
    ID_USERPROD          int                  null,
    CODIGOCADENA         text                 null,
@@ -292,6 +302,14 @@ go
 /*==============================================================*/
 create index PRODUCT_BOXES_FK on PRODUCTS (
 ID_BOX ASC
+)
+go
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_27_FK                                    */
+/*==============================================================*/
+create index RELATIONSHIP_27_FK on PRODUCTS (
+ID_SEASON ASC
 )
 go
 
@@ -367,6 +385,16 @@ go
 /*==============================================================*/
 create index RELATIONSHIP_22_FK on RECIPE_ITEMS (
 ID_MATERIAL ASC
+)
+go
+
+/*==============================================================*/
+/* Table: SEASONS                                               */
+/*==============================================================*/
+create table SEASONS (
+   ID_SEASON            int                  identity,
+   TYPE_SEASONS         varchar(20)          null,
+   constraint PK_SEASONS primary key nonclustered (ID_SEASON)
 )
 go
 
@@ -453,14 +481,6 @@ create table VARIETIES (
 go
 
 /*==============================================================*/
-/* Index: ITEM_VARIETYS_FK                                      */
-/*==============================================================*/
-create index ITEM_VARIETYS_FK on VARIETIES (
-ID_VARIETY ASC
-)
-go
-
-/*==============================================================*/
 /* Table: WEIGHTBOXES                                           */
 /*==============================================================*/
 create table WEIGHTBOXES (
@@ -539,6 +559,11 @@ go
 alter table PRODUCTS
    add constraint FK_PRODUCTS_PRODUCT_B_BOXES foreign key (ID_BOX)
       references BOXES (ID_BOX)
+go
+
+alter table PRODUCTS
+   add constraint FK_PRODUCTS_RELATIONS_SEASONS foreign key (ID_SEASON)
+      references SEASONS (ID_SEASON)
 go
 
 alter table PRODUCT_RECIPIES

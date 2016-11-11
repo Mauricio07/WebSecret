@@ -16,16 +16,15 @@ class LoginController extends Controller
     public function getLoginSucess(Request $request){
 
       //obtiene la información de la base
-      $user_=$request->input('nameUser');
-      $pass_=$request->input('passwordUser');
+      $user_=$request->get('nameUser');
+      $pass_=$request->get('passwordUser');
 
       $usuarioIng=DB::selectOne('exec asp_loginUsers ?,?',array($user_,$pass_));
-
       if (isset($usuarioIng)){
         $request->session()->set('UsuarioIngresa',$user_);
         return redirect('home');
       }else{
-        return redirect('/')->with('message','User o password incorrect');
+        return redirect('/')->with('messageLogin','User o password incorrect');
       }
     }
 

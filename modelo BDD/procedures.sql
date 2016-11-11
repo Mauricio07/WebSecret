@@ -4,10 +4,12 @@ go
 
 CREATE PROCEDURE ASP_LOGINUSERS @username varchar(50), @passuser varchar(50)
 as
-select u.name_users
-from users u, user_passwords up
-where u.id_users=up.id_users
-and up.status_pass='enable';
+SELECT USERS.NAME_USERS
+FROM USERS, USER_PASSWORDS
+WHERE USERS.ID_USERS=USER_PASSWORDS.ID_USERS
+AND USERS.NICK_USERS=@username
+AND USER_PASSWORDS.PASS =@passuser
+AND USER_PASSWORDS.STATUS_PASS='enable'
 
 go
 
@@ -26,7 +28,7 @@ go
 
 	exec Sp_loginUser 'HUERTAS MAURICIO','NINGUNA','0992696254','EMHT','emauricio@hotmail.com','123456';
 	exec Sp_loginUser 'TORO ANDRES','NINGUNA','099999999','ANDRES','andres@hotmail.com','123456';
-	exec Sp_loginUser 'BENAVIDES DAVID','NINGUNA','099999999','DAVID','david@hotmail.com','123456';
+	exec Sp_loginUser 'BENAVIDES DAVID','NINGUNA','099999999','DAVID','david@hotmail.com','123459';
 	exec Sp_loginUser 'JUAN CARLOS','NINGUNA','099999999','JUAN','jc@hotmail.com','123456';
 go
 

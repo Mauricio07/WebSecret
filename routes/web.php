@@ -28,12 +28,12 @@ use inbloom\Model\Product\Boxe_type;
 use Illuminate\Support\Facades\Input;
 
 Route::get('/',function(){
-  return view('Logins\login');
+  return view('Logins\login',['post'=>'true']);
 });
 
 //Modulo de inicio
 Route::get('home','Login\LoginController@getHome');
-Route::post('loginSucess_','Login\LoginController@getLoginSucess');
+Route::post('login','Login\LoginController@getLoginSucess');
 Route::get('products','Login\LoginController@getProducts');
 
 //Ingreso de modulos
